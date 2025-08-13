@@ -1,8 +1,6 @@
-import './App.css'
-
 function App() {
   return (
-    <div>TOBIMARKS 🚀</div>
+    <div className=''>TOBIMARKS 🚀</div>
   )
 }
 
