@@ -1,6 +1,11 @@
+import { Button } from '@heroui/react'
+
 function App() {
   return (
-    <div className=''>TOBIMARKS 🚀</div>
+    <section>
+      <div className=''>TOBIMARKS 🚀</div>
+      <Button color='primary'>Button</Button>
+    </section>
   )
 }
 
