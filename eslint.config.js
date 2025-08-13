@@ -1,5 +1,7 @@
 import js from '@eslint/js'
 import globals from 'globals'
+import prettier from 'eslint-plugin-prettier'
+import configPrettier from 'eslint-config-prettier'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
@@ -16,10 +18,12 @@ export default tseslint.config([
       tseslint.configs.recommended,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
+      configPrettier,
     ],
     plugins: {
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
+      prettier 
     },
     rules: {
       'simple-import-sort/imports': [
@@ -39,8 +43,10 @@ export default tseslint.config([
         'warn',
         { vars: 'all', varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
       ],
-      quotes: ['error', 'single', { avoidEscape: true }],
+      'prettier/prettier': 'error',
+      /* quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       semi: ['error', 'never'],
+      'jsx-quotes': ['error', 'prefer-single'] */
     },
     languageOptions: {
       ecmaVersion: 2020,
