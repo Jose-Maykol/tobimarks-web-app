@@ -1,11 +1,12 @@
-import { Button } from '@heroui/react'
+import { Route, Routes } from 'react-router'
 
-function App() {
+import HomePage from './assets/features/home/pages/homepage/HomePage'
+
+const App = () => {
   return (
-    <section>
-      <div className=''>TOBIMARKS 🚀</div>
-      <Button color='primary'>Button</Button>
-    </section>
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+    </Routes>
   )
 }
 
