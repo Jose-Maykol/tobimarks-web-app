@@ -1,41 +1,32 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Button, Divider } from '@heroui/react'
-import {
-  IconArchive,
-  IconBookmark,
-  IconCategory,
-  IconHeart,
-  IconLayoutDashboard,
-  IconPlus,
-  IconTag,
-  IconUser,
-} from '@tabler/icons-react'
+import { Archive, Bookmark, Folder, Heart, LayoutDashboard, Plus, Tag, User } from 'lucide-react'
 
 const menuItems = [
   {
     label: 'Dashboard',
-    icon: <IconLayoutDashboard size={20} stroke={1.5} />,
+    icon: <LayoutDashboard size={20} strokeWidth={1.5} />,
     href: '/',
   },
   {
     label: 'Todos los Marcadores',
-    icon: <IconBookmark size={20} stroke={1.5} />,
+    icon: <Bookmark size={20} strokeWidth={1.5} />,
     href: '/bookmarks',
   },
   {
     label: 'Favoritos',
-    icon: <IconHeart size={20} stroke={1.5} />,
+    icon: <Heart size={20} strokeWidth={1.5} />,
     href: '/bookmarks?filter=favorites',
   },
   {
     label: 'Archivados',
-    icon: <IconArchive size={20} stroke={1.5} />,
+    icon: <Archive size={20} strokeWidth={1.5} />,
     href: '/bookmarks?filter=archived',
   },
   {
     label: 'Perfil',
-    icon: <IconUser size={20} stroke={1.5} />,
+    icon: <User size={20} strokeWidth={1.5} />,
     href: '/profile',
   },
 ]
@@ -43,12 +34,12 @@ const menuItems = [
 const organizationItems = [
   {
     label: 'Categorías',
-    icon: <IconCategory size={20} stroke={1.5} />,
+    icon: <Folder size={20} strokeWidth={1.5} />,
     href: '/categories',
   },
   {
     label: 'Tags',
-    icon: <IconTag size={20} stroke={1.5} />,
+    icon: <Tag size={20} strokeWidth={1.5} />,
     href: '/tags',
   },
 ]
@@ -73,7 +64,7 @@ export function Sidebar() {
   }
 
   return (
-    <div className='fixed w-64 h-screen max-h-[calc(100vh-4rem)] bg-background border-r border-border p-4 flex flex-col'>
+    <div className='fixed w-64 h-screen max-h-[calc(100vh-4rem)] bg-background border-r border-border border-neutral-200  dark:border-neutral-900 p-4 flex flex-col'>
       {/* Navigation Menu */}
       <nav className='space-y-1'>
         {menuItems.map((item) => (
@@ -126,7 +117,7 @@ export function Sidebar() {
         <div className='flex items-center justify-between mb-4'>
           <h3 className='text-sm font-medium text-foreground'>Colecciones</h3>
           <Button size='sm' variant='light' className=' hover:text-foreground min-w-0 w-6 h-6 p-0'>
-            <IconPlus size={16} stroke={1.5} />
+            <Plus size={16} strokeWidth={1.5} />
           </Button>
         </div>
 
@@ -135,7 +126,7 @@ export function Sidebar() {
             <Button
               key={collection.name}
               variant='light'
-              className='w-full justify-start gap-3 h-10  hover:text-foreground hover:bg-muted/50'
+              className='w-full justify-start gap-3 h-10 hover:text-foreground hover:bg-muted/50'
               startContent={<div className={`w-3 h-3 rounded-full ${collection.color}`} />}
               onPress={() => handleCollectionNavigation(collection)}
             >
@@ -147,10 +138,10 @@ export function Sidebar() {
       </div>
 
       {/* Quick Actions */}
-      <div className='mt-auto pt-4 border-t border-border'>
+      <div className='mt-auto pt-4'>
         <Button
           className='w-full bg-primary text-primary-foreground hover:bg-primary/90'
-          startContent={<IconPlus size={16} stroke={3} />}
+          startContent={<Plus size={16} strokeWidth={3} />}
           onPress={() => navigate('/bookmarks?action=add')}
         >
           Nuevo Marcador
