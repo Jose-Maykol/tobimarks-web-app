@@ -1,77 +1,41 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Button, Divider } from '@heroui/react'
+import {
+  IconArchive,
+  IconBookmark,
+  IconCategory,
+  IconHeart,
+  IconLayoutDashboard,
+  IconPlus,
+  IconTag,
+  IconUser,
+} from '@tabler/icons-react'
 
 const menuItems = [
   {
     label: 'Dashboard',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'
-        />
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M8 5a2 2 0 012-2h4a2 2 0 012 2v6a2 2 0 01-2 2H10a2 2 0 01-2-2V5z'
-        />
-      </svg>
-    ),
+    icon: <IconLayoutDashboard size={20} stroke={1.5} />,
     href: '/',
   },
   {
     label: 'Todos los Marcadores',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z'
-        />
-      </svg>
-    ),
+    icon: <IconBookmark size={20} stroke={1.5} />,
     href: '/bookmarks',
   },
   {
     label: 'Favoritos',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
-        />
-      </svg>
-    ),
+    icon: <IconHeart size={20} stroke={1.5} />,
     href: '/bookmarks?filter=favorites',
   },
   {
     label: 'Archivados',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 8l6 6 6-6' />
-      </svg>
-    ),
+    icon: <IconArchive size={20} stroke={1.5} />,
     href: '/bookmarks?filter=archived',
   },
   {
     label: 'Perfil',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
-        />
-      </svg>
-    ),
+    icon: <IconUser size={20} stroke={1.5} />,
     href: '/profile',
   },
 ]
@@ -79,30 +43,12 @@ const menuItems = [
 const organizationItems = [
   {
     label: 'Categorías',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
-        />
-      </svg>
-    ),
+    icon: <IconCategory size={20} stroke={1.5} />,
     href: '/categories',
   },
   {
     label: 'Tags',
-    icon: (
-      <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'
-        />
-      </svg>
-    ),
+    icon: <IconTag size={20} stroke={1.5} />,
     href: '/tags',
   },
 ]
@@ -184,14 +130,7 @@ export function Sidebar() {
             variant='light'
             className='text-muted-foreground hover:text-foreground min-w-0 w-6 h-6 p-0'
           >
-            <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M12 6v6m0 0v6m0-6h6m-6 0H6'
-              />
-            </svg>
+            <IconPlus size={16} stroke={1.5} />
           </Button>
         </div>
 
@@ -215,16 +154,7 @@ export function Sidebar() {
       <div className='mt-auto pt-4 border-t border-border'>
         <Button
           className='w-full bg-primary text-primary-foreground hover:bg-primary/90'
-          startContent={
-            <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M12 6v6m0 0v6m0-6h6m-6 0H6'
-              />
-            </svg>
-          }
+          startContent={<IconPlus size={16} stroke={1.5} />}
           onPress={() => navigate('/bookmarks?action=add')}
         >
           Nuevo Marcador
