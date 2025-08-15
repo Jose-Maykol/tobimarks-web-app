@@ -7,12 +7,10 @@ import { Sidebar } from '../components/Sidebar'
 const MainLayout = (): JSX.Element => (
   <div className='min-h-screen bg-background'>
     <Header />
-    <div className='flex'>
-      <Sidebar />
-      <main className='flex-1 p-6'>
-        <Outlet />
-      </main>
-    </div>
+    <Sidebar />
+    <main className='p-6 ml-64'>
+      <Outlet />
+    </main>
   </div>
 )
 

@@ -73,7 +73,7 @@ export function Sidebar() {
   }
 
   return (
-    <div className='w-64 h-screen bg-background border-r border-border p-4 flex flex-col'>
+    <div className='fixed w-64 h-screen max-h-[calc(100vh-4rem)] bg-background border-r border-border p-4 flex flex-col'>
       {/* Navigation Menu */}
       <nav className='space-y-1'>
         {menuItems.map((item) => (
