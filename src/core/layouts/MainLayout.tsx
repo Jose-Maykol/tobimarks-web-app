@@ -8,7 +8,7 @@ const MainLayout = (): JSX.Element => (
   <div className='min-h-screen bg-background'>
     <Header />
     <Sidebar />
-    <main className='p-6 ml-64'>
+    <main className='p-6 ml-64 text-foreground'>
       <Outlet />
     </main>
   </div>

@@ -83,7 +83,7 @@ export function Sidebar() {
             className={`w-full justify-start gap-3 h-10 ${
               activeItem === item.label
                 ? 'bg-primary/10 text-primary'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                : 'hover:text-foreground hover:bg-muted/50'
             }`}
             startContent={item.icon}
             onPress={() => handleNavigation(item)}
@@ -97,7 +97,7 @@ export function Sidebar() {
 
       {/* Organization section */}
       <div className='mb-4'>
-        <h3 className='text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2 px-2'>
+        <h3 className='text-xs font-medium uppercase text-foreground tracking-wider mb-2 px-2'>
           Organización
         </h3>
         <nav className='space-y-1'>
@@ -108,7 +108,7 @@ export function Sidebar() {
               className={`w-full justify-start gap-3 h-10 ${
                 activeItem === item.label
                   ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                  : ' hover:text-foreground hover:bg-muted/50'
               }`}
               startContent={item.icon}
               onPress={() => handleNavigation(item)}
@@ -125,11 +125,7 @@ export function Sidebar() {
       <div className='flex-1'>
         <div className='flex items-center justify-between mb-4'>
           <h3 className='text-sm font-medium text-foreground'>Colecciones</h3>
-          <Button
-            size='sm'
-            variant='light'
-            className='text-muted-foreground hover:text-foreground min-w-0 w-6 h-6 p-0'
-          >
+          <Button size='sm' variant='light' className=' hover:text-foreground min-w-0 w-6 h-6 p-0'>
             <IconPlus size={16} stroke={1.5} />
           </Button>
         </div>
@@ -139,12 +135,12 @@ export function Sidebar() {
             <Button
               key={collection.name}
               variant='light'
-              className='w-full justify-start gap-3 h-10 text-muted-foreground hover:text-foreground hover:bg-muted/50'
+              className='w-full justify-start gap-3 h-10  hover:text-foreground hover:bg-muted/50'
               startContent={<div className={`w-3 h-3 rounded-full ${collection.color}`} />}
               onPress={() => handleCollectionNavigation(collection)}
             >
               <span className='flex-1 text-left'>{collection.name}</span>
-              <span className='text-xs text-muted-foreground'>{collection.count}</span>
+              <span className='text-xs '>{collection.count}</span>
             </Button>
           ))}
         </div>
@@ -154,7 +150,7 @@ export function Sidebar() {
       <div className='mt-auto pt-4 border-t border-border'>
         <Button
           className='w-full bg-primary text-primary-foreground hover:bg-primary/90'
-          startContent={<IconPlus size={16} stroke={1.5} />}
+          startContent={<IconPlus size={16} stroke={3} />}
           onPress={() => navigate('/bookmarks?action=add')}
         >
           Nuevo Marcador

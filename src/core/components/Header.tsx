@@ -1,5 +1,6 @@
 import type { JSX } from 'react'
 import { Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
+import { IconBookmark, IconSearch } from '@tabler/icons-react'
 
 const Header = (): JSX.Element => {
   /* const handleLoginSuccess = async (credentialResponse) => {
@@ -23,13 +24,7 @@ const Header = (): JSX.Element => {
       <NavbarBrand>
         <div className='flex items-center gap-2'>
           <div className='w-8 h-8 bg-primary rounded-lg flex items-center justify-center'>
-            <svg
-              className='w-5 h-5 text-primary-foreground'
-              fill='currentColor'
-              viewBox='0 0 24 24'
-            >
-              <path d='M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z' />
-            </svg>
+            <IconBookmark className='w-5 h-5 text-primary-foreground' size={20} stroke={1.5} />
           </div>
           <span className='font-bold text-xl text-foreground'>Tobimarks</span>
         </div>
@@ -38,22 +33,8 @@ const Header = (): JSX.Element => {
         <NavbarItem>
           <Input
             placeholder='Search bookmarks, sites, collections...'
-            className='w-96'
-            startContent={
-              <svg
-                className='w-4 h-4 text-muted-foreground'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                />
-              </svg>
-            }
+            className='w-96 text-foreground'
+            startContent={<IconSearch className='w-4 h-4 text-foreground' size={16} stroke={1.5} />}
           />
         </NavbarItem>
       </NavbarContent>
