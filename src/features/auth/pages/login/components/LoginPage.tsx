@@ -1,22 +1,8 @@
 import type { JSX } from 'react'
-import { GoogleLogin } from '@react-oauth/google'
+
+import GoogleLoginButton from './GoogleLoginButton'
 
 const LoginPage = (): JSX.Element => {
-  const handleLoginSuccess = async (credentialResponse: { credential: string }): Promise<void> => {
-    const idToken: string = credentialResponse.credential
-
-    console.log('ID Token:', idToken)
-
-    const res: Response = await fetch('https://tu-api.com/auth/google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken }),
-    })
-
-    const data: unknown = await res.json()
-    console.log('Usuario autenticado:', data)
-  }
-
   return (
     <div className='min-h-screen p-4 relative overflow-hidden'>
       <div className='absolute -top-24 -left-36 h-96 w-96 bg-gradient-to-br from-indigo-600 via-indigo-500 to-purple-500 rounded-full filter blur-3xl opacity-70'></div>
@@ -35,10 +21,7 @@ const LoginPage = (): JSX.Element => {
           organizada y accesible al instante.
         </p>
         <div>
-          <GoogleLogin
-            onSuccess={handleLoginSuccess as (res: unknown) => void}
-            onError={() => console.error('Error de inicio de sesión')}
-          />
+          <GoogleLoginButton />
         </div>
       </div>
     </div>
