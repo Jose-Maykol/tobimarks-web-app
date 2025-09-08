@@ -1,7 +1,13 @@
 import type { JSX } from 'react'
+import { useNavigate } from 'react-router'
 import { GoogleLogin } from '@react-oauth/google'
 
+import useAuthStore from '../../../../store/useAuthStore'
+
 const GoogleLoginButton = (): JSX.Element => {
+  const { signInWithGoogle } = useAuthStore()
+  const navigate = useNavigate()
+
   const handleLoginSuccess = async (credentialResponse: { credential?: string }): Promise<void> => {
     if (!credentialResponse.credential) {
       console.error('No credential received from Google login')
@@ -9,16 +15,8 @@ const GoogleLoginButton = (): JSX.Element => {
     }
     const idToken: string = credentialResponse.credential
 
-    console.log('ID Token:', idToken)
-
-    const res: Response = await fetch('https://tu-api.com/auth/google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken }),
-    })
-
-    const data: unknown = await res.json()
-    console.log('Usuario autenticado:', data)
+    await signInWithGoogle(idToken)
+    navigate('/')
   }
 
   return (
