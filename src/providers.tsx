@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
 import { GOOGLE_CLIENT_ID } from './core/config/env'
+import AuthProvider from './core/providers/AuthProvider'
 
 const queryClient = new QueryClient()
 const clientId = GOOGLE_CLIENT_ID
@@ -12,13 +13,15 @@ const clientId = GOOGLE_CLIENT_ID
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <HeroUIProvider>
-          <NextThemesProvider attribute='class' defaultTheme='dark'>
-            <GoogleOAuthProvider clientId={clientId}>{children}</GoogleOAuthProvider>
-          </NextThemesProvider>
-        </HeroUIProvider>
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <HeroUIProvider>
+            <NextThemesProvider attribute='class' defaultTheme='dark'>
+              <GoogleOAuthProvider clientId={clientId}>{children}</GoogleOAuthProvider>
+            </NextThemesProvider>
+          </HeroUIProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
