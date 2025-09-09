@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import AuthService from '../auth/services/authService'
+import AuthService from '../services/authService'
 
 interface AuthStore {
   token: string | null

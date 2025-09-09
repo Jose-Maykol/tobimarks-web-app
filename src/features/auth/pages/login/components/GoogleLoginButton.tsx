@@ -2,7 +2,7 @@ import type { JSX } from 'react'
 import { useNavigate } from 'react-router'
 import { GoogleLogin } from '@react-oauth/google'
 
-import useAuthStore from '../../../../store/useAuthStore'
+import useAuthStore from '../../../store/useAuthStore'
 
 const GoogleLoginButton = (): JSX.Element => {
   const { signInWithGoogle } = useAuthStore()
