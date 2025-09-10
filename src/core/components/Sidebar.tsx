@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Button, Divider } from '@heroui/react'
+import { Button, Divider, useDisclosure } from '@heroui/react'
 import { Archive, Bookmark, Folder, Heart, LayoutDashboard, Plus, Tag, User } from 'lucide-react'
 
 const menuItems = [
@@ -50,7 +50,12 @@ const collections = [
   { name: 'Recursos', count: 12, color: 'bg-green-500', href: '/collections/recursos' },
 ]
 
-export function Sidebar() {
+const CreateBookmarkModal = lazy(
+  () => import('../../features/bookmarks/components/CreateBookmarkModal')
+)
+
+const Sidebar = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [activeItem, setActiveItem] = useState('Dashboard')
   const navigate = useNavigate()
 
@@ -135,13 +140,18 @@ export function Sidebar() {
 
       <div className='mt-auto pt-4'>
         <Button
-          className='w-full bg-primary text-primary-foreground hover:bg-primary/90'
+          className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold'
           startContent={<Plus size={16} strokeWidth={3} />}
-          onPress={() => navigate('/bookmarks?action=add')}
+          onPress={onOpen}
         >
           Nuevo Marcador
         </Button>
+        <Suspense fallback={null}>
+          <CreateBookmarkModal isOpen={isOpen} onOpenChange={onOpenChange} />
+        </Suspense>
       </div>
     </div>
   )
 }
+
+export default Sidebar
