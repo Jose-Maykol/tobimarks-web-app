@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router'
-import { HeroUIProvider } from '@heroui/react'
+import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
@@ -16,7 +16,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
           <HeroUIProvider>
-            <NextThemesProvider attribute='class' defaultTheme='dark'>
+            <NextThemesProvider attribute='class'>
+              <ToastProvider />
               <GoogleOAuthProvider clientId={clientId}>{children}</GoogleOAuthProvider>
             </NextThemesProvider>
           </HeroUIProvider>

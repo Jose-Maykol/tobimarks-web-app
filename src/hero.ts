@@ -1,4 +1,3 @@
-// src/hero.ts
 import { heroui } from '@heroui/react'
 
 export default heroui({
@@ -216,14 +215,14 @@ export default heroui({
           foreground: '#fff',
         },
         focus: '#006FEE',
-        overlay: '#ffffff',
+        overlay: '#0a0a0acc',
       },
     },
   },
   layout: {
     disabledOpacity: '0.6',
     radius: {
-      medium: '0.25rem',
+      medium: '0.5rem',
     },
   },
 })
