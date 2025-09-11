@@ -1,10 +1,10 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import BookmarkCard from '../../components/BookmarkCard'
 import BookmarkService from '../../services/bookmarkService'
 
 const BookmarksPage = () => {
-  const queryClient = useQueryClient()
+  //const queryClient = useQueryClient()
   const {
     data: bookmarks = [],
     isLoading,
@@ -25,12 +25,10 @@ const BookmarksPage = () => {
   if (bookmarks.length === 0) return <div>No bookmarks found.</div>
 
   return (
-    <div>
+    <div className='flex flex-col gap-4'>
       {bookmarks.map((bookmark) => (
-        <p key={bookmark.id}>{JSON.stringify(bookmark)}</p>
+        <BookmarkCard key={bookmark.id} bookmark={bookmark} />
       ))}
-
-      <BookmarkCard />
     </div>
   )
 }
