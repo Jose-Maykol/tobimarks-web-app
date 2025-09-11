@@ -1,4 +1,5 @@
 import api from '../../../core/interceptors/auth.interceptor'
+import type { BookmarkListItem, BookmarkListItemResponse } from '../types/boomark.type'
 
 const BookmarkService = {
   create: async (url: string) => {
@@ -6,9 +7,13 @@ const BookmarkService = {
     return data.data
   },
 
-  getList: async () => {
+  getList: async (): Promise<BookmarkListItem[]> => {
     const { data } = await api.get('/bookmarks')
-    return data.data.bookmarks
+    const { bookmarks }: { bookmarks: BookmarkListItemResponse[] } = data.data
+    return bookmarks.map((bookmark) => ({
+      ...bookmark,
+      lastAccessedAt: bookmark.lastAccessedAt ? new Date(bookmark.lastAccessedAt) : null,
+    }))
   },
 }
 
