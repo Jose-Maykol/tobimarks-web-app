@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
-import { Button, Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
-import { Bookmark, Moon, Search, Sun } from 'lucide-react'
+import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
+import { Bookmark, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 const Header = (): JSX.Element => {
@@ -23,17 +23,7 @@ const Header = (): JSX.Element => {
           <span className='font-bold text-xl text-foreground'>Tobimarks</span>
         </div>
       </NavbarBrand>
-      <NavbarContent className='hidden sm:flex gap-4' justify='center'>
-        <NavbarItem>
-          <Input
-            placeholder='Search bookmarks, sites, collections...'
-            className='w-96 text-foreground'
-            startContent={
-              <Search className='w-4 h-4 text-foreground' size={16} strokeWidth={1.5} />
-            }
-          />
-        </NavbarItem>
-      </NavbarContent>
+      <NavbarContent className='hidden sm:flex gap-4' justify='center'></NavbarContent>
       <NavbarContent justify='end'>
         <NavbarItem>
           <Button

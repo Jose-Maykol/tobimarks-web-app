@@ -25,10 +25,15 @@ const BookmarksPage = () => {
   if (bookmarks.length === 0) return <div>No bookmarks found.</div>
 
   return (
-    <div className='flex flex-col gap-4'>
-      {bookmarks.map((bookmark) => (
-        <BookmarkCard key={bookmark.id} bookmark={bookmark} />
-      ))}
+    <div>
+      <div className='mb-4'>
+        <h2 className='text-2xl font-bold'>Tus marcadores</h2>
+      </div>
+      <div className='flex flex-col gap-4'>
+        {bookmarks.map((bookmark) => (
+          <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+        ))}
+      </div>
     </div>
   )
 }

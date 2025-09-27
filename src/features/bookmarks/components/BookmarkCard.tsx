@@ -9,7 +9,7 @@ interface BookmarkCardProps {
 
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   return (
-    <Card className='rounded-md w-full transition-colors'>
+    <Card className='rounded-md w-full transition-colors px-4 dark:bg-neutral-900'>
       <CardBody className='p-4'>
         <div className='flex items-center gap-4'>
           <div className='flex-shrink-0'>
@@ -20,7 +20,6 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
             />
           </div>
 
-          {/* CONTENT */}
           <div className='flex-1 min-w-0'>
             <div className='flex items-start justify-between'>
               <div className='flex-1 min-w-0'>
