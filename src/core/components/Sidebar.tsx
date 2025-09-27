@@ -141,7 +141,7 @@ const Sidebar = () => {
       <div className='mt-auto pt-4'>
         <Button
           className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold'
-          startContent={<Plus size={16} strokeWidth={3} />}
+          startContent={<Plus size={16} strokeWidth={4} />}
           onPress={onOpen}
         >
           Nuevo Marcador
