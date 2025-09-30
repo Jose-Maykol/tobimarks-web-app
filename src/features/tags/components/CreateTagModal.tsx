@@ -1,5 +1,7 @@
 import {
+  addToast,
   Button,
+  closeToast,
   Form,
   Input,
   Modal,
@@ -10,6 +12,7 @@ import {
 } from '@heroui/react'
 
 import ColorPicker from '../../../core/components/ColorPicker'
+import TagService from '../services/tagService'
 
 interface CreateTagModalProps {
   isOpen: boolean
@@ -22,8 +25,18 @@ const CreateTagModal = ({ isOpen, onOpenChange }: CreateTagModalProps) => {
     const formData = Object.fromEntries(new FormData(event.currentTarget))
     const name = formData.name.toString().trim()
     const color = formData.color.toString().trim()
-    console.log('Creating tag...', { name, color })
-    onClose()
+    const idToast = addToast({
+      title: 'Creando tag...',
+      promise: TagService.create(name)
+        .then(() => {
+          closeToast(idToast!)
+          addToast({ title: 'Tag creado con éxito' })
+          onClose()
+        })
+        .catch(() => {
+          addToast({ title: 'Error al crear el tag' })
+        }),
+    })
   }
 
   return (
