@@ -17,8 +17,6 @@ const BookmarksPage = () => {
     initialData: [],
   })
 
-  console.log('BookmarksPage -> bookmarks', bookmarks)
-
   if (isLoading) return <div>Loading...</div>
   if (isError) return <div>Error: {(error as Error).message}</div>
   if (isFetching) return <div>Updating...</div>

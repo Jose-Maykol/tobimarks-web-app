@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Radio, RadioGroup } from '@heroui/react'
 
-import { COLORS_MAP } from '../../features/tags/constants/tagsColors'
+import { COLORS_MAP } from '../../features/tags/constants/tagColors'
 
 type ColorKey = keyof typeof COLORS_MAP
 
