@@ -10,8 +10,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@heroui/react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import ColorPicker from '../../../core/components/ColorPicker'
+import type { ColorKey } from '../constants/tagColors'
 import TagService from '../services/tagService'
 
 interface CreateTagModalProps {
@@ -20,23 +22,38 @@ interface CreateTagModalProps {
 }
 
 const CreateTagModal = ({ isOpen, onOpenChange }: CreateTagModalProps) => {
-  const handleSubmit = (onClose: () => void) => async (event: React.FormEvent<HTMLFormElement>) => {
+  const queryClient = useQueryClient()
+
+  const createTagMutation = useMutation({
+    mutationFn: ({ name, color }: { name: string; color: ColorKey }) =>
+      TagService.create({ name, styleToken: color }),
+    onMutate: () => {
+      const idToast = addToast({ title: 'Creando tag...' })
+      return { idToast }
+    },
+    onSuccess: (_data, _variables, context) => {
+      if (context?.idToast) {
+        closeToast(context.idToast)
+        addToast({ title: 'Tag creado con éxito' })
+        queryClient.invalidateQueries({ queryKey: ['tags'] })
+        onOpenChange(false)
+      }
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.idToast) {
+        closeToast(context.idToast)
+        addToast({ title: 'Error al crear el tag' })
+      }
+    },
+  })
+
+  const handleSubmit = () => (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.currentTarget))
     const name = formData.name.toString().trim()
     const color = formData.color.toString().trim()
-    const idToast = addToast({
-      title: 'Creando tag...',
-      promise: TagService.create(name)
-        .then(() => {
-          closeToast(idToast!)
-          addToast({ title: 'Tag creado con éxito' })
-          onClose()
-        })
-        .catch(() => {
-          addToast({ title: 'Error al crear el tag' })
-        }),
-    })
+
+    createTagMutation.mutate({ name, color: color as ColorKey })
   }
 
   return (
@@ -49,7 +66,7 @@ const CreateTagModal = ({ isOpen, onOpenChange }: CreateTagModalProps) => {
     >
       <ModalContent>
         {(onClose) => (
-          <Form onSubmit={handleSubmit(onClose)}>
+          <Form onSubmit={handleSubmit()}>
             <ModalHeader>Crear Tag</ModalHeader>
             <ModalBody className='w-full'>
               <Input

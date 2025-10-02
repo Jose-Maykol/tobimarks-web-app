@@ -1,10 +1,10 @@
 import api from '../../../core/interceptors/auth.interceptor'
 import type { ColorKey } from '../constants/tagColors'
-import type { TagListItem, TagListItemResponse } from '../types/tags.type'
+import type { CreateTag, TagListItem, TagListItemResponse } from '../types/tags.type'
 
 const TagService = {
-  create: async (name: string) => {
-    const { data } = await api.post('/tags', { name })
+  create: async ({ name, styleToken }: CreateTag) => {
+    const { data } = await api.post('/tags', { name, styleToken })
     return data.data
   },
 
