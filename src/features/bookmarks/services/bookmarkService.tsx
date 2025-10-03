@@ -1,4 +1,6 @@
 import api from '../../../core/interceptors/auth.interceptor'
+import type { ColorKey } from '../../tags/constants/tagColors'
+import type { TagListItemResponse } from '../../tags/types/tags.type'
 import type { BookmarkListItem, BookmarkListItemResponse } from '../types/boomark.type'
 
 const BookmarkService = {
@@ -12,6 +14,10 @@ const BookmarkService = {
     const { bookmarks }: { bookmarks: BookmarkListItemResponse[] } = data.data
     return bookmarks.map((bookmark) => ({
       ...bookmark,
+      tags: bookmark.tags.map((tag: TagListItemResponse) => ({
+        ...tag,
+        color: tag.styleToken as ColorKey,
+      })),
       lastAccessedAt: bookmark.lastAccessedAt ? new Date(bookmark.lastAccessedAt) : null,
     }))
   },
