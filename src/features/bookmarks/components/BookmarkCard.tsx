@@ -1,6 +1,7 @@
 import type { JSX } from 'react'
-import { Button, Card, CardBody, Chip } from '@heroui/react'
+import { Button, Card, CardBody } from '@heroui/react'
 
+import TagItem from '../../tags/components/TagItem'
 import type { BookmarkListItem } from '../types/boomark.type'
 
 interface BookmarkCardProps {
@@ -32,9 +33,9 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
                   <span className='text-sm text-muted-foreground'>'Nunca'</span>
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
-                  <Chip size='sm' className='text-xs' variant='bordered' color='primary'>
-                    IA
-                  </Chip>
+                  {bookmark.tags.map((tag) => (
+                    <TagItem key={tag.id} tag={tag} />
+                  ))}
                 </div>
               </div>
             </div>
