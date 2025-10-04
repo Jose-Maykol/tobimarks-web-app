@@ -1,4 +1,4 @@
-import type { JSX } from 'react'
+import { type JSX, Suspense } from 'react'
 import {
   Button,
   Card,
@@ -7,17 +7,21 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  useDisclosure,
 } from '@heroui/react'
 import { Copy, Edit, ExternalLink, Heart, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
 import type { BookmarkListItem } from '../types/boomark.type'
+import UpdateBookmarkModal from './UpdateBookmarkModal'
 
 interface BookmarkCardProps {
   bookmark: BookmarkListItem
 }
 
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
   const handleLike = (): void => {
     console.log('Like bookmark', bookmark.id)
   }
@@ -31,6 +35,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   }
 
   const handleEdit = (): void => {
+    onOpen()
     console.log('Edit bookmark', bookmark.id)
   }
 
@@ -107,6 +112,15 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
               </DropdownMenu>
             </Dropdown>
           </div>
+
+          <Suspense fallback={null}>
+            <UpdateBookmarkModal
+              isOpen={isOpen}
+              onOpenChange={onOpenChange}
+              bookmarkId={bookmark.id}
+              initialTitle={bookmark.title}
+            />
+          </Suspense>
         </div>
       </CardBody>
     </Card>
