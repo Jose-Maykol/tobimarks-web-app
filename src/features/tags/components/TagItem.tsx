@@ -9,7 +9,10 @@ interface TagItemProps {
 
 const TagItem = ({ tag }: TagItemProps) => {
   return (
-    <Chip className={`${COLORS_MAP[tag.color]}`} classNames={{ content: 'font-semibold' }}>
+    <Chip
+      className={`${COLORS_MAP[tag.color]}`}
+      classNames={{ content: 'font-semibold text-white' }}
+    >
       {tag.name}
     </Chip>
   )

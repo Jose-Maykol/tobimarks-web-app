@@ -1,6 +1,14 @@
 import type { JSX } from 'react'
-import { Button, Card, CardBody } from '@heroui/react'
-import { Copy, ExternalLink, Heart } from 'lucide-react'
+import {
+  Button,
+  Card,
+  CardBody,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from '@heroui/react'
+import { Copy, Edit, ExternalLink, Heart, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
 import type { BookmarkListItem } from '../types/boomark.type'
@@ -11,7 +19,7 @@ interface BookmarkCardProps {
 
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   const handleLike = (): void => {
-    // Implement like functionality
+    console.log('Like bookmark', bookmark.id)
   }
 
   const handleCopy = (): void => {
@@ -20,6 +28,14 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
 
   const handleOpen = (): void => {
     window.open(bookmark.url, '_blank')
+  }
+
+  const handleEdit = (): void => {
+    console.log('Edit bookmark', bookmark.id)
+  }
+
+  const handleDelete = (): void => {
+    console.log('Delete bookmark', bookmark.id)
   }
 
   return (
@@ -65,6 +81,31 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
             <Button size='sm' variant='light' isIconOnly onPress={handleOpen}>
               <ExternalLink className='size-4' />
             </Button>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button size='sm' variant='light' isIconOnly>
+                  <MoreVertical className='size-4' />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu variant='flat'>
+                <DropdownItem
+                  key='edit'
+                  onPress={handleEdit}
+                  startContent={<Edit className='size-4' />}
+                >
+                  Editar
+                </DropdownItem>
+                <DropdownItem
+                  key='delete'
+                  className='text-danger'
+                  color='danger'
+                  onPress={handleDelete}
+                  startContent={<Trash className='size-4' />}
+                >
+                  Eliminar
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
       </CardBody>
