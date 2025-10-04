@@ -9,6 +9,11 @@ const BookmarkService = {
     return data.data
   },
 
+  update: async (id: string, bookmark: { title: string; tags: string[] }) => {
+    const { data } = await api.patch(`/bookmarks/${id}`, bookmark)
+    return data.data
+  },
+
   getList: async (): Promise<BookmarkListItem[]> => {
     const { data } = await api.get('/bookmarks')
     const { bookmarks }: { bookmarks: BookmarkListItemResponse[] } = data.data
