@@ -26,7 +26,7 @@ const CreateTagModal = ({ isOpen, onOpenChange }: CreateTagModalProps) => {
 
   const createTagMutation = useMutation({
     mutationFn: ({ name, color }: { name: string; color: ColorKey }) =>
-      TagService.create({ name, styleToken: color }),
+      TagService.create({ name, color }),
     onMutate: () => {
       const idToast = addToast({ title: 'Creando tag...' })
       return { idToast }

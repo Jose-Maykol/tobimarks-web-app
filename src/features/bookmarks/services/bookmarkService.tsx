@@ -16,7 +16,7 @@ const BookmarkService = {
       ...bookmark,
       tags: bookmark.tags.map((tag: TagListItemResponse) => ({
         ...tag,
-        color: tag.styleToken as ColorKey,
+        color: tag.color as ColorKey,
       })),
       lastAccessedAt: bookmark.lastAccessedAt ? new Date(bookmark.lastAccessedAt) : null,
     }))

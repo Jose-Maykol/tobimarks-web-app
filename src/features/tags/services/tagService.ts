@@ -3,8 +3,8 @@ import type { ColorKey } from '../constants/tagColors'
 import type { CreateTag, TagListItem, TagListItemResponse } from '../types/tags.type'
 
 const TagService = {
-  create: async ({ name, styleToken }: CreateTag) => {
-    const { data } = await api.post('/tags', { name, styleToken })
+  create: async ({ name, color }: CreateTag) => {
+    const { data } = await api.post('/tags', { name, color })
     return data.data
   },
 
@@ -13,7 +13,7 @@ const TagService = {
     const { tags }: { tags: TagListItemResponse[] } = data.data
     return tags.map((tag) => ({
       ...tag,
-      color: (tag.styleToken || 'stone') as ColorKey,
+      color: (tag.color || 'stone') as ColorKey,
     }))
   },
 }
