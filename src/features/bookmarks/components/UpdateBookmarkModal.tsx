@@ -1,7 +1,8 @@
-import type { FormEvent } from 'react'
+import { type FormEvent, useState } from 'react'
 import {
   addToast,
   Button,
+  Chip,
   closeToast,
   Form,
   Input,
@@ -11,8 +12,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@heroui/react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
+import { COLORS_MAP } from '../../tags/constants/tagColors'
+import TagService from '../../tags/services/tagService'
 import BookmarkService from '../services/bookmarkService'
 
 interface UpdateBookmarkModalProps {
@@ -30,9 +33,30 @@ const UpdateBookmarkModal = ({
 }: UpdateBookmarkModalProps) => {
   const queryClient = useQueryClient()
 
+  const {
+    data: tags = [],
+    isLoading,
+    error: tagsError,
+  } = useQuery({
+    queryKey: ['tags'],
+    queryFn: TagService.getList,
+    enabled: isOpen,
+  })
+
+  if (tagsError) {
+    addToast({ title: 'Error loading tags', color: 'danger' })
+  }
+
+  const [selected, setSelected] = useState<string[]>([])
+
+  const toggleTag = (tag: string) => {
+    setSelected((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
+    console.log(selected)
+  }
+
   const updateBoommarkMutation = useMutation({
-    mutationFn: ({ title }: { title: string }) =>
-      BookmarkService.update(bookmarkId, { title, tags: [] }),
+    mutationFn: ({ title, tags }: { title: string; tags: string[] }) =>
+      BookmarkService.update(bookmarkId, { title, tags }),
     onMutate: () => {
       const idToast = addToast({ title: 'Actualizando marcador...' })
       return { idToast }
@@ -57,8 +81,9 @@ const UpdateBookmarkModal = ({
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.currentTarget))
     const title = formData.title.toString().trim()
+    const tags = selected
 
-    updateBoommarkMutation.mutate({ title })
+    updateBoommarkMutation.mutate({ title, tags })
   }
 
   return (
@@ -85,6 +110,21 @@ const UpdateBookmarkModal = ({
                 type='text'
                 required
               />
+              {isLoading && <div>Cargando tags...</div>}
+              {tags.length > 0 && (
+                <div className='flex flex-wrap gap-2'>
+                  {tags.map((tag) => (
+                    <Chip
+                      key={tag.id}
+                      variant={selected.includes(tag.id) ? 'solid' : 'bordered'}
+                      onClick={() => toggleTag(tag.id)}
+                      className={`cursor-pointer ${COLORS_MAP[tag.color]}`}
+                    >
+                      {tag.name}
+                    </Chip>
+                  ))}
+                </div>
+              )}
             </ModalBody>
             <ModalFooter className='flex w-full gap-2'>
               <Button className='flex-1' variant='bordered' onPress={onClose}>
