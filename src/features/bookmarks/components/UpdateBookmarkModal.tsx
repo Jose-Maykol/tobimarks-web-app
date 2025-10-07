@@ -2,7 +2,6 @@ import { type FormEvent, useState } from 'react'
 import {
   addToast,
   Button,
-  Chip,
   closeToast,
   Form,
   Input,
@@ -12,10 +11,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@heroui/react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { COLORS_MAP } from '../../tags/constants/tagColors'
-import TagService from '../../tags/services/tagService'
+import { TagSelector } from '../../tags/components/TagSelector'
+import { useTagStore } from '../../tags/stores/useTagStore'
 import BookmarkService from '../services/bookmarkService'
 import type { BookmarkListItem } from '../types/boomark.type'
 
@@ -34,26 +33,7 @@ const UpdateBookmarkModal = ({
 }: UpdateBookmarkModalProps) => {
   const queryClient = useQueryClient()
 
-  const {
-    data: tags = [],
-    isLoading,
-    error: tagsError,
-  } = useQuery({
-    queryKey: ['tags'],
-    queryFn: TagService.getList,
-    enabled: isOpen,
-  })
-
-  if (tagsError) {
-    addToast({ title: 'Error loading tags', color: 'danger' })
-  }
-
-  const [selected, setSelected] = useState<string[]>(bookmark.tags.map((tag) => tag.id))
-
-  const toggleTag = (tag: string) => {
-    setSelected((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
-    console.log(selected)
-  }
+  const tags = useTagStore((state) => state.tags)
 
   const updateBookmarkMutation = useMutation({
     mutationFn: ({ title, tags }: { title: string; tags: string[] }) =>
@@ -78,13 +58,19 @@ const UpdateBookmarkModal = ({
     },
   })
 
+  const [selectedTags, setSelectedTags] = useState<string[]>(bookmark.tags.map((tag) => tag.id))
+
   const handleSubmit = () => async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.currentTarget))
     const title = formData.title.toString().trim()
-    const tags = selected
+    const tags = selectedTags
 
     updateBookmarkMutation.mutate({ title, tags })
+  }
+
+  const handleSelectedTags = (selected: string[]) => {
+    setSelectedTags(selected)
   }
 
   return (
@@ -111,24 +97,12 @@ const UpdateBookmarkModal = ({
                 type='text'
                 required
               />
-              {isLoading && <div>Cargando tags...</div>}
               {tags.length > 0 && (
-                <div className='flex flex-wrap gap-2'>
-                  {tags.map((tag) => (
-                    <Chip
-                      key={tag.id}
-                      variant='bordered'
-                      onClick={() => toggleTag(tag.id)}
-                      className={`cursor-pointer border-2 ${COLORS_MAP[tag.color].border} ${
-                        selected.includes(tag.id) ? COLORS_MAP[tag.color].background : null
-                      }`}
-                      classNames={{ content: 'font-semibold text-white text-xs' }}
-                      radius='md'
-                    >
-                      {tag.name}
-                    </Chip>
-                  ))}
-                </div>
+                <TagSelector
+                  tags={tags}
+                  selectedTags={selectedTags}
+                  onSelectionChange={handleSelectedTags}
+                />
               )}
             </ModalBody>
             <ModalFooter className='flex w-full gap-2'>
