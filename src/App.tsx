@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router'
 
-import MainLayout from './core/layouts/MainLayout'
+import MainLayout from './core/layouts/AuthLayout'
 import LoginPage from './features/auth/pages/login/components/LoginPage'
 import BookmarksPage from './features/bookmarks/pages/bookmarks-page/BookMarksPage'
 import HomePage from './features/home/pages/homepage/HomePage'

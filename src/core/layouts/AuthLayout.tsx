@@ -1,21 +1,28 @@
 import { type JSX, useEffect } from 'react'
 import { Outlet } from 'react-router'
+import { useQuery } from '@tanstack/react-query'
 
+import TagService from '../../features/tags/services/tagService'
 import { useTagStore } from '../../features/tags/stores/useTagStore'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 
-const MainLayout = (): JSX.Element => {
-  //TODO: Usar react-query para manejar el estado de los tags
-  const tags = useTagStore((state) => state.tags)
-  const getList = useTagStore((state) => state.getList)
+const AuthLayout = (): JSX.Element => {
+  const setTags = useTagStore((state) => state.set)
+
+  const query = useQuery({
+    queryKey: ['tags'],
+    queryFn: TagService.getList,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  })
 
   useEffect(() => {
-    if (tags.length === 0) {
-      console.log('Fetching tags...')
-      getList()
+    if (query.data) {
+      setTags(query.data)
     }
-  }, [getList, tags.length])
+  }, [query.data, setTags])
 
   return (
     <div className='min-h-screen bg-background w-full'>
@@ -30,4 +37,4 @@ const MainLayout = (): JSX.Element => {
   )
 }
 
-export default MainLayout
+export default AuthLayout
