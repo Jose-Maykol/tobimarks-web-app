@@ -61,10 +61,8 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
                 <h3 className='font-medium text-foreground truncate'>{bookmark.title}</h3>
                 <div className='flex items-center gap-4 mt-1'>
                   <span className='text-sm text-muted-foreground'>{bookmark.domain}</span>
-                  <span className='text-sm text-muted-foreground'>
-                    {bookmark.accessCount} accesos
-                  </span>
-                  <span className='text-sm text-muted-foreground'>'Nunca'</span>
+                  <span className='text-sm text-neutral-400'>{bookmark.accessCount} accesos</span>
+                  <span className='text-sm text-neutral-400'>Nunca</span>
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
                   {bookmark.tags.map((tag) => (
@@ -117,7 +115,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
             <UpdateBookmarkModal
               isOpen={isOpen}
               onOpenChange={onOpenChange}
-              bookmarkId={bookmark.id}
+              bookmark={bookmark}
               initialTitle={bookmark.title}
             />
           </Suspense>

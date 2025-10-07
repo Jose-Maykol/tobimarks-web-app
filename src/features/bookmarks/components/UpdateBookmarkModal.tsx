@@ -17,18 +17,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { COLORS_MAP } from '../../tags/constants/tagColors'
 import TagService from '../../tags/services/tagService'
 import BookmarkService from '../services/bookmarkService'
+import type { BookmarkListItem } from '../types/boomark.type'
 
 interface UpdateBookmarkModalProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
-  bookmarkId: string
+  bookmark: BookmarkListItem
   initialTitle: string
 }
 
 const UpdateBookmarkModal = ({
   isOpen,
   onOpenChange,
-  bookmarkId,
+  bookmark,
   initialTitle,
 }: UpdateBookmarkModalProps) => {
   const queryClient = useQueryClient()
@@ -47,16 +48,16 @@ const UpdateBookmarkModal = ({
     addToast({ title: 'Error loading tags', color: 'danger' })
   }
 
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<string[]>(bookmark.tags.map((tag) => tag.id))
 
   const toggleTag = (tag: string) => {
     setSelected((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
     console.log(selected)
   }
 
-  const updateBoommarkMutation = useMutation({
+  const updateBookmarkMutation = useMutation({
     mutationFn: ({ title, tags }: { title: string; tags: string[] }) =>
-      BookmarkService.update(bookmarkId, { title, tags }),
+      BookmarkService.update(bookmark.id, { title, tags }),
     onMutate: () => {
       const idToast = addToast({ title: 'Actualizando marcador...' })
       return { idToast }
@@ -83,7 +84,7 @@ const UpdateBookmarkModal = ({
     const title = formData.title.toString().trim()
     const tags = selected
 
-    updateBoommarkMutation.mutate({ title, tags })
+    updateBookmarkMutation.mutate({ title, tags })
   }
 
   return (
@@ -116,9 +117,13 @@ const UpdateBookmarkModal = ({
                   {tags.map((tag) => (
                     <Chip
                       key={tag.id}
-                      variant={selected.includes(tag.id) ? 'solid' : 'bordered'}
+                      variant='bordered'
                       onClick={() => toggleTag(tag.id)}
-                      className={`cursor-pointer ${COLORS_MAP[tag.color]}`}
+                      className={`cursor-pointer border-2 ${COLORS_MAP[tag.color].border} ${
+                        selected.includes(tag.id) ? COLORS_MAP[tag.color].background : null
+                      }`}
+                      classNames={{ content: 'font-semibold text-white text-xs' }}
+                      radius='md'
                     >
                       {tag.name}
                     </Chip>
