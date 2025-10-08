@@ -1,5 +1,5 @@
-import { lazy, Suspense, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { lazy, Suspense } from 'react'
+import { useLocation, useNavigate } from 'react-router'
 import { Button, Divider, useDisclosure } from '@heroui/react'
 import { Archive, Bookmark, Folder, Heart, LayoutDashboard, Plus, Tag, User } from 'lucide-react'
 
@@ -56,12 +56,18 @@ const CreateBookmarkModal = lazy(
 
 const Sidebar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [activeItem, setActiveItem] = useState('Dashboard')
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const handleNavigation = (item: (typeof menuItems)[0] | (typeof organizationItems)[0]) => {
-    setActiveItem(item.label)
-    navigate(item.href)
+  const isActive = (href: string): boolean => {
+    if (href === '/') {
+      return location.pathname === href
+    }
+    return location.pathname.startsWith(href)
+  }
+
+  const handleNavigation = (href: string) => {
+    navigate(href)
   }
 
   const handleCollectionNavigation = (collection: (typeof collections)[0]) => {
@@ -74,13 +80,13 @@ const Sidebar = () => {
         {menuItems.map((item) => (
           <Button
             key={item.label}
-            variant={activeItem === item.label ? 'solid' : 'light'}
-            color={activeItem === item.label ? 'primary' : 'default'}
+            variant={isActive(item.href) ? 'solid' : 'light'}
+            color={isActive(item.href) ? 'primary' : 'default'}
             className={`w-full justify-start gap-3 h-10 text-foreground ${
-              activeItem === item.label && 'font-semibold text-white'
+              isActive(item.href) && 'font-semibold text-white'
             }`}
             startContent={item.icon}
-            onPress={() => handleNavigation(item)}
+            onPress={() => handleNavigation(item.href)}
           >
             {item.label}
           </Button>
@@ -97,14 +103,13 @@ const Sidebar = () => {
           {organizationItems.map((item) => (
             <Button
               key={item.label}
-              variant={activeItem === item.label ? 'flat' : 'light'}
-              className={`w-full justify-start gap-3 h-10 ${
-                activeItem === item.label
-                  ? 'bg-primary/10 text-primary'
-                  : ' hover:text-foreground hover:bg-muted/50'
+              variant={isActive(item.href) ? 'solid' : 'light'}
+              color={isActive(item.href) ? 'primary' : 'default'}
+              className={`w-full justify-start gap-3 h-10 text-foreground ${
+                isActive(item.href) && 'font-semibold text-white'
               }`}
               startContent={item.icon}
-              onPress={() => handleNavigation(item)}
+              onPress={() => handleNavigation(item.href)}
             >
               {item.label}
             </Button>
