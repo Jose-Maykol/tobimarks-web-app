@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardBody,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -68,6 +69,11 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
                   {bookmark.tags.map((tag) => (
                     <TagItem key={tag.id} tag={tag} />
                   ))}
+                  {bookmark.tags.length === 0 && (
+                    <Chip radius='md' classNames={{ content: 'font-semibold text-white text-xs' }}>
+                      Sin etiquetas
+                    </Chip>
+                  )}
                 </div>
               </div>
             </div>
