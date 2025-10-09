@@ -16,7 +16,7 @@ export interface Bookmark {
 
 export type BookmarkListItem = Pick<
   Bookmark,
-  'id' | 'url' | 'title' | 'isFavorite' | 'isArchived' | 'accessCount' | 'tags'
+  'id' | 'url' | 'title' | 'isFavorite' | 'isArchived' | 'accessCount' | 'tags' | 'lastAccessedAt'
 > &
   Pick<Website, 'domain' | 'faviconUrl'>
 

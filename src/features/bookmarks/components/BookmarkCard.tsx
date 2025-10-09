@@ -1,7 +1,6 @@
 import { type JSX, Suspense, useState } from 'react'
 import {
   addToast,
-  Button,
   Card,
   CardBody,
   Chip,
@@ -11,14 +10,17 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from '@heroui/react'
-import { Copy, Edit, ExternalLink, MoreVertical, Trash } from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
+import { es } from 'date-fns/locale'
+import { Edit, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
 import BookmarkService from '../services/bookmarkService'
 import type { BookmarkListItem } from '../types/boomark.type'
+import BookmarkCopyButton from './BookmarkCopyButton'
 import BookmarkFavoriteButton from './BookmarkFavoriteButton'
+import BookmarkOpenButton from './BookmarkOpenButton'
 import UpdateBookmarkModal from './UpdateBookmarkModal'
-
 interface BookmarkCardProps {
   bookmark: BookmarkListItem
 }
@@ -26,6 +28,11 @@ interface BookmarkCardProps {
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [isFavorite, setIsFavorite] = useState<boolean>(bookmark.isFavorite)
+  const [accessCount, setAccessCount] = useState<number>(bookmark.accessCount)
+
+  const formattedLastAccessedAt = bookmark.lastAccessedAt
+    ? formatDistanceToNow(bookmark.lastAccessedAt, { addSuffix: true, locale: es })
+    : 'Nunca'
 
   const handleToggleFavorite = async (): Promise<void> => {
     const previousState = isFavorite
@@ -47,10 +54,18 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
 
   const handleCopy = (): void => {
     navigator.clipboard.writeText(bookmark.url)
+    addToast({ title: 'URL copiada al portapapeles', color: 'success' })
   }
 
-  const handleOpen = (): void => {
+  const handleOpen = async (): Promise<void> => {
     window.open(bookmark.url, '_blank')
+    try {
+      setAccessCount(accessCount + 1)
+      await BookmarkService.registerAccess(bookmark.id)
+    } catch (error) {
+      setAccessCount(accessCount - 1)
+      console.error('Error al registrar el acceso:', error)
+    }
   }
 
   const handleEdit = (): void => {
@@ -79,16 +94,29 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
               <div className='flex-1 min-w-0'>
                 <h3 className='font-medium text-foreground truncate'>{bookmark.title}</h3>
                 <div className='flex items-center gap-4 mt-1'>
-                  <span className='text-sm text-muted-foreground'>{bookmark.domain}</span>
-                  <span className='text-sm text-neutral-400'>{bookmark.accessCount} accesos</span>
-                  <span className='text-sm text-neutral-400'>Nunca</span>
+                  <span className='text-sm text-neutral-400 font-semibold'>{bookmark.domain}</span>
+                  {accessCount > 0 && (
+                    <span className='text-sm text-neutral-400'>
+                      {accessCount} {accessCount === 1 ? 'acceso' : 'accesos'}
+                    </span>
+                  )}
+                  {accessCount === 0 && <span className='text-sm text-neutral-400'>Nunca</span>}
+                  {accessCount > 0 && (
+                    <span className='text-sm text-neutral-400 first-letter:uppercase'>
+                      {formattedLastAccessedAt}
+                    </span>
+                  )}
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
                   {bookmark.tags.map((tag) => (
                     <TagItem key={tag.id} tag={tag} />
                   ))}
                   {bookmark.tags.length === 0 && (
-                    <Chip radius='md' classNames={{ content: 'font-semibold text-white text-xs' }}>
+                    <Chip
+                      radius='md'
+                      className='bg-neutral-500 dark:bg-neutral-700'
+                      classNames={{ content: 'font-semibold text-white text-xs' }}
+                    >
                       Sin etiquetas
                     </Chip>
                   )}
@@ -98,26 +126,26 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
           </div>
 
           {/* ACTIONS */}
-          <div className='flex items-center gap-2 flex-shrink-0'>
+          <div className='flex items-center gap-3 flex-shrink-0'>
             <BookmarkFavoriteButton
               isFavorite={isFavorite}
               onToggleFavorite={handleToggleFavorite}
             />
-            <Button size='sm' variant='light' isIconOnly onPress={handleCopy}>
-              <Copy className='size-4' />
-            </Button>
-            <Button size='sm' variant='light' isIconOnly onPress={handleOpen}>
-              <ExternalLink className='size-4' />
-            </Button>
+            <BookmarkCopyButton onCopy={handleCopy} />
+            <BookmarkOpenButton onOpen={handleOpen} />
             <Dropdown>
               <DropdownTrigger>
-                <Button size='sm' variant='light' isIconOnly>
-                  <MoreVertical className='size-4' />
-                </Button>
+                <button
+                  className='group p-0 bg-transparent border-none outline-none cursor-pointer'
+                  aria-label='Open actions menu'
+                >
+                  <MoreVertical className='size-4 transition-colors duration-150 text-neutral-400 dark:group-hover:text-neutral-50 group-hover:text-neutral-500' />
+                </button>
               </DropdownTrigger>
               <DropdownMenu variant='flat'>
                 <DropdownItem
                   key='edit'
+                  className='text-neutral-400 data-[hover=true]:text-neutral-500 dark:data-[hover=true]:text-neutral-50'
                   onPress={handleEdit}
                   startContent={<Edit className='size-4' />}
                 >

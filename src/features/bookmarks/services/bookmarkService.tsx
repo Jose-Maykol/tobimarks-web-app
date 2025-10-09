@@ -34,6 +34,10 @@ const BookmarkService = {
   unmarkAsFavorite: async (id: string): Promise<void> => {
     await api.delete(`/bookmarks/${id}/favorite`)
   },
+
+  registerAccess: async (id: string): Promise<void> => {
+    await api.patch(`/bookmarks/${id}/access`)
+  },
 }
 
 export default BookmarkService
