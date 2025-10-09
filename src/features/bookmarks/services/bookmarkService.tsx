@@ -26,6 +26,14 @@ const BookmarkService = {
       lastAccessedAt: bookmark.lastAccessedAt ? new Date(bookmark.lastAccessedAt) : null,
     }))
   },
+
+  markAsFavorite: async (id: string): Promise<void> => {
+    await api.patch(`/bookmarks/${id}/favorite`)
+  },
+
+  unmarkAsFavorite: async (id: string): Promise<void> => {
+    await api.delete(`/bookmarks/${id}/favorite`)
+  },
 }
 
 export default BookmarkService

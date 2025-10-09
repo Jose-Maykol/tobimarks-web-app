@@ -1,5 +1,6 @@
-import { type JSX, Suspense } from 'react'
+import { type JSX, Suspense, useState } from 'react'
 import {
+  addToast,
   Button,
   Card,
   CardBody,
@@ -10,10 +11,12 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from '@heroui/react'
-import { Copy, Edit, ExternalLink, Heart, MoreVertical, Trash } from 'lucide-react'
+import { Copy, Edit, ExternalLink, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
+import BookmarkService from '../services/bookmarkService'
 import type { BookmarkListItem } from '../types/boomark.type'
+import BookmarkFavoriteButton from './BookmarkFavoriteButton'
 import UpdateBookmarkModal from './UpdateBookmarkModal'
 
 interface BookmarkCardProps {
@@ -22,9 +25,24 @@ interface BookmarkCardProps {
 
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const [isFavorite, setIsFavorite] = useState<boolean>(bookmark.isFavorite)
 
-  const handleLike = (): void => {
-    console.log('Like bookmark', bookmark.id)
+  const handleToggleFavorite = async (): Promise<void> => {
+    const previousState = isFavorite
+    setIsFavorite(!isFavorite)
+    try {
+      if (previousState) {
+        await BookmarkService.unmarkAsFavorite(bookmark.id)
+        addToast({ title: 'Marcador eliminado de favoritos', color: 'success' })
+      } else {
+        await BookmarkService.markAsFavorite(bookmark.id)
+        addToast({ title: 'Marcador añadido a favoritos', color: 'success' })
+      }
+    } catch (error) {
+      setIsFavorite(previousState)
+      addToast({ title: 'Error al actualizar el estado de favorito', color: 'danger' })
+      console.error('Error al cambiar el estado de favorito:', error)
+    }
   }
 
   const handleCopy = (): void => {
@@ -81,9 +99,10 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
 
           {/* ACTIONS */}
           <div className='flex items-center gap-2 flex-shrink-0'>
-            <Button size='sm' variant='light' isIconOnly onPress={handleLike}>
-              <Heart className='size-4' />
-            </Button>
+            <BookmarkFavoriteButton
+              isFavorite={isFavorite}
+              onToggleFavorite={handleToggleFavorite}
+            />
             <Button size='sm' variant='light' isIconOnly onPress={handleCopy}>
               <Copy className='size-4' />
             </Button>
