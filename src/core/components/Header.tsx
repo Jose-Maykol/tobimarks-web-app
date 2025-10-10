@@ -1,10 +1,21 @@
 import type { JSX } from 'react'
-import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
+import {
+  Avatar,
+  Button,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Skeleton,
+} from '@heroui/react'
 import { Bookmark, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
+import { useUserStore } from '../../features/user/stores/useUserStore'
+
 const Header = (): JSX.Element => {
   const { theme, setTheme } = useTheme()
+  const { user } = useUserStore((state) => state)
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -35,6 +46,15 @@ const Header = (): JSX.Element => {
           >
             {theme === 'light' ? <Moon className='w-5 h-5' /> : <Sun className='w-5 h-5' />}
           </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <Avatar
+            showFallback
+            fallback={<Skeleton className='flex rounded-full' />}
+            name={user?.displayName}
+            src={user?.avatarUrl || undefined}
+            size='sm'
+          />
         </NavbarItem>
       </NavbarContent>
     </Navbar>
