@@ -15,7 +15,7 @@ const AuthLayout = (): JSX.Element => {
 
   const queryTags = useQuery({
     queryKey: ['tags'],
-    queryFn: TagService.getList,
+    queryFn: () => TagService.getList(),
     staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: false,

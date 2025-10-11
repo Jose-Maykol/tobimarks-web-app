@@ -32,7 +32,7 @@ const ColorPicker = ({ value, onChange, label = 'Color' }: ColorPickerProps) => 
       value={selectedColor}
       onValueChange={handleChange}
     >
-      {(Object.entries(COLORS_MAP) as Array<[ColorKey, string]>).map(([color, bgClassName]) => (
+      {Object.entries(COLORS_MAP).map(([color, value]) => (
         <Radio
           key={color}
           value={color}
@@ -43,7 +43,7 @@ const ColorPicker = ({ value, onChange, label = 'Color' }: ColorPickerProps) => 
           }}
         >
           <div
-            className={`${bgClassName} size-6 p-1 rounded-sm ${selectedColor === color ? 'ring-2 ring-neutral-100' : ''}`}
+            className={`${value.background} size-6 p-1 rounded-sm ${selectedColor === color ? 'ring-2 ring-neutral-100' : ''}`}
           ></div>
         </Radio>
       ))}

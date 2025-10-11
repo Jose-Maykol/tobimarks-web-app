@@ -8,7 +8,7 @@ import {
   NavbarItem,
   Skeleton,
 } from '@heroui/react'
-import { Bookmark, Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { useUserStore } from '../../features/user/stores/useUserStore'
@@ -28,9 +28,9 @@ const Header = (): JSX.Element => {
     >
       <NavbarBrand>
         <div className='flex items-center gap-2'>
-          <div className='w-8 h-8 bg-primary flex items-center justify-center'>
-            <Bookmark className='w-5 h-5 text-primary-foreground' size={20} strokeWidth={1.5} />
-          </div>
+          {/* <div className='w-8 h-8 flex items-center justify-center'>
+            <Bookmark className='w-5 h-5 fill-sky-400 stroke-sky-500' size={20} strokeWidth={1.5} />
+          </div> */}
           <span className='font-bold text-xl text-foreground'>Tobimarks</span>
         </div>
       </NavbarBrand>

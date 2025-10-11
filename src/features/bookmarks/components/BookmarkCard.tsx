@@ -70,11 +70,11 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
 
   const handleEdit = (): void => {
     onOpen()
-    console.log('Edit bookmark', bookmark.id)
   }
 
-  const handleDelete = (): void => {
-    console.log('Delete bookmark', bookmark.id)
+  const handleDelete = async (): Promise<void> => {
+    await BookmarkService.delete(bookmark.id)
+    addToast({ title: 'Marcador eliminado', color: 'success' })
   }
 
   return (

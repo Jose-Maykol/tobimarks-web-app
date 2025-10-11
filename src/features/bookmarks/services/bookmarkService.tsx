@@ -38,6 +38,10 @@ const BookmarkService = {
   registerAccess: async (id: string): Promise<void> => {
     await api.patch(`/bookmarks/${id}/access`)
   },
+
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`/bookmarks/${id}`)
+  },
 }
 
 export default BookmarkService
