@@ -4,12 +4,14 @@ import {
   Card,
   CardBody,
   Chip,
+  closeToast,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
   useDisclosure,
 } from '@heroui/react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Edit, MoreVertical, Trash } from 'lucide-react'
@@ -26,6 +28,8 @@ interface BookmarkCardProps {
 }
 
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
+  const queryClient = useQueryClient()
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [isFavorite, setIsFavorite] = useState<boolean>(bookmark.isFavorite)
   const [accessCount, setAccessCount] = useState<number>(bookmark.accessCount)
@@ -57,6 +61,27 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
     addToast({ title: 'URL copiada al portapapeles', color: 'success' })
   }
 
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: () => BookmarkService.delete(bookmark.id),
+    onMutate: () => {
+      const idToast = addToast({ title: 'Eliminando marcador...' })
+      return { idToast }
+    },
+    onSuccess: (_data, _variables, context) => {
+      if (context?.idToast) {
+        closeToast(context.idToast)
+        addToast({ title: 'Marcador eliminado con éxito', color: 'success' })
+        queryClient.invalidateQueries({ queryKey: ['bookmarks'] })
+      }
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.idToast) {
+        closeToast(context.idToast)
+        addToast({ title: 'Error al eliminar marcador', color: 'danger' })
+      }
+    },
+  })
+
   const handleOpen = async (): Promise<void> => {
     window.open(bookmark.url, '_blank')
     try {
@@ -73,8 +98,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   }
 
   const handleDelete = async (): Promise<void> => {
-    await BookmarkService.delete(bookmark.id)
-    addToast({ title: 'Marcador eliminado', color: 'success' })
+    deleteBookmarkMutation.mutate()
   }
 
   return (
