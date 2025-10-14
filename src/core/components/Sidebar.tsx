@@ -81,9 +81,8 @@ const Sidebar = () => {
           <Button
             key={item.label}
             variant={isActive(item.href) ? 'solid' : 'light'}
-            color={isActive(item.href) ? 'primary' : 'default'}
             className={`w-full justify-start gap-3 h-10 text-foreground ${
-              isActive(item.href) && 'font-semibold text-white'
+              isActive(item.href) && 'font-semibold dark:bg-neutral-800 bg-neutral-200'
             }`}
             startContent={item.icon}
             onPress={() => handleNavigation(item.href)}
@@ -104,9 +103,8 @@ const Sidebar = () => {
             <Button
               key={item.label}
               variant={isActive(item.href) ? 'solid' : 'light'}
-              color={isActive(item.href) ? 'primary' : 'default'}
               className={`w-full justify-start gap-3 h-10 text-foreground ${
-                isActive(item.href) && 'font-semibold text-white'
+                isActive(item.href) && 'font-semibold dark:bg-neutral-800 bg-neutral-200'
               }`}
               startContent={item.icon}
               onPress={() => handleNavigation(item.href)}
