@@ -23,15 +23,12 @@ const Header = (): JSX.Element => {
 
   return (
     <Navbar
-      className='bg-background/80 backdrop-blur-md border-b border-border border-neutral-200  dark:border-neutral-900'
+      className='bg-background/60 backdrop-blur-xl border-b border-white/5 shadow-sm'
       maxWidth='full'
     >
       <NavbarBrand>
-        <div className='flex items-center gap-2'>
-          {/* <div className='w-8 h-8 flex items-center justify-center'>
-            <Bookmark className='w-5 h-5 fill-sky-400 stroke-sky-500' size={20} strokeWidth={1.5} />
-          </div> */}
-          <span className='font-bold text-xl text-foreground'>Tobimarks</span>
+        <div className='flex items-center cursor-pointer group'>
+          <span className='font-extrabold text-2xl tracking-tighter text-primary'>Tobimarks</span>
         </div>
       </NavbarBrand>
       <NavbarContent className='hidden sm:flex gap-4' justify='center'></NavbarContent>
@@ -42,19 +39,21 @@ const Header = (): JSX.Element => {
             variant='light'
             onPress={toggleTheme}
             aria-label='Toggle theme'
-            className='rounded-full'
+            className='rounded-full hover:bg-content1/50 transition-colors'
           >
             {theme === 'light' ? <Moon className='w-5 h-5' /> : <Sun className='w-5 h-5' />}
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Avatar
-            showFallback
-            fallback={<Skeleton className='flex rounded-full' />}
-            name={user?.displayName}
-            src={user?.avatarUrl || undefined}
-            size='sm'
-          />
+          <div className='p-1 border border-white/10 rounded-full shadow-sm cursor-pointer hover:border-white/20 transition-colors'>
+            <Avatar
+              showFallback
+              fallback={<Skeleton className='flex rounded-full' />}
+              name={user?.displayName}
+              src={user?.avatarUrl || undefined}
+              size='sm'
+            />
+          </div>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
