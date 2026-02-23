@@ -14,6 +14,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { motion } from 'framer-motion'
 import { Edit, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
@@ -159,12 +160,14 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
             <BookmarkOpenButton onOpen={handleOpen} />
             <Dropdown>
               <DropdownTrigger>
-                <button
-                  className='group p-0 bg-transparent border-none outline-none cursor-pointer'
+                <motion.button
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.85 }}
+                  className='group p-0 bg-transparent border-none outline-none cursor-pointer flex items-center justify-center'
                   aria-label='Open actions menu'
                 >
                   <MoreVertical className='size-4 transition-colors duration-150 text-neutral-400 dark:group-hover:text-neutral-50 group-hover:text-neutral-500' />
-                </button>
+                </motion.button>
               </DropdownTrigger>
               <DropdownMenu variant='flat'>
                 <DropdownItem
