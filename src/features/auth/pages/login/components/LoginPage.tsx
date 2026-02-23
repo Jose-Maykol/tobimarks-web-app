@@ -1,91 +1,171 @@
 import type { JSX } from 'react'
 import { motion } from 'framer-motion'
-import { Bookmark, Sparkles } from 'lucide-react'
+import { Bookmark, Cloud, Folder, Search, Tag } from 'lucide-react'
 
 import GoogleLoginButton from './GoogleLoginButton'
 
 const LoginPage = (): JSX.Element => {
   return (
-    <div className='flex min-h-screen bg-background relative overflow-hidden text-foreground'>
-      {/* Lado Izquierdo: Formulario / Contenido de Login */}
+    <div className='flex min-h-screen bg-[#0b0c10] relative overflow-hidden text-white font-sans selection:bg-cyan-500/30'>
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className='w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-24 z-10'
       >
-        <div className='w-full max-w-md space-y-8'>
-          <div className='flex items-center gap-2 mb-12'>
-            <div className='p-2 bg-primary/10 rounded-xl text-primary'>
-              <Bookmark className='w-6 h-6' />
-            </div>
-            <span className='font-bold text-2xl tracking-tight'>Tobimarks</span>
-          </div>
-
+        <div className='w-full max-w-[380px] space-y-12'>
           <div className='space-y-4'>
-            <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight'>
-              Bienvenido de <br />
-              <span className='text-primary'>vuelta</span>
+            <h1 className='text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.1]'>
+              Bienvenido de nuevo a <br />
+              <span className='text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400'>
+                Tobimarks
+              </span>
             </h1>
-            <p className='text-default-500 text-lg'>
-              El gestor inteligente que convierte el caos de tus enlaces en una biblioteca
-              organizada y accesible al instante.
+            <p className='text-[#8b949e] text-lg font-medium tracking-wide'>
+              Tu centro de mando para guardar, organizar y encontrar cualquier enlace al instante.
             </p>
           </div>
 
-          <div className='pt-10'>
-            <div className='flex flex-col items-center justify-center'>
-              <div className='w-full'>
-                <GoogleLoginButton />
-              </div>
-              <p className='text-xs text-default-400 text-center mt-8 max-w-xs'>
-                Al continuar, aceptas nuestros{' '}
-                <a
-                  href='#'
-                  className='text-foreground hover:text-primary transition-colors hover:underline'
-                >
-                  Términos de servicio
-                </a>{' '}
-                y nuestra{' '}
-                <a
-                  href='#'
-                  className='text-foreground hover:text-primary transition-colors hover:underline'
-                >
-                  Política de privacidad
-                </a>
-                .
-              </p>
+          <div className='pt-8 space-y-10'>
+            <div className='w-full drop-shadow-md'>
+              <GoogleLoginButton />
             </div>
+
+            <div className='relative flex items-center justify-center'>
+              <div className='absolute w-full h-px bg-white/[0.04]'></div>
+              <div className='relative bg-[#101217] px-5 py-1.5 rounded-full flex items-center gap-0 border border-[#1d2027]/50'>
+                <span className='text-[10px] font-bold tracking-[0.15em] text-[#5b6471] uppercase'>
+                  Acceso Seguro
+                </span>
+              </div>
+            </div>
+
+            <p className='text-sm text-[#5b6471] text-center font-medium px-2'>
+              Al continuar, aceptas los{' '}
+              <a
+                href='#'
+                className='text-blue-500 hover:text-blue-400 transition-colors font-semibold underline-offset-4 decoration-blue-500/30'
+              >
+                Términos
+              </a>{' '}
+              y la{' '}
+              <a
+                href='#'
+                className='text-blue-500 hover:text-blue-400 transition-colors font-semibold underline-offset-4 decoration-blue-500/30'
+              >
+                Política de Privacidad
+              </a>
+              .
+            </p>
           </div>
         </div>
       </motion.div>
-
-      {/* Lado Derecho: Imagen abstracta / Branding */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.3 }}
-        className='hidden lg:flex w-1/2 relative bg-primary/5 items-center justify-center p-12 overflow-hidden'
+        className='hidden lg:flex w-1/2 relative items-center justify-center p-14 overflow-hidden bg-gradient-to-br from-[#0b0c10] to-[#0f1219]'
       >
-        {/* Esferas difuminadas para dar ese toque moderno (HeroUI/Vercel vibes) */}
-        <div className='absolute top-20 right-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl pointer-events-none' />
-        <div className='absolute bottom-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none' />
+        <div className='absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none' />
+        <div className='absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/[0.04] rounded-full blur-[120px] pointer-events-none' />
 
-        <div className='relative z-10 max-w-lg text-center'>
-          <div className='bg-background/60 backdrop-blur-md p-8 rounded-3xl border border-default-200 shadow-xl'>
-            <div className='flex justify-center mb-6'>
-              <div className='p-4 bg-primary/10 rounded-full text-primary relative'>
-                <Sparkles className='w-8 h-8' />
+        <div className='relative z-10 w-full max-w-[600px] grid grid-cols-2 grid-rows-3 gap-5 h-[620px]'>
+          <motion.div
+            whileHover={{ y: -4, scale: 1.01 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className='col-span-2 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-8 flex flex-col justify-center overflow-hidden relative group shadow-2xl'
+          >
+            <div className='absolute -top-10 -right-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl group-hover:bg-cyan-500/20 transition-colors duration-700' />
+            <div className='flex items-center gap-4 mb-3'>
+              <div className='p-3 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 text-cyan-400 rounded-2xl shadow-inner'>
+                <Bookmark className='w-6 h-6' />
+              </div>
+              <h2 className='text-2xl font-bold tracking-tight text-white/90'>Tobimarks</h2>
+            </div>
+            <p className='text-[#8b949e] text-lg max-w-sm leading-relaxed'>
+              El gestor inteligente que convierte el caos de tus enlaces en una biblioteca
+              centralizada.
+            </p>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -4, scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className='col-span-1 row-span-1 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-7 flex flex-col items-center justify-center text-center group shadow-xl'
+          >
+            <div className='p-4 bg-indigo-500/10 text-indigo-400 rounded-2xl mb-5 group-hover:scale-110 transition-transform duration-500 ease-out'>
+              <Cloud className='w-8 h-8' />
+            </div>
+            <h3 className='font-semibold text-lg mb-2 text-white/90'>Sincronización</h3>
+            <p className='text-sm text-[#8b949e]'>
+              Accede desde cualquier dispositivo, al instante.
+            </p>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -4, scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className='col-span-1 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-7 flex flex-col justify-center group shadow-xl relative overflow-hidden'
+          >
+            <div className='absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-colors duration-700' />
+            <div className='flex items-center gap-3 mb-4'>
+              <div className='p-2.5 bg-purple-500/10 text-purple-400 rounded-xl'>
+                <Search className='w-5 h-5' />
+              </div>
+              <h3 className='font-semibold text-white/90'>Búsqueda Global</h3>
+            </div>
+            <div className='h-11 bg-black/40 rounded-xl border border-white/5 flex items-center px-4 overflow-hidden shadow-inner'>
+              <span className='text-sm text-[#8b949e] type-writer'>diseño ui ux|</span>
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -4, scale: 1.01 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className='col-span-2 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-8 flex items-center justify-between shadow-xl overflow-hidden relative'
+          >
+            <div className='flex-1 pr-6 z-10'>
+              <h3 className='text-xl font-bold mb-2 text-white/90'>Organización Total</h3>
+              <p className='text-[#8b949e] text-sm leading-relaxed'>
+                Categoriza con etiquetas dinámicas y agrupa en colecciones inteligentes.
+              </p>
+            </div>
+            <div className='flex gap-4 z-10'>
+              <div className='flex flex-col gap-3 justify-center'>
+                <div className='px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold rounded-xl flex items-center gap-2 shadow-lg'>
+                  <Tag className='w-3.5 h-3.5' /> Design
+                </div>
+                <div className='px-4 py-2 bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold rounded-xl flex items-center gap-2 shadow-lg'>
+                  <Tag className='w-3.5 h-3.5' /> Inspiration
+                </div>
+              </div>
+              <div className='w-28 h-28 bg-blue-500/5 rounded-2xl border border-blue-500/10 flex items-center justify-center flex-col gap-3 text-blue-400 shadow-inner group-hover:bg-blue-500/10 transition-colors duration-500'>
+                <Folder className='w-8 h-8' />
+                <span className='text-xs font-semibold tracking-wide'>Proyectos</span>
               </div>
             </div>
-            <h2 className='text-2xl font-bold mb-4'>Tu biblioteca personal en la nube</h2>
-            <p className='text-default-500 leading-relaxed'>
-              Guarda tus enlaces favoritos, organízalos mediante etiquetas y accede a ellos desde
-              cualquier dispositivo. Tobimarks se encarga de recordarlo todo por ti.
-            </p>
-          </div>
+            <div className='absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none' />
+          </motion.div>
         </div>
       </motion.div>
+
+      <style>{`
+        @keyframes typing {
+          0%, 20% { width: 0; }
+          40%, 80% { width: 100px; }
+          100% { width: 0; }
+        }
+        @keyframes blink {
+          50% { border-color: transparent; }
+        }
+        .type-writer {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          border-right: 2px solid #3b82f6;
+          animation: typing 5s steps(30, end) infinite, blink .75s step-end infinite;
+        }
+      `}</style>
     </div>
   )
 }
