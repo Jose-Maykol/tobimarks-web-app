@@ -3,6 +3,13 @@ import type { ColorKey } from '../../tags/constants/tagColors'
 import type { TagListItemResponse } from '../../tags/types/tags.type'
 import type { BookmarkListItem, BookmarkListItemResponse } from '../types/boomark.type'
 
+export interface GetBookmarksParams {
+  isFavorite?: boolean
+  tags?: string[]
+  sortBy?: string
+  sortDirection?: string
+}
+
 const BookmarkService = {
   create: async (url: string) => {
     const { data } = await api.post('/bookmarks', { url })
@@ -14,8 +21,14 @@ const BookmarkService = {
     return data.data
   },
 
-  getList: async (): Promise<BookmarkListItem[]> => {
-    const { data } = await api.get('/bookmarks')
+  getList: async (params?: GetBookmarksParams): Promise<BookmarkListItem[]> => {
+    const queryParams: Record<string, string> = {}
+    if (params?.isFavorite) queryParams.isFavorite = 'true'
+    if (params?.tags && params.tags.length > 0) queryParams.tags = params.tags.join(',')
+    if (params?.sortBy) queryParams.sortBy = params.sortBy
+    if (params?.sortDirection) queryParams.sortDirection = params.sortDirection
+
+    const { data } = await api.get('/bookmarks', { params: queryParams })
     const { bookmarks }: { bookmarks: BookmarkListItemResponse[] } = data.data
     return bookmarks.map((bookmark) => ({
       ...bookmark,
