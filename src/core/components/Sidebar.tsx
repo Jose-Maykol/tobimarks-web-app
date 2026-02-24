@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { Button, Divider, useDisclosure } from '@heroui/react'
-import { Archive, Bookmark, Folder, Heart, LayoutDashboard, Plus, Tag, User } from 'lucide-react'
+import { Archive, Bookmark, Folder, Heart, LayoutDashboard, Plus, User } from 'lucide-react'
 
 const menuItems = [
   {
@@ -36,11 +36,6 @@ const organizationItems = [
     label: 'Categorías',
     icon: <Folder size={20} strokeWidth={1.5} />,
     href: '/categories',
-  },
-  {
-    label: 'Tags',
-    icon: <Tag size={20} strokeWidth={1.5} />,
-    href: '/tags',
   },
 ]
 

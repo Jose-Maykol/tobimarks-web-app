@@ -4,7 +4,7 @@ import MainLayout from './core/layouts/AuthLayout'
 import LoginPage from './features/auth/pages/login/components/LoginPage'
 import BookmarksPage from './features/bookmarks/pages/bookmarks-page/BookMarksPage'
 import HomePage from './features/home/pages/homepage/HomePage'
-import TagsPage from './features/tags/pages/TagsPage'
+import ProfilePage from './features/user/pages/ProfilePage'
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
       <Route element={<MainLayout />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/bookmarks' element={<BookmarksPage />} />
-        <Route path='/tags' element={<TagsPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
       </Route>
     </Routes>
   )
