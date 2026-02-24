@@ -16,6 +16,16 @@ const TagService = {
       color: (tag.color || 'stone') as ColorKey,
     }))
   },
+
+  update: async (id: string, { name, color }: Partial<CreateTag>) => {
+    const { data } = await api.patch(`/tags/${id}`, { name, color })
+    return data.data
+  },
+
+  delete: async (id: string) => {
+    await api.delete(`/tags/${id}`)
+    return true
+  },
 }
 
 export default TagService

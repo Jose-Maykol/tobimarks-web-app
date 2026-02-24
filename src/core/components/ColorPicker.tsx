@@ -9,12 +9,13 @@ const DEFAULT_COLOR: ColorKey = 'red'
 
 interface ColorPickerProps {
   value?: string
+  defaultValue?: string
   onChange?: (color: string) => void
   label?: string
 }
 
-const ColorPicker = ({ value, onChange, label = 'Color' }: ColorPickerProps) => {
-  const [selectedColor, setSelectedColor] = useState(value || DEFAULT_COLOR)
+const ColorPicker = ({ value, defaultValue, onChange, label = 'Color' }: ColorPickerProps) => {
+  const [selectedColor, setSelectedColor] = useState(value || defaultValue || DEFAULT_COLOR)
 
   const handleChange = (color: string) => {
     const colorKey = color as ColorKey
