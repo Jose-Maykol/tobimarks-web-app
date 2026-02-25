@@ -8,7 +8,9 @@ import BookmarkService from '../../services/bookmarkService'
 
 const BookmarksPage = () => {
   const [isFavoriteFilter, setIsFavoriteFilter] = useState(false)
-  const [isMostAccessed, setIsMostAccessed] = useState(false)
+  const [sortBy, setSortBy] = useState<'createdAt' | 'lastAccessedAt' | 'accessCount'>('createdAt')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
+  const [accessedWithin, setAccessedWithin] = useState<'week' | 'month' | 'all'>('all')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   const { data: tags = [] } = useQuery({
@@ -24,13 +26,18 @@ const BookmarksPage = () => {
     error,
     isFetching,
   } = useQuery({
-    queryKey: ['bookmarks', { isFavorite: isFavoriteFilter, tags: selectedTags, isMostAccessed }],
+    queryKey: [
+      'bookmarks',
+      { isFavorite: isFavoriteFilter, tags: selectedTags, sortBy, sortDirection, accessedWithin },
+    ],
     queryFn: () =>
       BookmarkService.getList({
         isFavorite: isFavoriteFilter ? true : undefined,
         tags: selectedTags.length > 0 ? selectedTags : undefined,
-        sortBy: isMostAccessed ? 'accessCount' : undefined,
-        sortDirection: isMostAccessed ? 'desc' : undefined,
+        sortBy: sortBy === 'createdAt' && sortDirection === 'desc' ? undefined : sortBy,
+        sortDirection:
+          sortBy === 'createdAt' && sortDirection === 'desc' ? undefined : sortDirection,
+        accessedWithin: accessedWithin === 'all' ? undefined : accessedWithin,
       }),
     initialData: [],
   })
@@ -43,11 +50,18 @@ const BookmarksPage = () => {
 
   const clearFilters = () => {
     setIsFavoriteFilter(false)
-    setIsMostAccessed(false)
+    setSortBy('createdAt')
+    setSortDirection('desc')
+    setAccessedWithin('all')
     setSelectedTags([])
   }
 
-  const hasActiveFilters = isFavoriteFilter || selectedTags.length > 0 || isMostAccessed
+  const hasActiveFilters =
+    isFavoriteFilter ||
+    selectedTags.length > 0 ||
+    sortBy !== 'createdAt' ||
+    sortDirection !== 'desc' ||
+    accessedWithin !== 'all'
 
   if (isLoading)
     return <div className='p-8 text-center text-neutral-400'>Cargando marcadores...</div>
@@ -64,8 +78,14 @@ const BookmarksPage = () => {
           onTagSelectionChange={toggleTag}
           isFavoriteFilter={isFavoriteFilter}
           onFavoriteFilterChange={setIsFavoriteFilter}
-          isMostAccessed={isMostAccessed}
-          onMostAccessedChange={setIsMostAccessed}
+          sortBy={sortBy}
+          sortDirection={sortDirection}
+          onSortChange={(newSortBy, newSortDirection) => {
+            setSortBy(newSortBy)
+            setSortDirection(newSortDirection)
+          }}
+          accessedWithin={accessedWithin}
+          onAccessedWithinChange={(val) => setAccessedWithin(val)}
           onClearFilters={clearFilters}
         />
       </div>
