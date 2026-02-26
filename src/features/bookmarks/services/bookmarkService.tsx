@@ -9,6 +9,7 @@ export interface GetBookmarksParams {
   sortBy?: string
   sortDirection?: string
   accessedWithin?: 'week' | 'month' | 'all'
+  collectionId?: string
 }
 
 const BookmarkService = {
@@ -29,6 +30,7 @@ const BookmarkService = {
     if (params?.sortBy) queryParams.sortBy = params.sortBy
     if (params?.sortDirection) queryParams.sortDirection = params.sortDirection
     if (params?.accessedWithin) queryParams.accessedWithin = params.accessedWithin
+    if (params?.collectionId) queryParams.collectionId = params.collectionId
 
     const { data } = await api.get('/bookmarks', { params: queryParams })
     const { bookmarks }: { bookmarks: BookmarkListItemResponse[] } = data.data

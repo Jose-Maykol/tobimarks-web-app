@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router'
 import MainLayout from './core/layouts/AuthLayout'
 import LoginPage from './features/auth/pages/login/components/LoginPage'
 import BookmarksPage from './features/bookmarks/pages/bookmarks-page/BookMarksPage'
+import CollectionDetailsPage from './features/collections/pages/collection-details-page/CollectionDetailsPage'
 import CollectionsPage from './features/collections/pages/collections-page/CollectionsPage'
 import HomePage from './features/home/pages/homepage/HomePage'
 import ProfilePage from './features/user/pages/ProfilePage'
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/' element={<HomePage />} />
         <Route path='/bookmarks' element={<BookmarksPage />} />
         <Route path='/collections' element={<CollectionsPage />} />
+        <Route path='/collections/:id' element={<CollectionDetailsPage />} />
         <Route path='/profile' element={<ProfilePage />} />
       </Route>
     </Routes>
