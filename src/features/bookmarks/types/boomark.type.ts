@@ -12,11 +12,20 @@ export interface Bookmark {
   lastAccessedAt: Date | null
   accessCount: number
   tags: Tag[]
+  collectionId?: string | null
 }
 
 export type BookmarkListItem = Pick<
   Bookmark,
-  'id' | 'url' | 'title' | 'isFavorite' | 'isArchived' | 'accessCount' | 'tags' | 'lastAccessedAt'
+  | 'id'
+  | 'url'
+  | 'title'
+  | 'isFavorite'
+  | 'isArchived'
+  | 'accessCount'
+  | 'tags'
+  | 'lastAccessedAt'
+  | 'collectionId'
 > &
   Pick<Website, 'domain' | 'faviconUrl'>
 

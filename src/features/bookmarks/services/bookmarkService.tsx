@@ -56,6 +56,14 @@ const BookmarkService = {
     await api.patch(`/bookmarks/${id}/access`)
   },
 
+  assignToCollection: async (id: string, collectionId: string): Promise<void> => {
+    await api.patch(`/bookmarks/${id}/collection`, { collectionId })
+  },
+
+  removeFromCollection: async (id: string): Promise<void> => {
+    await api.delete(`/bookmarks/${id}/collection`)
+  },
+
   delete: async (id: string): Promise<void> => {
     await api.delete(`/bookmarks/${id}`)
   },

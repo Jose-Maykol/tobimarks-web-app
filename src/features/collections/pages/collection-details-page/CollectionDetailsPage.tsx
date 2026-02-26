@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { Button, useDisclosure } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Settings } from 'lucide-react'
+import { ArrowLeft, Folder, Settings } from 'lucide-react'
 
 import BookmarkCard from '../../../bookmarks/components/BookmarkCard'
 import BookmarkFilters from '../../../bookmarks/components/BookmarkFilters'
@@ -110,33 +110,58 @@ const CollectionDetailsPage = () => {
 
   return (
     <div className='flex flex-col gap-6 w-full max-w-5xl mx-auto'>
-      <div className='flex items-start gap-4'>
+      <div className='flex flex-col mb-4'>
         <Button
-          isIconOnly
           variant='light'
-          className='mt-1 text-neutral-500 hover:text-foreground'
+          className='self-start text-neutral-500 hover:text-foreground mb-4 -ml-4'
           onPress={() => navigate('/collections')}
-          aria-label='Volver'
+          startContent={<ArrowLeft className='size-4' />}
         >
-          <ArrowLeft className='size-5' />
+          Volver a colecciones
         </Button>
-        <div className='flex-1 flex flex-col gap-1'>
-          <div className='flex items-center justify-between'>
-            <h2 className='text-3xl font-bold tracking-tight'>{collection.name}</h2>
-            <Button
-              size='sm'
-              variant='flat'
-              color='default'
-              startContent={<Settings className='size-4' />}
-              onPress={onUpdateOpen}
-            >
-              Configurar
-            </Button>
+
+        <div className='flex items-start justify-between gap-4'>
+          <div className='flex items-center gap-5'>
+            <div className='w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center text-primary shadow-sm'>
+              <Folder className='size-8' fill='currentColor' />
+            </div>
+            <div className='flex flex-col gap-3'>
+              <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground'>
+                {collection.name || 'Colección'}
+              </h1>
+              <div className='flex flex-wrap items-center gap-3 text-sm'>
+                <div className='px-2.5 py-1 rounded-sm bg-content1 border border-divider text-foreground/80 font-medium flex items-center gap-2 shadow-sm'>
+                  <span className='w-1.5 h-1.5 rounded-full bg-primary'></span>
+                  {collection.bookmarksCount}{' '}
+                  {collection.bookmarksCount === 1 ? 'marcador' : 'marcadores'}
+                </div>
+                {collection.updatedAt && !isNaN(collection.updatedAt.getTime()) && (
+                  <>
+                    <span className='text-neutral-600'>•</span>
+                    <span className='text-neutral-500 font-medium'>
+                      Actualizado el {collection.updatedAt.toLocaleDateString()}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-          {collection.description && (
-            <p className='text-neutral-500 text-sm mt-1 max-w-3xl'>{collection.description}</p>
-          )}
+
+          <Button
+            variant='flat'
+            className='bg-content2 hover:bg-content3 border border-divider font-medium shadow-sm lg:mt-2'
+            startContent={<Settings className='size-4 text-neutral-500' />}
+            onPress={onUpdateOpen}
+          >
+            Configurar
+          </Button>
         </div>
+
+        {collection.description && (
+          <p className='text-neutral-500 text-base mt-6 max-w-3xl leading-relaxed'>
+            {collection.description}
+          </p>
+        )}
       </div>
 
       <div className='flex flex-col gap-4 mt-2'>

@@ -1,17 +1,17 @@
 import { lazy, Suspense, useState } from 'react'
-import { Button, Card, CardBody, CardHeader, Divider, useDisclosure } from '@heroui/react'
+import { Button, Card, CardBody, CardHeader, useDisclosure } from '@heroui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Plus } from 'lucide-react'
+import { Plus, Tags } from 'lucide-react'
 
 import ManageTagChip from '../../tags/components/ManageTagChip'
 import TagService from '../../tags/services/tagService'
 import type { TagListItem } from '../../tags/types/tags.type'
-import { useUserStore } from '../stores/useUserStore'
+import UserAiSettings from '../components/UserAiSettings'
+import UserProfileInfo from '../components/UserProfileInfo'
 
 const CreateTagModal = lazy(() => import('../../tags/components/CreateTagModal'))
 
 const ProfilePage = () => {
-  const { user } = useUserStore()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [tagToEdit, setTagToEdit] = useState<TagListItem | undefined>(undefined)
 
@@ -45,41 +45,33 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className='max-w-4xl mx-auto flex flex-col gap-6 py-6'>
+    <div className='max-w-6xl mx-auto flex flex-col gap-8 py-6 px-4 md:px-6'>
       <div className='flex flex-col gap-2'>
-        <h1 className='text-3xl font-bold text-foreground'>Perfil y Configuración</h1>
-        <p className='text-default-500'>Gestiona tu información personal y preferencias.</p>
+        <h1 className='text-3xl font-bold text-foreground tracking-tight'>
+          Perfil y Configuración
+        </h1>
+        <p className='text-default-500'>
+          Gestiona tu cuenta personal, preferencias y automatizaciones.
+        </p>
       </div>
 
-      {/* User Information Area */}
-      <Card className='border-none bg-background shadow-none'>
-        <CardHeader className='px-6 pt-6 pb-2'>
-          <h2 className='text-xl font-semibold'>Datos del Usuario</h2>
-        </CardHeader>
-        <CardBody className='px-6 py-4'>
-          <div className='flex flex-col gap-4'>
-            <div>
-              <p className='text-sm text-default-500 mb-1'>Nombre de usuario</p>
-              <p className='font-medium'>{user?.displayName || 'Cargando...'}</p>
-            </div>
-            <div>
-              <p className='text-sm text-default-500 mb-1'>Correo electrónico</p>
-              <p className='font-medium'>{user?.email || 'N/A'}</p>
-            </div>
-            {/* Additional info could go here */}
-          </div>
-        </CardBody>
-      </Card>
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch'>
+        <div className='lg:col-span-1 h-full'>
+          <UserProfileInfo />
+        </div>
 
-      <Divider className='my-2' />
+        <div className='lg:col-span-2 h-full'>
+          <UserAiSettings />
+        </div>
+      </div>
 
-      {/* Tags Configuration Area */}
-      <Card className='border-none bg-background shadow-none'>
+      <Card className='border-none bg-content1 shadow-md'>
         <CardHeader className='px-6 pt-6 pb-2 flex justify-between items-center'>
           <div>
             <h2 className='text-xl font-semibold'>Gestión de Tags</h2>
-            <p className='text-sm text-default-500 mt-1'>
-              Organiza tus marcadores creando, editando o eliminando tags.
+            <p className='text-sm text-default-500 mt-1 max-w-xl'>
+              Organiza tus marcadores de forma eficiente creando, editando y eliminando tags a nivel
+              global del sistema.
             </p>
           </div>
           <Button
@@ -87,7 +79,7 @@ const ProfilePage = () => {
             size='sm'
             startContent={<Plus size={16} strokeWidth={3} />}
             onPress={handleCreateTag}
-            className='font-semibold'
+            className='font-semibold shrink-0'
           >
             Nuevo tag
           </Button>
@@ -99,11 +91,12 @@ const ProfilePage = () => {
           ) : isError ? (
             <div className='text-danger'>Hubo un error al cargar los tags.</div>
           ) : tags.length === 0 ? (
-            <div className='text-default-500 bg-default-50 rounded-lg p-4 text-center border border-default-200'>
+            <div className='text-default-500 bg-background rounded-xl p-8 text-center border border-divider shadow-sm'>
+              <Tags size={32} className='mx-auto mb-3 text-neutral-300' />
               Aún no tienes tags creados. Empieza creando tu primer tag.
             </div>
           ) : (
-            <div className='flex flex-wrap gap-2 items-center p-4 bg-default-50/50 rounded-lg border border-default-100'>
+            <div className='flex flex-wrap gap-2 items-center p-5 bg-background rounded-xl border border-divider shadow-sm'>
               {tags.map((tag) => (
                 <ManageTagChip
                   key={tag.id}
@@ -122,7 +115,6 @@ const ProfilePage = () => {
         <CreateTagModal
           isOpen={isOpen}
           onOpenChange={() => {
-            // Delay slightly clearing tagToEdit so modal animation doesn't pop
             setTimeout(() => setTagToEdit(undefined), 300)
             onOpenChange()
           }}

@@ -15,11 +15,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { motion } from 'framer-motion'
-import { Edit, MoreVertical, Trash } from 'lucide-react'
+import { Edit, FolderPlus, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
 import BookmarkService from '../services/bookmarkService'
 import type { BookmarkListItem } from '../types/boomark.type'
+import AssignCollectionModal from './AssignCollectionModal'
 import BookmarkCopyButton from './BookmarkCopyButton'
 import BookmarkFavoriteButton from './BookmarkFavoriteButton'
 import BookmarkOpenButton from './BookmarkOpenButton'
@@ -32,6 +33,11 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   const queryClient = useQueryClient()
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const {
+    isOpen: isAssignOpen,
+    onOpen: onAssignOpen,
+    onOpenChange: onAssignOpenChange,
+  } = useDisclosure()
   const [isFavorite, setIsFavorite] = useState<boolean>(bookmark.isFavorite)
   const [accessCount, setAccessCount] = useState<number>(bookmark.accessCount)
 
@@ -171,6 +177,14 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
               </DropdownTrigger>
               <DropdownMenu variant='flat'>
                 <DropdownItem
+                  key='assign_collection'
+                  className='text-neutral-400 data-[hover=true]:text-neutral-500 dark:data-[hover=true]:text-neutral-50'
+                  onPress={onAssignOpen}
+                  startContent={<FolderPlus className='size-4' />}
+                >
+                  Mover a colección
+                </DropdownItem>
+                <DropdownItem
                   key='edit'
                   className='text-neutral-400 data-[hover=true]:text-neutral-500 dark:data-[hover=true]:text-neutral-50'
                   onPress={handleEdit}
@@ -198,6 +212,13 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
               bookmark={bookmark}
               initialTitle={bookmark.title}
             />
+            {isAssignOpen && (
+              <AssignCollectionModal
+                isOpen={isAssignOpen}
+                onOpenChange={onAssignOpenChange}
+                bookmark={bookmark}
+              />
+            )}
           </Suspense>
         </div>
       </CardBody>

@@ -7,6 +7,12 @@ const UserService = {
     const { user } = data.data
     return user
   },
+
+  updateSettings: async (
+    settings: Partial<{ aiAutoTags: boolean; aiAutoCollections: boolean }>
+  ): Promise<void> => {
+    await api.patch('/users/me/settings', settings)
+  },
 }
 
 export default UserService

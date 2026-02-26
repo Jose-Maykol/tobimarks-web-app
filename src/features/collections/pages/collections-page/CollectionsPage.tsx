@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 import { addToast, Button, closeToast, useDisclosure } from '@heroui/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FolderPlus } from 'lucide-react'
@@ -29,6 +30,12 @@ const CollectionsPage = () => {
   const handleEdit = (collection: Collection) => {
     setSelectedCollection(collection)
     onUpdateOpen()
+  }
+
+  const navigate = useNavigate()
+
+  const handleCardClick = (collection: Collection) => {
+    navigate(`/collections/${collection.id}`)
   }
 
   const handleDelete = (collection: Collection) => {
@@ -102,6 +109,7 @@ const CollectionsPage = () => {
               collection={collection}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              onClick={handleCardClick}
             />
           ))}
         </div>

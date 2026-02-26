@@ -3,4 +3,8 @@ export interface User {
   email: string
   displayName: string
   avatarUrl: string | null
+  settings: {
+    aiAutoTags: boolean
+    aiAutoCollections: boolean
+  }
 }

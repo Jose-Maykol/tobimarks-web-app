@@ -20,11 +20,11 @@ const CollectionService = {
 
   getById: async (id: string): Promise<Collection> => {
     const { data } = await api.get(`/collections/${id}`)
-    const item: CollectionListItemResponse = data.data
+    const item = data.data.collection || data.data
     return {
       ...item,
-      createdAt: new Date(item.createdAt),
-      updatedAt: new Date(item.updatedAt),
+      createdAt: item.createdAt ? new Date(item.createdAt) : new Date(),
+      updatedAt: item.updatedAt ? new Date(item.updatedAt) : new Date(),
     }
   },
 

@@ -8,11 +8,15 @@ interface CollectionCardProps {
   collection: Collection
   onEdit: (collection: Collection) => void
   onDelete: (collection: Collection) => void
+  onClick: (collection: Collection) => void
 }
 
-const CollectionCard = ({ collection, onEdit, onDelete }: CollectionCardProps) => {
+const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCardProps) => {
   return (
-    <div className='flex flex-col p-4 gap-3 bg-content1 hover:bg-content2/50 transition-colors border border-divider rounded-sm'>
+    <div
+      className='flex flex-col p-4 gap-3 bg-content1 hover:bg-content2/50 transition-colors border border-divider rounded-sm cursor-pointer'
+      onClick={() => onClick(collection)}
+    >
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-3'>
           <div className='p-2 bg-primary/10 text-primary rounded-xl flex-shrink-0'>
@@ -27,31 +31,33 @@ const CollectionCard = ({ collection, onEdit, onDelete }: CollectionCardProps) =
           </div>
         </div>
 
-        <Dropdown placement='bottom-end'>
-          <DropdownTrigger>
-            <Button isIconOnly variant='light' size='sm' className='text-neutral-500'>
-              <MoreVertical className='size-4' />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label='Acciones de colección' variant='flat'>
-            <DropdownItem
-              key='edit'
-              startContent={<Pencil className='size-4 text-neutral-500' />}
-              onPress={() => onEdit(collection)}
-            >
-              Editar
-            </DropdownItem>
-            <DropdownItem
-              key='delete'
-              className='text-danger'
-              color='danger'
-              startContent={<Trash className='size-4 text-danger' />}
-              onPress={() => onDelete(collection)}
-            >
-              Eliminar
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <div onClick={(e) => e.stopPropagation()}>
+          <Dropdown placement='bottom-end'>
+            <DropdownTrigger>
+              <Button isIconOnly variant='light' size='sm' className='text-neutral-500'>
+                <MoreVertical className='size-4' />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label='Acciones de colección' variant='flat'>
+              <DropdownItem
+                key='edit'
+                startContent={<Pencil className='size-4 text-neutral-500' />}
+                onPress={() => onEdit(collection)}
+              >
+                Editar
+              </DropdownItem>
+              <DropdownItem
+                key='delete'
+                className='text-danger'
+                color='danger'
+                startContent={<Trash className='size-4 text-danger' />}
+                onPress={() => onDelete(collection)}
+              >
+                Eliminar
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </div>
 
       {collection.description && (
