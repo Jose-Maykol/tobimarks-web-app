@@ -4,6 +4,7 @@ import { Button, Divider, Spinner, useDisclosure } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { Bookmark, Folder, LayoutDashboard, Plus, User } from 'lucide-react'
 
+import { COLLECTION_COLORS, COLLECTION_ICONS } from '../../features/collections/constants/collectionVisuals'
 import CollectionService from '../../features/collections/services/collectionService'
 
 const menuItems = [
@@ -112,40 +113,58 @@ const Sidebar = () => {
 
       <Divider className='my-4' />
 
-      <div className='flex-1'>
-        <div className='flex items-center justify-between mb-4'>
-          <h3 className='text-sm font-medium text-foreground'>Colecciones</h3>
+      <div className='flex-1 flex flex-col min-h-0'>
+        <div className='flex items-center justify-between mb-2 px-2'>
+          <h3 className='text-xs font-medium uppercase text-foreground tracking-wider'>
+            Tus Colecciones
+          </h3>
           <Button
+            isIconOnly
             size='sm'
             variant='light'
-            className='hover:text-foreground min-w-0 w-6 h-6 p-0'
+            className='hover:text-foreground h-6 w-6'
             onPress={onCollectionOpen}
           >
-            <Plus size={16} strokeWidth={1.5} />
+            <Plus size={14} strokeWidth={2} />
           </Button>
         </div>
 
-        <div className='space-y-1 overflow-y-auto no-scrollbar max-h-48'>
+        <div className='space-y-1 overflow-y-auto no-scrollbar flex-1'>
           {isLoadingCollections ? (
             <div className='flex justify-center py-4'>
               <Spinner size='sm' color='primary' />
             </div>
           ) : (
-            collections.map((collection) => (
-              <Button
-                key={collection.id}
-                variant='light'
-                className={`w-full justify-start gap-3 h-10 hover:text-foreground hover:bg-muted/50 ${
-                  isActive(`/collections/${collection.id}`) &&
-                  'font-semibold dark:bg-neutral-800 bg-neutral-200'
-                }`}
-                startContent={<div className='w-3 h-3 rounded-full bg-neutral-400' />}
-                onPress={() => handleCollectionNavigation(collection.id)}
-              >
-                <span className='flex-1 text-left truncate'>{collection.name}</span>
-                <span className='text-xs'>{collection.bookmarksCount}</span>
-              </Button>
-            ))
+            collections.map((collection) => {
+              const Icon = COLLECTION_ICONS[collection.icon || 'folder']
+              const colorScheme = COLLECTION_COLORS[collection.color || 'blue']
+              const isCollectionActive = isActive(`/collections/${collection.id}`)
+
+              return (
+                <Button
+                  key={collection.id}
+                  variant='light'
+                  className={`w-full justify-start gap-2 h-9 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 ${
+                    isCollectionActive && 'bg-neutral-100 dark:bg-neutral-800 font-semibold'
+                  }`}
+                  startContent={
+                    <div
+                      className={`p-1 rounded-md ${colorScheme.lightBg} ${colorScheme.text} flex-shrink-0`}
+                    >
+                      <Icon size={14} strokeWidth={2} />
+                    </div>
+                  }
+                  onPress={() => handleCollectionNavigation(collection.id)}
+                >
+                  <span className='flex-1 text-left truncate text-xs text-foreground/80'>
+                    {collection.name}
+                  </span>
+                  <span className='text-[10px] text-neutral-400 font-medium group-hover:text-foreground transition-colors'>
+                    {collection.bookmarksCount}
+                  </span>
+                </Button>
+              )
+            })
           )}
         </div>
       </div>

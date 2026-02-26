@@ -26,7 +26,6 @@ const AssignCollectionModal = ({ isOpen, onOpenChange, bookmark }: AssignCollect
   const queryClient = useQueryClient()
   const { id: currentCollectionId } = useParams<{ id: string }>()
 
-  // Utilizamos el collectionId del marcador (si la API lo envía) o probamos suerte con el de la URL
   const activeCollectionId = bookmark.collectionId || currentCollectionId
 
   const { data: collections = [], isLoading } = useQuery({
