@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { Button, useDisclosure } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Folder, Settings } from 'lucide-react'
+import { ArrowLeft, Settings } from 'lucide-react'
 
 import BookmarkCard from '../../../bookmarks/components/BookmarkCard'
 import BookmarkFilters from '../../../bookmarks/components/BookmarkFilters'
@@ -10,6 +10,7 @@ import BookmarkService from '../../../bookmarks/services/bookmarkService'
 import type { BookmarkListItem } from '../../../bookmarks/types/boomark.type'
 import TagService from '../../../tags/services/tagService'
 import UpdateCollectionModal from '../../components/UpdateCollectionModal'
+import { COLLECTION_COLORS, COLLECTION_ICONS } from '../../constants/collectionVisuals'
 import CollectionService from '../../services/collectionService'
 
 const CollectionDetailsPage = () => {
@@ -108,6 +109,9 @@ const CollectionDetailsPage = () => {
     )
   }
 
+  const Icon = COLLECTION_ICONS[collection.icon || 'folder']
+  const colorScheme = COLLECTION_COLORS[collection.color || 'blue']
+
   return (
     <div className='flex flex-col gap-6 w-full max-w-5xl mx-auto'>
       <div className='flex flex-col mb-4'>
@@ -122,8 +126,10 @@ const CollectionDetailsPage = () => {
 
         <div className='flex items-start justify-between gap-4'>
           <div className='flex items-center gap-5'>
-            <div className='w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center text-primary shadow-sm'>
-              <Folder className='size-8' fill='currentColor' />
+            <div
+              className={`w-16 h-16 rounded-md ${colorScheme.lightBg} border border-divider flex items-center justify-center ${colorScheme.text} shadow-sm`}
+            >
+              <Icon className='size-8' strokeWidth={1.5} />
             </div>
             <div className='flex flex-col gap-3'>
               <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground'>
@@ -131,7 +137,7 @@ const CollectionDetailsPage = () => {
               </h1>
               <div className='flex flex-wrap items-center gap-3 text-sm'>
                 <div className='px-2.5 py-1 rounded-sm bg-content1 border border-divider text-foreground/80 font-medium flex items-center gap-2 shadow-sm'>
-                  <span className='w-1.5 h-1.5 rounded-full bg-primary'></span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${colorScheme.bg}`}></span>
                   {collection.bookmarksCount}{' '}
                   {collection.bookmarksCount === 1 ? 'marcador' : 'marcadores'}
                 </div>
@@ -197,8 +203,8 @@ const CollectionDetailsPage = () => {
       ) : isError ? (
         <div className='p-8 text-danger'>Error: {(error as Error).message}</div>
       ) : bookmarks.length === 0 && !isFetching ? (
-        <div className='py-16 text-center text-neutral-500 bg-content1/10 rounded-2xl border border-dashed border-divider'>
-          <p className='text-lg mb-2'>No hay marcadores en esta colección.</p>
+        <div className='py-16 text-center text-neutral-500 bg-content1/10 rounded-md border border-dashed border-divider'>
+          <p className='text-md mb-2'>No hay marcadores en esta colección.</p>
           {hasActiveFilters && <p className='text-sm'>Intenta ajustar o limpiar los filtros.</p>}
         </div>
       ) : (

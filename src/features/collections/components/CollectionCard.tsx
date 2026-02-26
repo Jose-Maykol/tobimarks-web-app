@@ -1,7 +1,8 @@
 import { Button } from '@heroui/react'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react'
-import { Folder, MoreVertical, Pencil, Trash } from 'lucide-react'
+import { MoreVertical, Pencil, Trash } from 'lucide-react'
 
+import { COLLECTION_COLORS, COLLECTION_ICONS } from '../constants/collectionVisuals'
 import type { Collection } from '../types/collection.type'
 
 interface CollectionCardProps {
@@ -12,6 +13,9 @@ interface CollectionCardProps {
 }
 
 const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCardProps) => {
+  const Icon = COLLECTION_ICONS[collection.icon || 'folder']
+  const colorScheme = COLLECTION_COLORS[collection.color || 'blue']
+
   return (
     <div
       className='flex flex-col p-4 gap-3 bg-content1 hover:bg-content2/50 transition-colors border border-divider rounded-sm cursor-pointer'
@@ -19,8 +23,8 @@ const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCar
     >
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-3'>
-          <div className='p-2 bg-primary/10 text-primary rounded-xl flex-shrink-0'>
-            <Folder className='size-5' fill='currentColor' />
+          <div className={`p-2 ${colorScheme.lightBg} ${colorScheme.text} rounded-xl flex-shrink-0`}>
+            <Icon className='size-5' strokeWidth={1.5} />
           </div>
           <div className='flex flex-col'>
             <h3 className='font-semibold text-foreground line-clamp-1'>{collection.name}</h3>
