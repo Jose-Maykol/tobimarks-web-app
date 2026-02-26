@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import {
   addToast,
   Button,
@@ -14,7 +14,10 @@ import {
 } from '@heroui/react'
 import { useQueryClient } from '@tanstack/react-query'
 
+import ColorPicker from '../../../core/components/ColorPicker'
+import { COLLECTION_COLORS, COLLECTION_ICONS } from '../constants/collectionVisuals'
 import CollectionService from '../services/collectionService'
+import type { CollectionColor, CollectionIcon } from '../types/collection.type'
 
 interface CreateCollectionModalProps {
   isOpen: boolean
@@ -23,6 +26,8 @@ interface CreateCollectionModalProps {
 
 const CreateCollectionModal = ({ isOpen, onClose }: CreateCollectionModalProps) => {
   const queryClient = useQueryClient()
+  const [selectedIcon, setSelectedIcon] = useState<CollectionIcon>('folder')
+  const [selectedColor, setSelectedColor] = useState<CollectionColor>('blue')
 
   const handleSubmit = (onModalClose: () => void) => async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -34,12 +39,19 @@ const CreateCollectionModal = ({ isOpen, onClose }: CreateCollectionModalProps) 
 
     const idToast = addToast({
       title: 'Creando colección...',
-      promise: CollectionService.create({ name, description })
+      promise: CollectionService.create({
+        name,
+        description,
+        icon: selectedIcon,
+        color: selectedColor,
+      })
         .then(() => {
           closeToast(idToast!)
           queryClient.invalidateQueries({ queryKey: ['collections'] })
           addToast({ title: 'Colección creada correctamente', color: 'success' })
           onModalClose()
+          setSelectedIcon('folder')
+          setSelectedColor('blue')
         })
         .catch((error: unknown) => {
           const err = error as { response?: { data?: { message?: string } } }
@@ -55,6 +67,7 @@ const CreateCollectionModal = ({ isOpen, onClose }: CreateCollectionModalProps) 
     <Modal
       isOpen={isOpen}
       onOpenChange={onClose}
+      size='lg'
       classNames={{
         closeButton: 'focus:outline-none focus:ring-0 focus:shadow-none',
       }}
@@ -63,7 +76,7 @@ const CreateCollectionModal = ({ isOpen, onClose }: CreateCollectionModalProps) 
         {(onModalClose) => (
           <Form onSubmit={handleSubmit(onModalClose)} className='w-full'>
             <ModalHeader className='text-primary'>Crear colección</ModalHeader>
-            <ModalBody className='w-full'>
+            <ModalBody className='w-full gap-6'>
               <Input
                 autoFocus
                 label='Nombre'
@@ -81,6 +94,35 @@ const CreateCollectionModal = ({ isOpen, onClose }: CreateCollectionModalProps) 
                 placeholder='Escribe una breve descripción...'
                 variant='bordered'
               />
+
+              <div className='flex flex-col gap-3'>
+                <label className='text-sm font-medium'>Icono</label>
+                <div className='grid grid-cols-5 sm:grid-cols-8 gap-2'>
+                  {(Object.keys(COLLECTION_ICONS) as CollectionIcon[]).map((iconKey) => {
+                    const IconComp = COLLECTION_ICONS[iconKey]
+                    return (
+                      <Button
+                        key={iconKey}
+                        isIconOnly
+                        size='sm'
+                        variant={selectedIcon === iconKey ? 'solid' : 'flat'}
+                        color={selectedIcon === iconKey ? 'primary' : 'default'}
+                        onPress={() => setSelectedIcon(iconKey)}
+                        className='w-full aspect-square'
+                      >
+                        <IconComp className='size-4' strokeWidth={1.5} />
+                      </Button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className='flex flex-col gap-1'>
+                <ColorPicker
+                  value={selectedColor}
+                  onChange={(color) => setSelectedColor(color as CollectionColor)}
+                />
+              </div>
             </ModalBody>
             <ModalFooter className='flex w-full gap-2'>
               <Button className='flex-1' variant='bordered' onPress={onModalClose}>
