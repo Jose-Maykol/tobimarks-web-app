@@ -4,7 +4,10 @@ import { Button, Divider, Spinner, useDisclosure } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { Bookmark, Folder, LayoutDashboard, Plus, User } from 'lucide-react'
 
-import { COLLECTION_COLORS, COLLECTION_ICONS } from '../../features/collections/constants/collectionVisuals'
+import {
+  COLLECTION_COLORS,
+  COLLECTION_ICONS,
+} from '../../features/collections/constants/collectionVisuals'
 import CollectionService from '../../features/collections/services/collectionService'
 
 const menuItems = [
