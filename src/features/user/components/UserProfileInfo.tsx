@@ -6,7 +6,7 @@ const UserProfileInfo = () => {
   const { user } = useUserStore()
 
   return (
-    <Card className='border-none bg-content1 shadow-md h-full'>
+    <Card className='border-none bg-content1 shadow-md h-full rounded-md'>
       <CardBody className='p-6 flex flex-col items-center justify-center gap-4 text-center'>
         <Avatar
           src={user?.avatarUrl || ''}
@@ -17,7 +17,7 @@ const UserProfileInfo = () => {
         />
         <div className='flex flex-col gap-1 mt-2'>
           <h2 className='text-2xl font-bold'>{user?.displayName || 'Cargando...'}</h2>
-          <p className='text-sm text-default-500'>{user?.email || 'N/A'}</p>
+          <p className='text-sm text-default-600 dark:text-default-500'>{user?.email || 'N/A'}</p>
         </div>
       </CardBody>
     </Card>

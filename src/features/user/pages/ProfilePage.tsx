@@ -50,7 +50,7 @@ const ProfilePage = () => {
         <h1 className='text-3xl font-bold text-foreground tracking-tight'>
           Perfil y Configuración
         </h1>
-        <p className='text-default-500'>
+        <p className='text-default-600 dark:text-default-500'>
           Gestiona tu cuenta personal, preferencias y automatizaciones.
         </p>
       </div>
@@ -65,11 +65,11 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <Card className='border-none bg-content1 shadow-md'>
+      <Card className='border-none bg-content1 shadow-md rounded-md'>
         <CardHeader className='px-6 pt-6 pb-2 flex justify-between items-center'>
           <div>
             <h2 className='text-xl font-semibold'>Gestión de Tags</h2>
-            <p className='text-sm text-default-500 mt-1 max-w-xl'>
+            <p className='text-sm text-default-600 dark:text-default-500 mt-1 max-w-xl'>
               Organiza tus marcadores de forma eficiente creando, editando y eliminando tags a nivel
               global del sistema.
             </p>
@@ -79,7 +79,7 @@ const ProfilePage = () => {
             size='sm'
             startContent={<Plus size={16} strokeWidth={3} />}
             onPress={handleCreateTag}
-            className='font-semibold shrink-0'
+            className='font-semibold shrink-0 rounded-md'
           >
             Nuevo tag
           </Button>
@@ -91,8 +91,8 @@ const ProfilePage = () => {
           ) : isError ? (
             <div className='text-danger'>Hubo un error al cargar los tags.</div>
           ) : tags.length === 0 ? (
-            <div className='text-default-500 bg-background rounded-xl p-8 text-center border border-divider shadow-sm'>
-              <Tags size={32} className='mx-auto mb-3 text-neutral-300' />
+            <div className='text-default-600 dark:text-default-500 bg-background rounded-xl p-8 text-center border border-divider shadow-sm'>
+              <Tags size={32} className='mx-auto mb-3 text-neutral-400 dark:text-neutral-500' />
               Aún no tienes tags creados. Empieza creando tu primer tag.
             </div>
           ) : (
