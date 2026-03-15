@@ -28,7 +28,9 @@ const Header = (): JSX.Element => {
     >
       <NavbarBrand>
         <div className='flex items-center cursor-pointer group'>
-          <span className='font-extrabold text-2xl tracking-tighter text-primary'>Tobimarks</span>
+          <span className='font-extrabold text-2xl tracking-tighter text-primary drop-shadow-[0_0_8px_rgba(0,111,238,0.3)] group-hover:drop-shadow-[0_0_12px_rgba(0,111,238,0.5)] transition-all duration-300'>
+            Tobimarks
+          </span>
         </div>
       </NavbarBrand>
       <NavbarContent className='hidden sm:flex gap-4' justify='center'></NavbarContent>
