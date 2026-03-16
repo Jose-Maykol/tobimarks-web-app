@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { type FormEvent, useEffect, useState } from 'react'
 import {
   addToast,
   Button,
@@ -15,7 +15,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query'
 
 import ColorPicker from '../../../core/components/ColorPicker'
-import { COLLECTION_COLORS, COLLECTION_ICONS } from '../constants/collectionVisuals'
+import { COLLECTION_ICONS } from '../constants/collectionVisuals'
 import CollectionService from '../services/collectionService'
 import type { Collection, CollectionColor, CollectionIcon } from '../types/collection.type'
 
