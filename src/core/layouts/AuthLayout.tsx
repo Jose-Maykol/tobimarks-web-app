@@ -45,7 +45,7 @@ const AuthLayout = (): JSX.Element => {
     <div className='min-h-screen bg-background w-full'>
       <Header />
       <Sidebar />
-      <main className='p-6 ml-64 text-foreground'>
+      <main className='p-6 lg:ml-64 text-foreground'>
         <div className='max-w-6xl mx-auto'>
           <Outlet />
         </div>

@@ -8,14 +8,16 @@ import {
   NavbarItem,
   Skeleton,
 } from '@heroui/react'
-import { Moon, Sun } from 'lucide-react'
+import { Menu, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { useUserStore } from '../../features/user/stores/useUserStore'
+import { useSidebarStore } from '../stores/useSidebarStore'
 
 const Header = (): JSX.Element => {
   const { theme, setTheme } = useTheme()
   const { user } = useUserStore((state) => state)
+  const toggleSidebar = useSidebarStore((state) => state.toggle)
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -26,15 +28,23 @@ const Header = (): JSX.Element => {
       className='bg-background/60 backdrop-blur-xl border-b border-white/5 shadow-sm'
       maxWidth='full'
     >
-      <NavbarBrand>
+      <NavbarContent className='flex-1 lg:flex-none' justify='start'>
+        <NavbarItem className='lg:hidden'>
+          <Button isIconOnly variant='light' onPress={toggleSidebar}>
+            <Menu className='w-5 h-5' />
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarBrand className='justify-center lg:justify-start flex-[2] lg:flex-none'>
         <div className='flex items-center cursor-pointer group'>
           <span className='font-extrabold text-2xl tracking-tighter text-primary drop-shadow-[0_0_8px_rgba(0,111,238,0.3)] group-hover:drop-shadow-[0_0_12px_rgba(0,111,238,0.5)] transition-all duration-300'>
             Tobimarks
           </span>
         </div>
       </NavbarBrand>
-      <NavbarContent className='hidden sm:flex gap-4' justify='center'></NavbarContent>
-      <NavbarContent justify='end'>
+
+      <NavbarContent justify='end' className='flex-1 lg:flex-none'>
         <NavbarItem>
           <Button
             isIconOnly
