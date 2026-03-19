@@ -1,4 +1,5 @@
 import type { FormEvent } from 'react'
+import { useLocation } from 'react-router'
 import {
   addToast,
   Button,
@@ -11,6 +12,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@heroui/react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import BookmarkService from '../services/bookmarkService'
 
@@ -20,6 +22,9 @@ interface CreateBookmarkModalProps {
 }
 
 const CreateBookmarkModal = ({ isOpen, onOpenChange }: CreateBookmarkModalProps) => {
+  const queryClient = useQueryClient()
+  const location = useLocation()
+
   const handleSubmit = (onClose: () => void) => async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.currentTarget))
@@ -30,6 +35,11 @@ const CreateBookmarkModal = ({ isOpen, onOpenChange }: CreateBookmarkModalProps)
         .then(() => {
           closeToast(idToast!)
           addToast({ title: 'Marcador creado con éxito', color: 'success' })
+
+          if (location.pathname === '/bookmarks' || location.pathname.startsWith('/collections/')) {
+            queryClient.invalidateQueries({ queryKey: ['bookmarks'] })
+          }
+
           onClose()
         })
         .catch(() => {
