@@ -7,7 +7,13 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { GOOGLE_CLIENT_ID } from './core/config/env'
 import AuthProvider from './core/providers/AuthProvider'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 const clientId = GOOGLE_CLIENT_ID
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
