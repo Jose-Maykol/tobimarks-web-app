@@ -4,7 +4,11 @@ import { Bookmark, Folder, Tag } from 'lucide-react'
 import StatisticsService from '../../../statistics/services/statisticsService'
 
 const HomePage = () => {
-  const { data: summary, isLoading, isError } = useQuery({
+  const {
+    data: summary,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['statistics', 'summary'],
     queryFn: StatisticsService.getSummary,
   })
@@ -75,14 +79,12 @@ const HomePage = () => {
             ) : isError ? (
               <span className='text-danger text-sm'>Error</span>
             ) : (
-              <span className='text-3xl font-bold text-foreground'>
-                {summary?.totalTags || 0}
-              </span>
+              <span className='text-3xl font-bold text-foreground'>{summary?.totalTags || 0}</span>
             )}
           </div>
         </div>
       </div>
-      
+
       {/* 
         Aquí en el futuro se pueden añadir más secciones, 
         como actividad reciente o marcadores destacados.

@@ -18,7 +18,10 @@ import {
 
 import type { CollectionColor, CollectionIcon } from '../types/collection.type'
 
-export const COLLECTION_COLORS: Record<CollectionColor, { bg: string; text: string; lightBg: string }> = {
+export const COLLECTION_COLORS: Record<
+  CollectionColor,
+  { bg: string; text: string; lightBg: string }
+> = {
   red: { bg: 'bg-red-500', text: 'text-red-500', lightBg: 'bg-red-500/10' },
   orange: { bg: 'bg-orange-500', text: 'text-orange-500', lightBg: 'bg-orange-500/10' },
   amber: { bg: 'bg-amber-500', text: 'text-amber-500', lightBg: 'bg-amber-500/10' },

@@ -23,7 +23,9 @@ const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCar
     >
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-3'>
-          <div className={`p-2 ${colorScheme.lightBg} ${colorScheme.text} rounded-xl flex-shrink-0`}>
+          <div
+            className={`p-2 ${colorScheme.lightBg} ${colorScheme.text} rounded-xl flex-shrink-0`}
+          >
             <Icon className='size-5' strokeWidth={1.5} />
           </div>
           <div className='flex flex-col'>
