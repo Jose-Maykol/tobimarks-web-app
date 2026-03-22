@@ -1,17 +1,6 @@
 import type { FormEvent } from 'react'
 import { useLocation } from 'react-router'
-import {
-  addToast,
-  Button,
-  closeToast,
-  Form,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from '@heroui/react'
+import { Button, Form, Input, Label, Modal, TextField, toast } from '@heroui/react'
 import { useQueryClient } from '@tanstack/react-query'
 
 import BookmarkService from '../services/bookmarkService'
@@ -25,67 +14,53 @@ const CreateBookmarkModal = ({ isOpen, onOpenChange }: CreateBookmarkModalProps)
   const queryClient = useQueryClient()
   const location = useLocation()
 
-  const handleSubmit = (onClose: () => void) => async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.currentTarget))
     const url = formData.url.toString().trim()
-    const idToast = addToast({
-      title: 'Creando marcador...',
-      promise: BookmarkService.create(url)
-        .then(() => {
-          closeToast(idToast!)
-          addToast({ title: 'Marcador creado con éxito', color: 'success' })
 
-          if (location.pathname === '/bookmarks' || location.pathname.startsWith('/collections/')) {
-            queryClient.invalidateQueries({ queryKey: ['bookmarks'] })
-          }
-
-          onClose()
-        })
-        .catch(() => {
-          addToast({
-            title: 'Error al crear marcador',
-            color: 'danger',
-          })
-        }),
+    toast.promise(BookmarkService.create(url), {
+      loading: 'Creando marcador...',
+      success: () => {
+        if (location.pathname === '/bookmarks' || location.pathname.startsWith('/collections/')) {
+          queryClient.invalidateQueries({ queryKey: ['bookmarks'] })
+        }
+        onOpenChange(false)
+        return 'Marcador creado con éxito'
+      },
+      error: 'Error al crear marcador',
     })
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      classNames={{
-        closeButton: 'focus:outline-none focus:ring-0 focus:shadow-none',
-      }}
-    >
-      <ModalContent>
-        {(onClose) => (
-          <Form onSubmit={handleSubmit(onClose)}>
-            <ModalHeader className='text-primary'>Crear Nuevo Marcador</ModalHeader>
-            <ModalBody className='w-full'>
-              <Input
-                label='URL del Marcador'
-                labelPlacement='outside-top'
-                name='url'
-                placeholder='https://example.com'
-                errorMessage='Por favor ingresa una URL válida'
-                variant='bordered'
-                type='url'
-                required
-              />
-            </ModalBody>
-            <ModalFooter className='flex w-full gap-2'>
-              <Button className='flex-1' variant='bordered' onPress={onClose}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal.Backdrop />
+      <Modal.Container>
+        <Modal.Dialog>
+          <Modal.CloseTrigger />
+          <Form onSubmit={handleSubmit} className='w-full'>
+            <Modal.Header>
+              <Modal.Heading className='text-primary'>Crear Nuevo Marcador</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className='w-full'>
+              <TextField name='url' isRequired type='url' aria-label='URL del Marcador'>
+                <Label className='text-xs font-semibold uppercase text-foreground/70'>
+                  URL del Marcador
+                </Label>
+                <Input variant='primary' placeholder='https://example.com' className='mt-1' />
+              </TextField>
+            </Modal.Body>
+            <Modal.Footer className='flex w-full gap-2'>
+              <Button className='flex-1' variant='ghost' onPress={() => onOpenChange(false)}>
                 Cancelar
               </Button>
-              <Button color='primary' className='flex-1' variant='solid' type='submit'>
+              <Button className='flex-1' variant='primary' type='submit'>
                 Crear
               </Button>
-            </ModalFooter>
+            </Modal.Footer>
           </Form>
-        )}
-      </ModalContent>
+        </Modal.Dialog>
+      </Modal.Container>
     </Modal>
   )
 }

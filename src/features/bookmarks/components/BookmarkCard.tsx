@@ -1,20 +1,9 @@
 import { type JSX, Suspense, useState } from 'react'
-import {
-  addToast,
-  Card,
-  CardBody,
-  Chip,
-  closeToast,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  useDisclosure,
-} from '@heroui/react'
+import { Chip, Dropdown, toast } from '@heroui/react'
+import { useDisclosure } from '@heroui/use-disclosure'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { motion } from 'framer-motion'
 import { Edit, FolderPlus, MoreVertical, Trash } from 'lucide-react'
 
 import TagItem from '../../tags/components/TagItem'
@@ -51,43 +40,37 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
     try {
       if (previousState) {
         await BookmarkService.unmarkAsFavorite(bookmark.id)
-        addToast({ title: 'Marcador eliminado de favoritos', color: 'success' })
+        toast.success('Marcador eliminado de favoritos')
       } else {
         await BookmarkService.markAsFavorite(bookmark.id)
-        addToast({ title: 'Marcador añadido a favoritos', color: 'success' })
+        toast.success('Marcador añadido a favoritos')
       }
     } catch (error) {
       setIsFavorite(previousState)
-      addToast({ title: 'Error al actualizar el estado de favorito', color: 'danger' })
+      toast.danger('Error al actualizar el estado de favorito')
       console.error('Error al cambiar el estado de favorito:', error)
     }
   }
 
   const handleCopy = (): void => {
     navigator.clipboard.writeText(bookmark.url)
-    addToast({ title: 'URL copiada al portapapeles', color: 'success' })
+    toast.success('URL copiada al portapapeles')
   }
 
   const deleteBookmarkMutation = useMutation({
     mutationFn: () => BookmarkService.delete(bookmark.id),
-    onMutate: () => {
-      const idToast = addToast({ title: 'Eliminando marcador...' })
-      return { idToast }
-    },
-    onSuccess: (_data, _variables, context) => {
-      if (context?.idToast) {
-        closeToast(context.idToast)
-        addToast({ title: 'Marcador eliminado con éxito', color: 'success' })
-        queryClient.invalidateQueries({ queryKey: ['bookmarks'] })
-      }
-    },
-    onError: (_error, _variables, context) => {
-      if (context?.idToast) {
-        closeToast(context.idToast)
-        addToast({ title: 'Error al eliminar marcador', color: 'danger' })
-      }
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bookmarks'] })
     },
   })
+
+  const handleDelete = async (): Promise<void> => {
+    toast.promise(deleteBookmarkMutation.mutateAsync(), {
+      loading: 'Eliminando marcador...',
+      success: 'Marcador eliminado con éxito',
+      error: 'Error al eliminar marcador',
+    })
+  }
 
   const handleOpen = async (): Promise<void> => {
     window.open(bookmark.url, '_blank')
@@ -104,125 +87,112 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
     onOpen()
   }
 
-  const handleDelete = async (): Promise<void> => {
-    deleteBookmarkMutation.mutate()
-  }
-
   return (
-    <Card className='rounded-md w-full transition-colors px-4 dark:bg-neutral-900'>
-      <CardBody className='p-4'>
-        <div className='flex items-center gap-4'>
-          <div className='flex-shrink-0'>
-            <img
-              src={bookmark.faviconUrl ?? '/favicon.ico'}
-              alt={bookmark.domain}
-              className='size-10 rounded'
-            />
-          </div>
+    <div className='rounded-md shadow-sm border border-divider w-full transition-colors bg-content2/10 hover:bg-content2/30 px-4 py-4 dark:bg-neutral-900'>
+      <div className='flex items-center gap-4'>
+        <div className='flex-shrink-0'>
+          <img
+            src={bookmark.faviconUrl ?? '/favicon.ico'}
+            alt={bookmark.domain}
+            className='size-10 rounded'
+          />
+        </div>
 
-          <div className='flex-1 min-w-0'>
-            <div className='flex items-start justify-between'>
-              <div className='flex-1 min-w-0'>
-                <h3 className='font-medium text-foreground truncate'>{bookmark.title}</h3>
-                <div className='flex items-center gap-4 mt-1'>
-                  <span className='text-sm text-neutral-400 font-semibold'>{bookmark.domain}</span>
-                  {accessCount > 0 && (
-                    <span className='text-sm text-neutral-400'>
-                      {accessCount} {accessCount === 1 ? 'acceso' : 'accesos'}
-                    </span>
-                  )}
-                  {accessCount === 0 && <span className='text-sm text-neutral-400'>Nunca</span>}
-                  {accessCount > 0 && (
-                    <span className='text-sm text-neutral-400 first-letter:uppercase'>
-                      {formattedLastAccessedAt}
-                    </span>
-                  )}
-                </div>
-                <div className='flex items-center gap-2 mt-2'>
-                  {bookmark.tags.map((tag) => (
-                    <TagItem key={tag.id} tag={tag} />
-                  ))}
-                  {bookmark.tags.length === 0 && (
-                    <Chip
-                      radius='md'
-                      className='bg-neutral-500 dark:bg-neutral-700'
-                      classNames={{ content: 'font-semibold text-white text-xs' }}
-                    >
-                      Sin etiquetas
-                    </Chip>
-                  )}
-                </div>
+        <div className='flex-1 min-w-0'>
+          <div className='flex items-start justify-between'>
+            <div className='flex-1 min-w-0'>
+              <h3 className='font-medium text-foreground truncate'>{bookmark.title}</h3>
+              <div className='flex items-center gap-4 mt-1'>
+                <span className='text-sm text-neutral-400 font-semibold'>{bookmark.domain}</span>
+                {accessCount > 0 && (
+                  <span className='text-sm text-neutral-400'>
+                    {accessCount} {accessCount === 1 ? 'acceso' : 'accesos'}
+                  </span>
+                )}
+                {accessCount === 0 && <span className='text-sm text-neutral-400'>Nunca</span>}
+                {accessCount > 0 && (
+                  <span className='text-sm text-neutral-400 first-letter:uppercase'>
+                    {formattedLastAccessedAt}
+                  </span>
+                )}
+              </div>
+              <div className='flex items-center gap-2 mt-2'>
+                {bookmark.tags.map((tag) => (
+                  <TagItem key={tag.id} tag={tag} />
+                ))}
+                {bookmark.tags.length === 0 && (
+                  <Chip className='bg-neutral-500 dark:bg-neutral-700 font-semibold text-white text-xs'>
+                    Sin etiquetas
+                  </Chip>
+                )}
               </div>
             </div>
           </div>
-
-          {/* ACTIONS */}
-          <div className='flex items-center gap-3 flex-shrink-0'>
-            <BookmarkFavoriteButton
-              isFavorite={isFavorite}
-              onToggleFavorite={handleToggleFavorite}
-            />
-            <BookmarkCopyButton onCopy={handleCopy} />
-            <BookmarkOpenButton onOpen={handleOpen} />
-            <Dropdown>
-              <DropdownTrigger>
-                <motion.button
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.85 }}
-                  className='group p-0 bg-transparent border-none outline-none cursor-pointer flex items-center justify-center'
-                  aria-label='Open actions menu'
-                >
-                  <MoreVertical className='size-4 transition-colors duration-150 text-neutral-400 dark:group-hover:text-neutral-50 group-hover:text-neutral-500' />
-                </motion.button>
-              </DropdownTrigger>
-              <DropdownMenu variant='flat'>
-                <DropdownItem
-                  key='assign_collection'
-                  className='text-neutral-400 data-[hover=true]:text-neutral-500 dark:data-[hover=true]:text-neutral-50'
-                  onPress={onAssignOpen}
-                  startContent={<FolderPlus className='size-4' />}
-                >
-                  Mover a colección
-                </DropdownItem>
-                <DropdownItem
-                  key='edit'
-                  className='text-neutral-400 data-[hover=true]:text-neutral-500 dark:data-[hover=true]:text-neutral-50'
-                  onPress={handleEdit}
-                  startContent={<Edit className='size-4' />}
-                >
-                  Editar
-                </DropdownItem>
-                <DropdownItem
-                  key='delete'
-                  className='text-danger'
-                  color='danger'
-                  onPress={handleDelete}
-                  startContent={<Trash className='size-4' />}
-                >
-                  Eliminar
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-
-          <Suspense fallback={null}>
-            <UpdateBookmarkModal
-              isOpen={isOpen}
-              onOpenChange={onOpenChange}
-              bookmark={bookmark}
-              initialTitle={bookmark.title}
-            />
-            {isAssignOpen && (
-              <AssignCollectionModal
-                isOpen={isAssignOpen}
-                onOpenChange={onAssignOpenChange}
-                bookmark={bookmark}
-              />
-            )}
-          </Suspense>
         </div>
-      </CardBody>
-    </Card>
+
+        {/* ACTIONS */}
+        <div className='flex items-center gap-3 flex-shrink-0'>
+          <BookmarkFavoriteButton isFavorite={isFavorite} onToggleFavorite={handleToggleFavorite} />
+          <BookmarkCopyButton onCopy={handleCopy} />
+          <BookmarkOpenButton onOpen={handleOpen} />
+          <Dropdown>
+            <Dropdown.Trigger>
+              <button
+                className='group p-0 bg-transparent border-none outline-none cursor-pointer flex items-center justify-center transition-transform hover:scale-110 active:scale-95'
+                aria-label='Open actions menu'
+              >
+                <MoreVertical className='size-4 transition-colors duration-150 text-neutral-400 dark:group-hover:text-neutral-50 group-hover:text-neutral-500' />
+              </button>
+            </Dropdown.Trigger>
+            <Dropdown.Popover placement='bottom end'>
+              <Dropdown.Menu
+                aria-label='Acciones de marcador'
+                onAction={(key) => {
+                  if (key === 'assign_collection') onAssignOpen()
+                  if (key === 'edit') handleEdit()
+                  if (key === 'delete') handleDelete()
+                }}
+              >
+                <Dropdown.Item id='assign_collection' textValue='Mover a colección'>
+                  <div className='flex gap-2 items-center text-neutral-400'>
+                    <FolderPlus className='size-4' />
+                    <span>Mover a colección</span>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Item id='edit' textValue='Editar'>
+                  <div className='flex gap-2 items-center text-neutral-400'>
+                    <Edit className='size-4' />
+                    <span>Editar</span>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Item id='delete' textValue='Eliminar' variant='danger'>
+                  <div className='flex gap-2 items-center'>
+                    <Trash className='size-4' />
+                    <span>Eliminar</span>
+                  </div>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown.Popover>
+          </Dropdown>
+        </div>
+
+        <Suspense fallback={null}>
+          <UpdateBookmarkModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            bookmark={bookmark}
+            initialTitle={bookmark.title}
+          />
+          {isAssignOpen && (
+            <AssignCollectionModal
+              isOpen={isAssignOpen}
+              onOpenChange={onAssignOpenChange}
+              bookmark={bookmark}
+            />
+          )}
+        </Suspense>
+      </div>
+    </div>
   )
 }
 

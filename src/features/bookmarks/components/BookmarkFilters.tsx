@@ -1,4 +1,4 @@
-import { Button, Select, SelectItem, Tab, Tabs } from '@heroui/react'
+import { Button, ListBox, Select, Tabs } from '@heroui/react'
 import { Heart, Tag as TagIcon, X } from 'lucide-react'
 
 import type { TagListItem } from '../../tags/types/tags.type'
@@ -67,82 +67,84 @@ const BookmarkFilters = ({
 
   return (
     <div className='flex flex-col gap-4 w-full'>
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-4'>
+      <div className='flex flex-wrap items-center justify-between gap-4'>
+        <div className='flex flex-wrap items-center gap-4'>
           <Tabs
-            radius='sm'
-            variant='light'
-            classNames={{
-              cursor: 'bg-content1 shadow-sm border border-divider/50',
-              tabList: 'bg-default-100/50 p-1',
-              tab: 'px-4 h-8',
-            }}
+            variant='secondary'
             selectedKey={isFavoriteFilter ? 'favorites' : 'all'}
             onSelectionChange={(key) => onFavoriteFilterChange(key === 'favorites')}
           >
-            <Tab key='all' title={<span className='font-medium'>Todos</span>} />
-            <Tab
-              key='favorites'
-              title={
-                <div className='flex items-center gap-2 font-medium'>
+            <Tabs.List className='p-1'>
+              <Tabs.Tab id='all'>
+                <span className='font-medium text-xs'>Todos</span>
+              </Tabs.Tab>
+              <Tabs.Tab id='favorites'>
+                <div className='flex items-center gap-2 font-medium text-xs'>
                   <Heart
-                    className={`size-4 ${isFavoriteFilter ? 'fill-current text-danger' : ''}`}
+                    className={`size-3.5 ${isFavoriteFilter ? 'fill-current text-danger' : ''}`}
                   />
                   <span>Favoritos</span>
                 </div>
-              }
-            />
+              </Tabs.Tab>
+            </Tabs.List>
           </Tabs>
 
           <Select
             aria-label='Ordenar por'
+            variant='primary'
             placeholder='Ordenar por'
-            selectedKeys={[getSortSelectedKey()]}
-            className='w-40'
-            size='sm'
-            radius='sm'
-            variant={getSortSelectedKey() !== 'recent' ? 'flat' : 'faded'}
-            color={getSortSelectedKey() !== 'recent' ? 'primary' : 'default'}
-            onSelectionChange={(keys) => {
-              const selectedKey = Array.from(keys)[0] as string
-              if (selectedKey) handleSortSelection(selectedKey)
+            selectedKey={getSortSelectedKey()}
+            onSelectionChange={(key) => {
+              if (key) handleSortSelection(key as string)
             }}
+            className='w-40'
           >
-            <SelectItem key='recent'>Más recientes</SelectItem>
-            <SelectItem key='oldest'>Más antiguos</SelectItem>
-            <SelectItem key='most-accessed'>Más visitados</SelectItem>
-            <SelectItem key='last-accessed'>Últimos visitados</SelectItem>
+            <Select.Trigger className='h-9 text-xs'>
+              <Select.Value />
+              <Select.Indicator />
+            </Select.Trigger>
+            <Select.Popover>
+              <ListBox className='text-xs'>
+                <ListBox.Item id='recent'>Más recientes</ListBox.Item>
+                <ListBox.Item id='oldest'>Más antiguos</ListBox.Item>
+                <ListBox.Item id='most-accessed'>Más visitados</ListBox.Item>
+                <ListBox.Item id='last-accessed'>Últimos visitados</ListBox.Item>
+              </ListBox>
+            </Select.Popover>
           </Select>
 
           <Select
             aria-label='Periodo'
+            variant='primary'
             placeholder='Periodo'
-            selectedKeys={[accessedWithin]}
-            className='w-40'
-            size='sm'
-            radius='sm'
-            variant={accessedWithin !== 'all' ? 'flat' : 'faded'}
-            color={accessedWithin !== 'all' ? 'primary' : 'default'}
-            onSelectionChange={(keys) => {
-              const selectedKey = Array.from(keys)[0] as 'week' | 'month' | 'all'
-              if (selectedKey) onAccessedWithinChange(selectedKey)
+            selectedKey={accessedWithin}
+            onSelectionChange={(key) => {
+              if (key) onAccessedWithinChange(key as 'week' | 'month' | 'all')
             }}
+            className='w-40'
           >
-            <SelectItem key='all'>Siempre</SelectItem>
-            <SelectItem key='week'>Esta semana</SelectItem>
-            <SelectItem key='month'>Este mes</SelectItem>
+            <Select.Trigger className='h-9 text-xs'>
+              <Select.Value />
+              <Select.Indicator />
+            </Select.Trigger>
+            <Select.Popover>
+              <ListBox className='text-xs'>
+                <ListBox.Item id='all'>Siempre</ListBox.Item>
+                <ListBox.Item id='week'>Esta semana</ListBox.Item>
+                <ListBox.Item id='month'>Este mes</ListBox.Item>
+              </ListBox>
+            </Select.Popover>
           </Select>
         </div>
 
         {hasActiveFilters && (
           <Button
             size='sm'
-            variant='flat'
-            color='danger'
+            variant='ghost'
             onPress={onClearFilters}
-            className='font-medium'
-            startContent={<X className='size-4' />}
+            className='font-medium text-danger hover:bg-danger/10'
           >
+            <X className='size-4' />
             Limpiar filtros
           </Button>
         )}
@@ -159,10 +161,8 @@ const BookmarkFilters = ({
               <Button
                 key={tag.id}
                 size='sm'
-                radius='sm'
-                variant={isSelected ? 'flat' : 'light'}
-                color={isSelected ? 'primary' : 'default'}
-                className={`font-medium flex-shrink-0 ${isSelected ? '' : 'text-neutral-500 hover:text-neutral-foreground bg-default-50 hover:bg-default-100'}`}
+                variant={isSelected ? 'primary' : 'ghost'}
+                className={`font-medium flex-shrink-0 ${isSelected ? '' : 'text-neutral-500'}`}
                 onPress={() => onTagSelectionChange(tag.id)}
               >
                 {tag.name}
