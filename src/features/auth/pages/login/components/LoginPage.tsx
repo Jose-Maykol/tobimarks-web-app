@@ -1,5 +1,4 @@
 import type { JSX } from 'react'
-import { motion } from 'framer-motion'
 import { Bookmark, Cloud, Folder, Search, Tag } from 'lucide-react'
 
 import GoogleLoginButton from './GoogleLoginButton'
@@ -7,12 +6,7 @@ import GoogleLoginButton from './GoogleLoginButton'
 const LoginPage = (): JSX.Element => {
   return (
     <div className='flex min-h-screen bg-[#0b0c10] relative overflow-hidden text-white font-sans selection:bg-cyan-500/30'>
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        className='w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-24 z-10'
-      >
+      <div className='w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-24 z-10 transition-all duration-1000 ease-out opacity-0 translate-x-[-20px] animate-in fade-in slide-in-from-left-10 fill-mode-forwards'>
         <div className='w-full max-w-[380px] space-y-12'>
           <div className='space-y-4'>
             <h1 className='text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.1]'>
@@ -59,22 +53,13 @@ const LoginPage = (): JSX.Element => {
             </p>
           </div>
         </div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-        className='hidden lg:flex w-1/2 relative items-center justify-center p-14 overflow-hidden bg-gradient-to-br from-[#0b0c10] to-[#0f1219]'
-      >
+      </div>
+      <div className='hidden lg:flex w-1/2 relative items-center justify-center p-14 overflow-hidden bg-gradient-to-br from-[#0b0c10] to-[#0f1219] transition-opacity duration-1000 delay-300 opacity-0 animate-in fade-in fill-mode-forwards'>
         <div className='absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none' />
         <div className='absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/[0.04] rounded-full blur-[120px] pointer-events-none' />
 
         <div className='relative z-10 w-full max-w-[600px] grid grid-cols-2 grid-rows-3 gap-5 h-[620px]'>
-          <motion.div
-            whileHover={{ y: -4, scale: 1.01 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className='col-span-2 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-8 flex flex-col justify-center overflow-hidden relative group shadow-2xl'
-          >
+          <div className='col-span-2 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-8 flex flex-col justify-center overflow-hidden relative group shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01]'>
             <div className='absolute -top-10 -right-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl group-hover:bg-cyan-500/20 transition-colors duration-700' />
             <div className='flex items-center gap-4 mb-3'>
               <div className='p-3 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 text-cyan-400 rounded-2xl shadow-inner'>
@@ -86,13 +71,9 @@ const LoginPage = (): JSX.Element => {
               El gestor inteligente que convierte el caos de tus enlaces en una biblioteca
               centralizada.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            whileHover={{ y: -4, scale: 1.02 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className='col-span-1 row-span-1 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-7 flex flex-col items-center justify-center text-center group shadow-xl'
-          >
+          <div className='col-span-1 row-span-1 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-7 flex flex-col items-center justify-center text-center group shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]'>
             <div className='p-4 bg-indigo-500/10 text-indigo-400 rounded-2xl mb-5 group-hover:scale-110 transition-transform duration-500 ease-out'>
               <Cloud className='w-8 h-8' />
             </div>
@@ -100,13 +81,9 @@ const LoginPage = (): JSX.Element => {
             <p className='text-sm text-[#8b949e]'>
               Accede desde cualquier dispositivo, al instante.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            whileHover={{ y: -4, scale: 1.02 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className='col-span-1 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-7 flex flex-col justify-center group shadow-xl relative overflow-hidden'
-          >
+          <div className='col-span-1 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-7 flex flex-col justify-center group shadow-xl relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]'>
             <div className='absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-colors duration-700' />
             <div className='flex items-center gap-3 mb-4'>
               <div className='p-2.5 bg-purple-500/10 text-purple-400 rounded-xl'>
@@ -117,13 +94,9 @@ const LoginPage = (): JSX.Element => {
             <div className='h-11 bg-black/40 rounded-xl border border-white/5 flex items-center px-4 overflow-hidden shadow-inner'>
               <span className='text-sm text-[#8b949e] type-writer'>diseño ui ux|</span>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            whileHover={{ y: -4, scale: 1.01 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className='col-span-2 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-8 flex items-center justify-between shadow-xl overflow-hidden relative'
-          >
+          <div className='col-span-2 row-span-1 bg-white/[0.02] border border-white/[0.05] backdrop-blur-xl rounded-[32px] p-8 flex items-center justify-between shadow-xl overflow-hidden relative transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01]'>
             <div className='flex-1 pr-6 z-10'>
               <h3 className='text-xl font-bold mb-2 text-white/90'>Organización Total</h3>
               <p className='text-[#8b949e] text-sm leading-relaxed'>
@@ -139,15 +112,15 @@ const LoginPage = (): JSX.Element => {
                   <Tag className='w-3.5 h-3.5' /> Inspiration
                 </div>
               </div>
-              <div className='w-28 h-28 bg-blue-500/5 rounded-2xl border border-blue-500/10 flex items-center justify-center flex-col gap-3 text-blue-400 shadow-inner group-hover:bg-blue-500/10 transition-colors duration-500'>
+              <div className='w-28 h-28 bg-blue-500/5 rounded-2xl border border-blue-500/10 flex items-center justify-center flex-col gap-3 text-blue-400 shadow-inner hover:bg-blue-500/10 transition-colors duration-500'>
                 <Folder className='w-8 h-8' />
                 <span className='text-xs font-semibold tracking-wide'>Proyectos</span>
               </div>
             </div>
             <div className='absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none' />
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
 
       <style>{`
         @keyframes typing {
