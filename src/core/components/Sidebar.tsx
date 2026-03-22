@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { Button, Divider, Spinner, useDisclosure } from '@heroui/react'
+import { Button, Separator, Spinner } from '@heroui/react'
+import { useDisclosure } from '@heroui/use-disclosure'
 import { useQuery } from '@tanstack/react-query'
 import { Bookmark, Folder, LayoutDashboard, Plus, User, X } from 'lucide-react'
 
@@ -90,7 +91,7 @@ const Sidebar = () => {
       )}
 
       <div
-        className={`fixed top-0 left-0 z-50 w-72 h-[100dvh] lg:top-16 lg:w-64 lg:h-[calc(100vh-4rem)] bg-background border-r border-border border-neutral-200 dark:border-neutral-900 px-4 pb-4 lg:p-4 flex flex-col transition-transform duration-300 ${
+        className={`fixed top-0 left-0 z-50 w-72 h-[100dvh] lg:top-16 lg:w-64 lg:h-[calc(100vh-4rem)] bg-background border-r border-neutral-200 dark:border-neutral-900 px-4 pb-4 lg:p-4 flex flex-col transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -101,7 +102,7 @@ const Sidebar = () => {
           </span>
           <Button
             isIconOnly
-            variant='light'
+            variant='ghost'
             onPress={() => setIsSidebarOpen(false)}
             aria-label='Close sidebar'
             className='-mr-2'
@@ -114,19 +115,19 @@ const Sidebar = () => {
           {menuItems.map((item) => (
             <Button
               key={item.label}
-              variant={isActive(item.href) ? 'solid' : 'light'}
+              variant={isActive(item.href) ? 'primary' : 'ghost'}
               className={`w-full justify-start gap-3 h-10 text-foreground ${
                 isActive(item.href) && 'font-semibold dark:bg-neutral-800 bg-neutral-200'
               }`}
-              startContent={item.icon}
               onPress={() => handleNavigation(item.href)}
             >
+              {item.icon}
               {item.label}
             </Button>
           ))}
         </nav>
 
-        <Divider className='my-4' />
+        <Separator className='my-4' />
 
         <div className='mb-4'>
           <h3 className='text-xs font-medium uppercase text-foreground tracking-wider mb-2 px-2'>
@@ -136,20 +137,20 @@ const Sidebar = () => {
             {organizationItems.map((item) => (
               <Button
                 key={item.label}
-                variant={isActive(item.href) ? 'solid' : 'light'}
+                variant={isActive(item.href) ? 'primary' : 'ghost'}
                 className={`w-full justify-start gap-3 h-10 text-foreground ${
                   isActive(item.href) && 'font-semibold dark:bg-neutral-800 bg-neutral-200'
                 }`}
-                startContent={item.icon}
                 onPress={() => handleNavigation(item.href)}
               >
+                {item.icon}
                 {item.label}
               </Button>
             ))}
           </nav>
         </div>
 
-        <Divider className='my-4' />
+        <Separator className='my-4' />
 
         <div className='flex-1 flex flex-col min-h-0'>
           <div className='flex items-center justify-between mb-2 px-2'>
@@ -159,7 +160,7 @@ const Sidebar = () => {
             <Button
               isIconOnly
               size='sm'
-              variant='light'
+              variant='ghost'
               className='hover:text-foreground h-6 w-6'
               onPress={onCollectionOpen}
             >
@@ -170,7 +171,7 @@ const Sidebar = () => {
           <div className='space-y-1 overflow-y-auto no-scrollbar flex-1'>
             {isLoadingCollections ? (
               <div className='flex justify-center py-4'>
-                <Spinner size='sm' color='primary' />
+                <Spinner size='sm' color='accent' />
               </div>
             ) : (
               collections.map((collection) => {
@@ -181,19 +182,17 @@ const Sidebar = () => {
                 return (
                   <Button
                     key={collection.id}
-                    variant='light'
+                    variant='ghost'
                     className={`w-full justify-start gap-2 h-9 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 ${
                       isCollectionActive && 'bg-neutral-100 dark:bg-neutral-800 font-semibold'
                     }`}
-                    startContent={
-                      <div
-                        className={`p-1 rounded-md ${colorScheme.lightBg} ${colorScheme.text} flex-shrink-0`}
-                      >
-                        <Icon size={14} strokeWidth={2} />
-                      </div>
-                    }
                     onPress={() => handleCollectionNavigation(collection.id)}
                   >
+                    <div
+                      className={`p-1 rounded-md ${colorScheme.lightBg} ${colorScheme.text} flex-shrink-0`}
+                    >
+                      <Icon size={14} strokeWidth={2} />
+                    </div>
                     <span className='flex-1 text-left truncate text-xs text-foreground/80'>
                       {collection.name}
                     </span>
@@ -210,9 +209,9 @@ const Sidebar = () => {
         <div className='mt-auto pt-4'>
           <Button
             className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-md'
-            startContent={<Plus size={16} strokeWidth={4} />}
             onPress={onOpen}
           >
+            <Plus size={16} strokeWidth={4} />
             Nuevo Marcador
           </Button>
           <Suspense fallback={null}>

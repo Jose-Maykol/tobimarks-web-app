@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Radio, RadioGroup } from '@heroui/react'
+import { Label, Radio, RadioGroup } from '@heroui/react'
 
 import { COLORS_MAP } from '../../features/tags/constants/tagColors'
 
@@ -26,28 +26,27 @@ const ColorPicker = ({ value, defaultValue, onChange, label = 'Color' }: ColorPi
   return (
     <RadioGroup
       orientation='horizontal'
-      className='text-small'
+      className='text-small flex gap-4'
       name='color'
       defaultValue='blue'
-      label={label}
       value={selectedColor}
-      onValueChange={handleChange}
+      onChange={handleChange}
     >
-      {Object.entries(COLORS_MAP).map(([color, value]) => (
-        <Radio
-          key={color}
-          value={color}
-          classNames={{
-            base: 'm-0 p-0',
-            wrapper: 'hidden',
-            control: 'hidden',
-          }}
-        >
-          <div
-            className={`${value.background} size-6 p-1 rounded-sm ${selectedColor === color ? 'ring-2 ring-neutral-100' : ''}`}
-          ></div>
-        </Radio>
-      ))}
+      <Label>{label}</Label>
+      <div className='flex gap-2 items-center flex-wrap'>
+        {Object.entries(COLORS_MAP).map(([color, value]) => (
+          <Radio key={color} value={color} className='m-0 p-0 cursor-pointer'>
+            <Radio.Control className='hidden'>
+              <Radio.Indicator />
+            </Radio.Control>
+            <Radio.Content>
+              <div
+                className={`${value.background} size-6 p-1 rounded-sm ${selectedColor === color ? 'ring-2 ring-neutral-100' : ''}`}
+              ></div>
+            </Radio.Content>
+          </Radio>
+        ))}
+      </div>
     </RadioGroup>
   )
 }
