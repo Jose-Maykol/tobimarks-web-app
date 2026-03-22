@@ -9,12 +9,8 @@ interface TagItemProps {
 
 const TagItem = ({ tag }: TagItemProps) => {
   return (
-    <Chip
-      className={`${COLORS_MAP[tag.color].background}`}
-      classNames={{ content: 'font-semibold text-white text-xs' }}
-      radius='md'
-    >
-      {tag.name}
+    <Chip className={`${COLORS_MAP[tag.color].background} rounded-md`}>
+      <Chip.Label className='font-semibold text-white text-xs'>{tag.name}</Chip.Label>
     </Chip>
   )
 }

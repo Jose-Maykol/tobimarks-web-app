@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Chip, Popover, PopoverContent, PopoverTrigger } from '@heroui/react'
+import { Button, Chip, Popover } from '@heroui/react'
 import { Edit2, Trash2 } from 'lucide-react'
 
 import { COLORS_MAP } from '../constants/tagColors'
@@ -22,67 +22,53 @@ const ManageTagChip = ({ tag, onEdit, onDelete, isDeleting }: ManageTagChipProps
 
   return (
     <div className='group relative inline-flex items-center rounded-md'>
-      <Chip
-        className={`${COLORS_MAP[tag.color].background} shrink-0`}
-        classNames={{ content: 'font-semibold text-white text-xs' }}
-        radius='md'
-      >
-        {tag.name}
+      <Chip className={`${COLORS_MAP[tag.color].background} shrink-0 rounded-md`}>
+        <Chip.Label className='font-semibold text-white text-xs'>{tag.name}</Chip.Label>
       </Chip>
 
       <div className='flex items-center gap-1 overflow-hidden transition-all duration-300 w-0 opacity-0 group-hover:w-[60px] group-hover:opacity-100 group-hover:ml-1'>
         <Button
-          isIconOnly
           size='sm'
-          variant='flat'
-          color='primary'
+          variant='secondary'
           onPress={() => onEdit(tag)}
           aria-label='Editar tag'
-          className='w-7 h-7 min-w-7 rounded-md shadow-sm'
+          className='w-7 h-7 min-w-7 rounded-md shadow-sm flex items-center justify-center p-0'
         >
           <Edit2 size={14} />
         </Button>
 
-        <Popover
-          isOpen={isPopoverOpen}
-          onOpenChange={setIsPopoverOpen}
-          placement='bottom-end'
-          showArrow
-        >
-          <PopoverTrigger>
-            <Button
-              isIconOnly
-              size='sm'
-              variant='flat'
-              color='danger'
-              aria-label='Eliminar tag'
-              className='w-7 h-7 min-w-7 rounded-md shadow-sm'
-            >
-              <Trash2 size={14} />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className='px-1 py-2'>
-              <div className='text-small font-bold mb-2'>¿Eliminar tag?</div>
-              <div className='text-tiny mb-4 text-default-500'>
-                Esta acción no se puede deshacer.
+        <Popover isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+          <Button
+            size='sm'
+            variant='danger-soft'
+            aria-label='Eliminar tag'
+            className='w-7 h-7 min-w-7 rounded-md shadow-sm flex items-center justify-center p-0'
+          >
+            <Trash2 size={14} />
+          </Button>
+          <Popover.Content placement='bottom-end' showArrow>
+            <Popover.Dialog>
+              <div className='px-1 py-2'>
+                <div className='text-small font-bold mb-2'>¿Eliminar tag?</div>
+                <div className='text-tiny mb-4 text-default-500'>
+                  Esta acción no se puede deshacer.
+                </div>
+                <div className='flex gap-2 justify-end'>
+                  <Button size='sm' variant='tertiary' onPress={() => setIsPopoverOpen(false)}>
+                    Cancelar
+                  </Button>
+                  <Button
+                    size='sm'
+                    variant='danger-soft'
+                    isPending={isDeleting}
+                    onPress={handleDeleteConfirm}
+                  >
+                    Eliminar
+                  </Button>
+                </div>
               </div>
-              <div className='flex gap-2 justify-end'>
-                <Button size='sm' variant='flat' onPress={() => setIsPopoverOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button
-                  size='sm'
-                  color='danger'
-                  variant='flat'
-                  isLoading={isDeleting}
-                  onPress={handleDeleteConfirm}
-                >
-                  Eliminar
-                </Button>
-              </div>
-            </div>
-          </PopoverContent>
+            </Popover.Dialog>
+          </Popover.Content>
         </Popover>
       </div>
     </div>

@@ -23,15 +23,13 @@ export const TagSelector = ({ tags, selectedTags, onSelectionChange }: TagSelect
       {tags.map((tag) => (
         <Chip
           key={tag.id}
-          variant='bordered'
+          variant='secondary'
           onClick={() => toggleTag(tag.id)}
           className={`cursor-pointer border-2 ${COLORS_MAP[tag.color].border} ${
             selectedTags.includes(tag.id) ? COLORS_MAP[tag.color].background : null
-          }`}
-          classNames={{ content: 'font-semibold text-white text-xs' }}
-          radius='md'
+          } rounded-md`}
         >
-          {tag.name}
+          <Chip.Label className='font-semibold text-white text-xs'>{tag.name}</Chip.Label>
         </Chip>
       ))}
     </div>
