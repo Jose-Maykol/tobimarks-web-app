@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react'
-import { Button, Card, CardBody, CardHeader, useDisclosure } from '@heroui/react'
+import { Button, Card } from '@heroui/react'
+import { useDisclosure } from '@heroui/use-disclosure'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Plus, Tags } from 'lucide-react'
 
@@ -66,7 +67,7 @@ const ProfilePage = () => {
       </div>
 
       <Card className='border-none bg-content1 shadow-md rounded-md'>
-        <CardHeader className='px-6 pt-6 pb-2 flex justify-between items-center'>
+        <Card.Header className='px-6 pt-6 pb-2 flex justify-between items-center'>
           <div>
             <h2 className='text-xl font-semibold'>Gestión de Tags</h2>
             <p className='text-sm text-default-600 dark:text-default-500 mt-1 max-w-xl'>
@@ -75,17 +76,17 @@ const ProfilePage = () => {
             </p>
           </div>
           <Button
-            color='primary'
+            variant='primary'
             size='sm'
-            startContent={<Plus size={16} strokeWidth={3} />}
             onPress={handleCreateTag}
             className='font-semibold shrink-0 rounded-md'
           >
+            <Plus size={16} strokeWidth={3} />
             Nuevo tag
           </Button>
-        </CardHeader>
+        </Card.Header>
 
-        <CardBody className='px-6 py-6'>
+        <Card.Content className='px-6 py-6'>
           {isLoading ? (
             <div className='text-default-500'>Cargando tags...</div>
           ) : isError ? (
@@ -108,7 +109,7 @@ const ProfilePage = () => {
               ))}
             </div>
           )}
-        </CardBody>
+        </Card.Content>
       </Card>
 
       <Suspense fallback={null}>
