@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { addToast, Button, closeToast, useDisclosure } from '@heroui/react'
+import { Button, toast } from '@heroui/react'
+import { useDisclosure } from '@heroui/use-disclosure'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FolderPlus } from 'lucide-react'
 
@@ -44,17 +45,13 @@ const CollectionsPage = () => {
     )
 
     if (isConfirmed) {
-      const idToast = addToast({
-        title: 'Eliminando colección...',
-        promise: CollectionService.delete(collection.id)
-          .then(() => {
-            closeToast(idToast!)
-            queryClient.invalidateQueries({ queryKey: ['collections'] })
-            addToast({ title: 'Colección eliminada', color: 'success' })
-          })
-          .catch(() => {
-            addToast({ title: 'Error al eliminar la colección', color: 'danger' })
-          }),
+      toast.promise(CollectionService.delete(collection.id), {
+        loading: 'Eliminando colección...',
+        success: () => {
+          queryClient.invalidateQueries({ queryKey: ['collections'] })
+          return 'Colección eliminada'
+        },
+        error: 'Error al eliminar la colección',
       })
     }
   }

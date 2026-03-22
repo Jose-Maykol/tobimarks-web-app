@@ -1,5 +1,4 @@
-import { Button } from '@heroui/react'
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react'
+import { Button, Dropdown } from '@heroui/react'
 import { MoreVertical, Pencil, Trash } from 'lucide-react'
 
 import { COLLECTION_COLORS, COLLECTION_ICONS } from '../constants/collectionVisuals'
@@ -38,30 +37,34 @@ const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCar
         </div>
 
         <div onClick={(e) => e.stopPropagation()}>
-          <Dropdown placement='bottom-end'>
-            <DropdownTrigger>
-              <Button isIconOnly variant='light' size='sm' className='text-neutral-500'>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <Button isIconOnly variant='ghost' size='sm' className='text-neutral-500'>
                 <MoreVertical className='size-4' />
               </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label='Acciones de colección' variant='flat'>
-              <DropdownItem
-                key='edit'
-                startContent={<Pencil className='size-4 text-neutral-500' />}
-                onPress={() => onEdit(collection)}
+            </Dropdown.Trigger>
+            <Dropdown.Popover placement='bottom end'>
+              <Dropdown.Menu
+                aria-label='Acciones de colección'
+                onAction={(key) => {
+                  if (key === 'edit') onEdit(collection)
+                  if (key === 'delete') onDelete(collection)
+                }}
               >
-                Editar
-              </DropdownItem>
-              <DropdownItem
-                key='delete'
-                className='text-danger'
-                color='danger'
-                startContent={<Trash className='size-4 text-danger' />}
-                onPress={() => onDelete(collection)}
-              >
-                Eliminar
-              </DropdownItem>
-            </DropdownMenu>
+                <Dropdown.Item id='edit' textValue='Editar'>
+                  <div className='flex items-center gap-2'>
+                    <Pencil className='size-4 text-neutral-500' />
+                    <span>Editar</span>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Item id='delete' textValue='Eliminar' variant='danger'>
+                  <div className='flex items-center gap-2'>
+                    <Trash className='size-4' />
+                    <span>Eliminar</span>
+                  </div>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown.Popover>
           </Dropdown>
         </div>
       </div>

@@ -1,17 +1,5 @@
 import { type FormEvent, useEffect, useState } from 'react'
-import {
-  addToast,
-  Button,
-  closeToast,
-  Form,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Textarea,
-} from '@heroui/react'
+import { Button, Form, Input, Label, Modal, TextArea, TextField, toast } from '@heroui/react'
 import { useQueryClient } from '@tanstack/react-query'
 
 import ColorPicker from '../../../core/components/ColorPicker'
@@ -37,7 +25,7 @@ const UpdateCollectionModal = ({ isOpen, onClose, collection }: UpdateCollection
     }
   }, [collection, isOpen])
 
-  const handleSubmit = (onModalClose: () => void) => async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!collection) return
 
@@ -52,67 +40,67 @@ const UpdateCollectionModal = ({ isOpen, onClose, collection }: UpdateCollection
       selectedColor === collection.color
 
     if (!name || hasNoChanges) {
-      onModalClose()
+      onClose()
       return
     }
 
-    const idToast = addToast({
-      title: 'Actualizando colección...',
-      promise: CollectionService.update(collection.id, {
+    toast.promise(
+      CollectionService.update(collection.id, {
         name,
         description,
         icon: selectedIcon,
         color: selectedColor,
-      })
-        .then(() => {
-          closeToast(idToast!)
+      }),
+      {
+        loading: 'Actualizando colección...',
+        success: () => {
           queryClient.invalidateQueries({ queryKey: ['collections'] })
-          addToast({ title: 'Colección actualizada correctamente', color: 'success' })
-          onModalClose()
-        })
-        .catch((error: unknown) => {
+          onClose()
+          return 'Colección actualizada correctamente'
+        },
+        error: (error: unknown) => {
           const err = error as { response?: { data?: { message?: string } } }
-          addToast({
-            title: err.response?.data?.message || 'Error al actualizar la colección',
-            color: 'danger',
-          })
-        }),
-    })
+          return err.response?.data?.message || 'Error al actualizar la colección'
+        },
+      }
+    )
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={onClose}
-      size='lg'
-      classNames={{
-        closeButton: 'focus:outline-none focus:ring-0 focus:shadow-none',
-      }}
-    >
-      <ModalContent>
-        {(onModalClose) => (
-          <Form onSubmit={handleSubmit(onModalClose)} className='w-full'>
-            <ModalHeader className='text-primary'>Editar colección</ModalHeader>
-            <ModalBody className='w-full gap-6'>
-              <Input
-                autoFocus
-                label='Nombre'
-                labelPlacement='outside'
+    <Modal isOpen={isOpen} onOpenChange={onClose}>
+      <Modal.Backdrop />
+      <Modal.Container size='lg'>
+        <Modal.Dialog>
+          <Modal.CloseTrigger />
+          <Form onSubmit={handleSubmit} className='w-full'>
+            <Modal.Header>
+              <Modal.Heading className='text-primary'>Editar colección</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className='w-full flex flex-col gap-6'>
+              <TextField
                 name='name'
-                placeholder='Ej. Recursos de Diseño'
-                variant='bordered'
-                defaultValue={collection?.name}
                 isRequired
                 maxLength={100}
-              />
-              <Textarea
-                label='Descripción'
-                labelPlacement='outside'
+                autoFocus
+                defaultValue={collection?.name}
+                aria-label='Nombre'
+              >
+                <Label className='text-sm font-medium'>Nombre</Label>
+                <Input placeholder='Ej. Recursos de Diseño' variant='primary' className='mt-1' />
+              </TextField>
+
+              <TextField
                 name='description'
-                placeholder='Escribe una breve descripción...'
-                variant='bordered'
                 defaultValue={collection?.description || ''}
-              />
+                aria-label='Descripción'
+              >
+                <Label className='text-sm font-medium'>Descripción</Label>
+                <TextArea
+                  placeholder='Escribe una breve descripción...'
+                  variant='primary'
+                  className='mt-1'
+                />
+              </TextField>
 
               <div className='flex flex-col gap-3'>
                 <label className='text-sm font-medium'>Icono</label>
@@ -124,8 +112,7 @@ const UpdateCollectionModal = ({ isOpen, onClose, collection }: UpdateCollection
                         key={iconKey}
                         isIconOnly
                         size='sm'
-                        variant={selectedIcon === iconKey ? 'solid' : 'flat'}
-                        color={selectedIcon === iconKey ? 'primary' : 'default'}
+                        variant={selectedIcon === iconKey ? 'primary' : 'ghost'}
                         onPress={() => setSelectedIcon(iconKey)}
                         className='w-full aspect-square'
                       >
@@ -142,18 +129,18 @@ const UpdateCollectionModal = ({ isOpen, onClose, collection }: UpdateCollection
                   onChange={(color) => setSelectedColor(color as CollectionColor)}
                 />
               </div>
-            </ModalBody>
-            <ModalFooter className='flex w-full gap-2'>
-              <Button className='flex-1' variant='bordered' onPress={onModalClose}>
+            </Modal.Body>
+            <Modal.Footer className='flex w-full gap-2'>
+              <Button className='flex-1' variant='ghost' onPress={onClose}>
                 Cancelar
               </Button>
-              <Button color='primary' className='flex-1' variant='solid' type='submit'>
+              <Button className='flex-1' variant='primary' type='submit'>
                 Guardar cambios
               </Button>
-            </ModalFooter>
+            </Modal.Footer>
           </Form>
-        )}
-      </ModalContent>
+        </Modal.Dialog>
+      </Modal.Container>
     </Modal>
   )
 }

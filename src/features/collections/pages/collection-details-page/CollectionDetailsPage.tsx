@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import { Button, useDisclosure } from '@heroui/react'
+import { Button } from '@heroui/react'
+import { useDisclosure } from '@heroui/use-disclosure'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, Settings } from 'lucide-react'
 
@@ -97,12 +98,7 @@ const CollectionDetailsPage = () => {
     return (
       <div className='p-8 text-center text-neutral-400'>
         Colección no encontrada.
-        <Button
-          color='primary'
-          variant='flat'
-          className='ml-4'
-          onPress={() => navigate('/collections')}
-        >
+        <Button variant='primary' className='ml-4' onPress={() => navigate('/collections')}>
           Volver a Colecciones
         </Button>
       </div>
@@ -116,11 +112,11 @@ const CollectionDetailsPage = () => {
     <div className='flex flex-col gap-6 w-full max-w-5xl mx-auto'>
       <div className='flex flex-col mb-4'>
         <Button
-          variant='light'
+          variant='ghost'
           className='self-start text-neutral-500 hover:text-foreground mb-4 -ml-4'
           onPress={() => navigate('/collections')}
-          startContent={<ArrowLeft className='size-4' />}
         >
+          <ArrowLeft className='size-4' />
           Volver a colecciones
         </Button>
 
@@ -154,11 +150,11 @@ const CollectionDetailsPage = () => {
           </div>
 
           <Button
-            variant='flat'
+            variant='ghost'
             className='bg-content2 hover:bg-content3 border border-divider font-medium shadow-sm lg:mt-2'
-            startContent={<Settings className='size-4 text-neutral-500' />}
             onPress={onUpdateOpen}
           >
+            <Settings className='size-4 text-neutral-500' />
             Configurar
           </Button>
         </div>
