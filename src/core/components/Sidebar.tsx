@@ -82,7 +82,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Backdrop */}
       {isSidebarOpen && (
         <div
           className='fixed inset-0 z-40 bg-foreground/30 backdrop-blur-sm lg:hidden transition-opacity border-none'
@@ -95,7 +94,6 @@ const Sidebar = () => {
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Mobile Sidebar Header */}
         <div className='flex items-center justify-between lg:hidden pt-4 pb-6'>
           <span className='font-extrabold text-2xl tracking-tighter text-primary drop-shadow-[0_0_8px_rgba(0,111,238,0.3)]'>
             Tobimarks
