@@ -28,8 +28,6 @@ const GoogleLoginButton = (): JSX.Element => {
         size='large'
         shape='pill'
         text='continue_with'
-        locale='es'
-        width='100%'
       />
     </div>
   )
