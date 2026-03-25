@@ -6,7 +6,7 @@ import GoogleLoginButton from './GoogleLoginButton'
 const LoginPage = (): JSX.Element => {
   return (
     <div className='flex min-h-screen bg-[#0b0c10] relative overflow-hidden text-white font-sans selection:bg-cyan-500/30'>
-      <div className='w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-24 z-10 transition-all duration-1000 ease-out opacity-0 translate-x-[-20px] animate-in fade-in slide-in-from-left-10 fill-mode-forwards'>
+      <div className='w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-24 z-10 transition-all duration-1000 ease-out animate-in fade-in slide-in-from-left-10 fill-mode-forwards'>
         <div className='w-full max-w-[380px] space-y-12'>
           <div className='space-y-4'>
             <h1 className='text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.1]'>
@@ -54,7 +54,7 @@ const LoginPage = (): JSX.Element => {
           </div>
         </div>
       </div>
-      <div className='hidden lg:flex w-1/2 relative items-center justify-center p-14 overflow-hidden bg-gradient-to-br from-[#0b0c10] to-[#0f1219] transition-opacity duration-1000 delay-300 opacity-0 animate-in fade-in fill-mode-forwards'>
+      <div className='hidden lg:flex w-1/2 relative items-center justify-center p-14 overflow-hidden bg-gradient-to-br from-[#0b0c10] to-[#0f1219] transition-opacity duration-1000 delay-300 animate-in fade-in fill-mode-forwards'>
         <div className='absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none' />
         <div className='absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/[0.04] rounded-full blur-[120px] pointer-events-none' />
 
