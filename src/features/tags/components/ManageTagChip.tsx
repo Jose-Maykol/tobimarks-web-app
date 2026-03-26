@@ -38,15 +38,18 @@ const ManageTagChip = ({ tag, onEdit, onDelete, isDeleting }: ManageTagChipProps
         </Button>
 
         <Popover isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-          <Button
-            size='sm'
-            variant='danger-soft'
-            aria-label='Eliminar tag'
-            className='w-7 h-7 min-w-7 rounded-md shadow-sm flex items-center justify-center p-0'
-          >
-            <Trash2 size={14} />
-          </Button>
-          <Popover.Content placement='bottom-end' showArrow>
+          <Popover.Trigger>
+            <Button
+              size='sm'
+              variant='danger-soft'
+              aria-label='Eliminar tag'
+              className='w-7 h-7 min-w-7 rounded-md shadow-sm flex items-center justify-center p-0'
+            >
+              <Trash2 size={14} />
+            </Button>
+          </Popover.Trigger>
+          <Popover.Content placement='bottom end'>
+            <Popover.Arrow />
             <Popover.Dialog>
               <div className='px-1 py-2'>
                 <div className='text-small font-bold mb-2'>¿Eliminar tag?</div>

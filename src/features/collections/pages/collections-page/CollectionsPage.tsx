@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Button, toast } from '@heroui/react'
-import { useDisclosure } from '@heroui/use-disclosure'
+import { Button, toast, useOverlayState } from '@heroui/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FolderPlus } from 'lucide-react'
 
@@ -12,8 +11,8 @@ import CollectionService from '../../services/collectionService'
 import type { Collection } from '../../types/collection.type'
 
 const CollectionsPage = () => {
-  const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure()
-  const { isOpen: isUpdateOpen, onOpen: onUpdateOpen, onClose: onUpdateClose } = useDisclosure()
+  const createOverlay = useOverlayState()
+  const updateOverlay = useOverlayState()
   const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null)
 
   const queryClient = useQueryClient()
@@ -30,7 +29,7 @@ const CollectionsPage = () => {
 
   const handleEdit = (collection: Collection) => {
     setSelectedCollection(collection)
-    onUpdateOpen()
+    updateOverlay.open()
   }
 
   const navigate = useNavigate()
@@ -65,11 +64,8 @@ const CollectionsPage = () => {
             Organiza tus marcadores y agrupa los recursos relacionados.
           </p>
         </div>
-        <Button
-          color='primary'
-          startContent={<FolderPlus className='size-4' />}
-          onPress={onCreateOpen}
-        >
+        <Button variant='primary' onPress={createOverlay.open}>
+          <FolderPlus className='size-4' />
           Nueva Colección
         </Button>
       </div>
@@ -88,13 +84,8 @@ const CollectionsPage = () => {
             Crea tu primera colección para empezar a organizar tus marcadores de forma más
             eficiente.
           </p>
-          <Button
-            color='primary'
-            variant='flat'
-            className='mt-6'
-            startContent={<FolderPlus className='size-4' />}
-            onPress={onCreateOpen}
-          >
+          <Button variant='secondary' className='mt-6' onPress={createOverlay.open}>
+            <FolderPlus className='size-4' />
             Crear primera colección
           </Button>
         </div>
@@ -112,11 +103,11 @@ const CollectionsPage = () => {
         </div>
       )}
 
-      <CreateCollectionModal isOpen={isCreateOpen} onClose={onCreateClose} />
+      <CreateCollectionModal isOpen={createOverlay.isOpen} onClose={createOverlay.close} />
 
       <UpdateCollectionModal
-        isOpen={isUpdateOpen}
-        onClose={onUpdateClose}
+        isOpen={updateOverlay.isOpen}
+        onClose={updateOverlay.close}
         collection={selectedCollection}
       />
     </div>

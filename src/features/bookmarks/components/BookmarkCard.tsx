@@ -1,6 +1,5 @@
 import { type JSX, Suspense, useState } from 'react'
-import { Chip, Dropdown, toast } from '@heroui/react'
-import { useDisclosure } from '@heroui/use-disclosure'
+import { Chip, Dropdown, toast, useOverlayState } from '@heroui/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
@@ -21,12 +20,8 @@ interface BookmarkCardProps {
 const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   const queryClient = useQueryClient()
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const {
-    isOpen: isAssignOpen,
-    onOpen: onAssignOpen,
-    onOpenChange: onAssignOpenChange,
-  } = useDisclosure()
+  const editOverlay = useOverlayState()
+  const assignOverlay = useOverlayState()
   const [isFavorite, setIsFavorite] = useState<boolean>(bookmark.isFavorite)
   const [accessCount, setAccessCount] = useState<number>(bookmark.accessCount)
 
@@ -84,7 +79,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   }
 
   const handleEdit = (): void => {
-    onOpen()
+    editOverlay.open()
   }
 
   return (
@@ -148,7 +143,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
               <Dropdown.Menu
                 aria-label='Acciones de marcador'
                 onAction={(key) => {
-                  if (key === 'assign_collection') onAssignOpen()
+                  if (key === 'assign_collection') assignOverlay.open()
                   if (key === 'edit') handleEdit()
                   if (key === 'delete') handleDelete()
                 }}
@@ -178,18 +173,16 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
 
         <Suspense fallback={null}>
           <UpdateBookmarkModal
-            isOpen={isOpen}
-            onOpenChange={onOpenChange}
+            isOpen={editOverlay.isOpen}
+            onOpenChange={editOverlay.toggle}
             bookmark={bookmark}
             initialTitle={bookmark.title}
           />
-          {isAssignOpen && (
-            <AssignCollectionModal
-              isOpen={isAssignOpen}
-              onOpenChange={onAssignOpenChange}
-              bookmark={bookmark}
-            />
-          )}
+          <AssignCollectionModal
+            isOpen={assignOverlay.isOpen}
+            onOpenChange={assignOverlay.toggle}
+            bookmark={bookmark}
+          />
         </Suspense>
       </div>
     </div>
