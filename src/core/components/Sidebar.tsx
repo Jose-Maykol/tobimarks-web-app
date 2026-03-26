@@ -90,7 +90,7 @@ const Sidebar = () => {
       )}
 
       <div
-        className={`fixed top-0 left-0 z-50 w-72 h-[100dvh] lg:top-16 lg:w-64 lg:h-[calc(100vh-4rem)] bg-background border-r border-neutral-200 dark:border-neutral-900 px-4 pb-4 lg:p-4 flex flex-col transition-transform duration-300 ${
+        className={`fixed top-0 left-0 z-50 w-72 h-[100dvh] lg:top-16 lg:w-64 lg:h-[calc(100vh-4rem)] bg-background border-r border-neutral-200 dark:border-neutral-900 px-3 pb-3 lg:p-3 flex flex-col transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -114,7 +114,7 @@ const Sidebar = () => {
             <Button
               key={item.label}
               variant={isActive(item.href) ? 'primary' : 'ghost'}
-              className={`w-full justify-start gap-3 h-10 text-foreground ${
+              className={`w-full justify-start gap-3 h-9 text-foreground rounded-sm ${
                 isActive(item.href) && 'font-semibold dark:bg-neutral-800 bg-neutral-200'
               }`}
               onPress={() => handleNavigation(item.href)}
@@ -136,7 +136,7 @@ const Sidebar = () => {
               <Button
                 key={item.label}
                 variant={isActive(item.href) ? 'primary' : 'ghost'}
-                className={`w-full justify-start gap-3 h-10 text-foreground ${
+                className={`w-full justify-start gap-3 h-9 text-foreground rounded-sm ${
                   isActive(item.href) && 'font-semibold dark:bg-neutral-800 bg-neutral-200'
                 }`}
                 onPress={() => handleNavigation(item.href)}
@@ -181,7 +181,7 @@ const Sidebar = () => {
                   <Button
                     key={collection.id}
                     variant='ghost'
-                    className={`w-full justify-start gap-2 h-9 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 ${
+                    className={`w-full justify-start gap-2 h-8 px-2 text-foreground rounded-sm hover:bg-neutral-100 dark:hover:bg-neutral-800/50 ${
                       isCollectionActive && 'bg-neutral-100 dark:bg-neutral-800 font-semibold'
                     }`}
                     onPress={() => handleCollectionNavigation(collection.id)}
@@ -206,7 +206,7 @@ const Sidebar = () => {
 
         <div className='mt-auto pt-4'>
           <Button
-            className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-md'
+            className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-sm'
             onPress={onOpen}
           >
             <Plus size={16} strokeWidth={4} />
