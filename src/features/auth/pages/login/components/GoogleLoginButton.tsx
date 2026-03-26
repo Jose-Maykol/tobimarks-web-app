@@ -20,13 +20,14 @@ const GoogleLoginButton = (): JSX.Element => {
   }
 
   return (
-    <div className='w-full flex justify-center [&>div]:w-full'>
+    <div className='w-[320px] mx-auto flex justify-center overflow-hidden rounded-full h-[40px] [color-scheme:dark] [&>div]:!bg-transparent [&>div]:w-full'>
       <GoogleLogin
         onSuccess={handleLoginSuccess}
         onError={() => console.error('Error de inicio de sesión')}
         theme='filled_black'
         size='large'
         shape='pill'
+        width='320'
         text='continue_with'
       />
     </div>
