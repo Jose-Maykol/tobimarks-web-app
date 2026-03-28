@@ -17,13 +17,13 @@ const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCar
 
   return (
     <div
-      className='flex flex-col p-4 gap-3 bg-content1 hover:bg-content2/50 transition-colors border border-divider rounded-sm cursor-pointer'
+      className='flex flex-col p-4 gap-3 bg-content1 hover:bg-content2/50 transition-colors border border-divider rounded-md cursor-pointer'
       onClick={() => onClick(collection)}
     >
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-3'>
           <div
-            className={`p-2 ${colorScheme.lightBg} ${colorScheme.text} rounded-xl flex-shrink-0`}
+            className={`p-2 ${colorScheme.lightBg} ${colorScheme.text} rounded-md flex-shrink-0`}
           >
             <Icon className='size-5' strokeWidth={1.5} />
           </div>
@@ -39,11 +39,11 @@ const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCar
         <div onClick={(e) => e.stopPropagation()}>
           <Dropdown>
             <Dropdown.Trigger>
-              <Button isIconOnly variant='ghost' size='sm' className='text-neutral-500'>
+              <Button isIconOnly variant='ghost' size='sm' className='text-neutral-500 rounded-md'>
                 <MoreVertical className='size-4' />
               </Button>
             </Dropdown.Trigger>
-            <Dropdown.Popover placement='bottom end'>
+            <Dropdown.Popover placement='bottom end' className='rounded-md'>
               <Dropdown.Menu
                 aria-label='Acciones de colección'
                 onAction={(key) => {
@@ -51,13 +51,18 @@ const CollectionCard = ({ collection, onEdit, onDelete, onClick }: CollectionCar
                   if (key === 'delete') onDelete(collection)
                 }}
               >
-                <Dropdown.Item id='edit' textValue='Editar'>
+                <Dropdown.Item id='edit' textValue='Editar' className='rounded-md'>
                   <div className='flex items-center gap-2'>
                     <Pencil className='size-4 text-neutral-500' />
                     <span>Editar</span>
                   </div>
                 </Dropdown.Item>
-                <Dropdown.Item id='delete' textValue='Eliminar' variant='danger'>
+                <Dropdown.Item
+                  id='delete'
+                  textValue='Eliminar'
+                  variant='danger'
+                  className='rounded-md'
+                >
                   <div className='flex items-center gap-2'>
                     <Trash className='size-4' />
                     <span>Eliminar</span>

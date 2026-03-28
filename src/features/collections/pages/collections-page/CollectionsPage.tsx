@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Button, toast, useOverlayState } from '@heroui/react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Button, useOverlayState } from '@heroui/react'
+import { useQuery } from '@tanstack/react-query'
 import { FolderPlus } from 'lucide-react'
 
 import CollectionCard from '../../components/CollectionCard'
 import CreateCollectionModal from '../../components/CreateCollectionModal'
+import DeleteCollectionModal from '../../components/DeleteCollectionModal'
 import UpdateCollectionModal from '../../components/UpdateCollectionModal'
 import CollectionService from '../../services/collectionService'
 import type { Collection } from '../../types/collection.type'
@@ -13,9 +14,9 @@ import type { Collection } from '../../types/collection.type'
 const CollectionsPage = () => {
   const createOverlay = useOverlayState()
   const updateOverlay = useOverlayState()
+  const deleteOverlay = useOverlayState()
   const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null)
-
-  const queryClient = useQueryClient()
+  const [collectionToDelete, setCollectionToDelete] = useState<Collection | null>(null)
 
   const {
     data: collections = [],
@@ -39,20 +40,8 @@ const CollectionsPage = () => {
   }
 
   const handleDelete = (collection: Collection) => {
-    const isConfirmed = window.confirm(
-      `¿Estás seguro que deseas eliminar la colección "${collection.name}"? Los marcadores dentro de ella no se eliminarán, pero perderán su asignación.`
-    )
-
-    if (isConfirmed) {
-      toast.promise(CollectionService.delete(collection.id), {
-        loading: 'Eliminando colección...',
-        success: () => {
-          queryClient.invalidateQueries({ queryKey: ['collections'] })
-          return 'Colección eliminada'
-        },
-        error: 'Error al eliminar la colección',
-      })
-    }
+    setCollectionToDelete(collection)
+    deleteOverlay.open()
   }
 
   return (
@@ -64,7 +53,7 @@ const CollectionsPage = () => {
             Organiza tus marcadores y agrupa los recursos relacionados.
           </p>
         </div>
-        <Button variant='primary' onPress={createOverlay.open}>
+        <Button variant='primary' className='rounded-md' onPress={createOverlay.open}>
           <FolderPlus className='size-4' />
           Nueva Colección
         </Button>
@@ -84,7 +73,7 @@ const CollectionsPage = () => {
             Crea tu primera colección para empezar a organizar tus marcadores de forma más
             eficiente.
           </p>
-          <Button variant='secondary' className='mt-6' onPress={createOverlay.open}>
+          <Button variant='secondary' className='mt-6 rounded-md' onPress={createOverlay.open}>
             <FolderPlus className='size-4' />
             Crear primera colección
           </Button>
@@ -109,6 +98,15 @@ const CollectionsPage = () => {
         isOpen={updateOverlay.isOpen}
         onClose={updateOverlay.close}
         collection={selectedCollection}
+      />
+
+      <DeleteCollectionModal
+        isOpen={deleteOverlay.isOpen}
+        onClose={() => {
+          deleteOverlay.close()
+          setCollectionToDelete(null)
+        }}
+        collection={collectionToDelete}
       />
     </div>
   )
