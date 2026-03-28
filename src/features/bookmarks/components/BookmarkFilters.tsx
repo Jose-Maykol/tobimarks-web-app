@@ -1,6 +1,7 @@
-import { Button, ListBox, Select, Tabs } from '@heroui/react'
+import { Button, ListBox, Select } from '@heroui/react'
 import { Heart, Tag as TagIcon, X } from 'lucide-react'
 
+import { COLORS_MAP } from '../../tags/constants/tagColors'
 import type { TagListItem } from '../../tags/types/tags.type'
 
 interface BookmarkFiltersProps {
@@ -69,25 +70,22 @@ const BookmarkFilters = ({
     <div className='flex flex-col gap-4 w-full'>
       <div className='flex flex-wrap items-center justify-between gap-4'>
         <div className='flex flex-wrap items-center gap-4'>
-          <Tabs
-            variant='secondary'
-            selectedKey={isFavoriteFilter ? 'favorites' : 'all'}
-            onSelectionChange={(key) => onFavoriteFilterChange(key === 'favorites')}
+          <Button
+            size='sm'
+            variant={isFavoriteFilter ? 'primary' : 'outline'}
+            className={`h-9 px-3 text-xs font-semibold rounded-md flex items-center gap-1.5 transition-all ${
+              isFavoriteFilter
+                ? 'bg-danger text-white shadow-sm hover:bg-danger/90 border-danger'
+                : 'text-neutral-500 hover:text-danger hover:bg-danger/5 border-divider'
+            }`}
+            onPress={() => onFavoriteFilterChange(!isFavoriteFilter)}
           >
-            <Tabs.List className='p-1'>
-              <Tabs.Tab id='all'>
-                <span className='font-medium text-xs'>Todos</span>
-              </Tabs.Tab>
-              <Tabs.Tab id='favorites'>
-                <div className='flex items-center gap-2 font-medium text-xs'>
-                  <Heart
-                    className={`size-3.5 ${isFavoriteFilter ? 'fill-current text-danger' : ''}`}
-                  />
-                  <span>Favoritos</span>
-                </div>
-              </Tabs.Tab>
-            </Tabs.List>
-          </Tabs>
+            <Heart
+              className={`size-3.5 ${isFavoriteFilter ? 'fill-current' : ''}`}
+              strokeWidth={isFavoriteFilter ? 3 : 2}
+            />
+            Favoritos
+          </Button>
 
           <Select
             aria-label='Ordenar por'
@@ -103,12 +101,20 @@ const BookmarkFilters = ({
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
-            <Select.Popover>
+            <Select.Popover className='rounded-md'>
               <ListBox className='text-xs'>
-                <ListBox.Item id='recent'>Más recientes</ListBox.Item>
-                <ListBox.Item id='oldest'>Más antiguos</ListBox.Item>
-                <ListBox.Item id='most-accessed'>Más visitados</ListBox.Item>
-                <ListBox.Item id='last-accessed'>Últimos visitados</ListBox.Item>
+                <ListBox.Item className='rounded-md' id='recent'>
+                  Más recientes
+                </ListBox.Item>
+                <ListBox.Item className='rounded-md' id='oldest'>
+                  Más antiguos
+                </ListBox.Item>
+                <ListBox.Item className='rounded-md' id='most-accessed'>
+                  Más visitados
+                </ListBox.Item>
+                <ListBox.Item className='rounded-md' id='last-accessed'>
+                  Últimos visitados
+                </ListBox.Item>
               </ListBox>
             </Select.Popover>
           </Select>
@@ -127,11 +133,17 @@ const BookmarkFilters = ({
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
-            <Select.Popover>
+            <Select.Popover className='rounded-md'>
               <ListBox className='text-xs'>
-                <ListBox.Item id='all'>Siempre</ListBox.Item>
-                <ListBox.Item id='week'>Esta semana</ListBox.Item>
-                <ListBox.Item id='month'>Este mes</ListBox.Item>
+                <ListBox.Item className='rounded-md' id='all'>
+                  Siempre
+                </ListBox.Item>
+                <ListBox.Item className='rounded-md' id='week'>
+                  Esta semana
+                </ListBox.Item>
+                <ListBox.Item className='rounded-md' id='month'>
+                  Este mes
+                </ListBox.Item>
               </ListBox>
             </Select.Popover>
           </Select>
@@ -140,12 +152,12 @@ const BookmarkFilters = ({
         {hasActiveFilters && (
           <Button
             size='sm'
-            variant='ghost'
+            variant='outline'
             onPress={onClearFilters}
-            className='font-medium text-danger hover:bg-danger/10'
+            className='font-medium text-danger bg-danger/5 border-danger/20 hover:bg-danger/20 hover:border-danger/40 transition-all rounded-md'
           >
-            <X className='size-4' />
-            Limpiar filtros
+            <X className='size-4 translate-y-[0.5px]' strokeWidth={2.5} />
+            <span>Limpiar filtros</span>
           </Button>
         )}
       </div>
@@ -157,14 +169,25 @@ const BookmarkFilters = ({
           </div>
           {tags.map((tag) => {
             const isSelected = selectedTags.includes(tag.id)
+            const colorConfig = COLORS_MAP[tag.color as keyof typeof COLORS_MAP] || COLORS_MAP.blue
+
             return (
               <Button
                 key={tag.id}
                 size='sm'
-                variant={isSelected ? 'primary' : 'ghost'}
-                className={`font-medium flex-shrink-0 ${isSelected ? '' : 'text-neutral-500'}`}
+                variant={isSelected ? 'primary' : 'outline'}
+                className={`font-medium flex-shrink-0 rounded-md transition-all ${
+                  isSelected
+                    ? `${colorConfig.background} text-white border-transparent shadow-sm`
+                    : `text-neutral-500 border-divider hover:text-foreground hover:bg-content2`
+                }`}
                 onPress={() => onTagSelectionChange(tag.id)}
               >
+                <div
+                  className={`size-1.5 rounded-full mr-1.5 ${
+                    isSelected ? 'bg-white' : colorConfig.background
+                  }`}
+                />
                 {tag.name}
               </Button>
             )
