@@ -18,7 +18,6 @@ const Header = (): JSX.Element => {
   return (
     <nav className='sticky top-0 z-40 w-full border-b border-border bg-background/60 backdrop-blur-xl'>
       <header className='flex h-16 items-center justify-between px-6'>
-        {/* Left section */}
         <div className='flex items-center gap-4'>
           <div className='lg:hidden'>
             <Button isIconOnly variant='ghost' onPress={toggleSidebar} aria-label='Open sidebar'>
@@ -26,13 +25,12 @@ const Header = (): JSX.Element => {
             </Button>
           </div>
           <div className='flex items-center cursor-pointer group'>
-            <span className='font-extrabold text-2xl tracking-tighter text-primary drop-shadow-[0_0_8px_rgba(0,111,238,0.3)] group-hover:drop-shadow-[0_0_12px_rgba(0,111,238,0.5)] transition-all duration-300'>
+            <span className='font-bold text-2xl tracking-tighter text-primary transition-all duration-300'>
               Tobimarks
             </span>
           </div>
         </div>
 
-        {/* Right section */}
         <div className='flex items-center gap-4'>
           <Button
             isIconOnly

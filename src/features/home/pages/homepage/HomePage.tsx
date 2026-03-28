@@ -24,7 +24,7 @@ const HomePage = () => {
 
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
         {/* Total Bookmarks Card */}
-        <div className='flex flex-col p-5 bg-content1 border border-divider rounded-md shadow-sm'>
+        <div className='flex flex-col p-5 bg-content1 border border-divider rounded-md'>
           <div className='flex items-center justify-between'>
             <span className='text-sm font-medium text-neutral-500'>Marcadores Totales</span>
             <div className='p-2 bg-primary/10 text-primary rounded-sm'>
@@ -45,7 +45,7 @@ const HomePage = () => {
         </div>
 
         {/* Total Collections Card */}
-        <div className='flex flex-col p-5 bg-content1 border border-divider rounded-md shadow-sm'>
+        <div className='flex flex-col p-5 bg-content1 border border-divider rounded-md'>
           <div className='flex items-center justify-between'>
             <span className='text-sm font-medium text-neutral-500'>Colecciones</span>
             <div className='p-2 bg-blue-500/10 text-blue-500 rounded-sm'>
@@ -66,7 +66,7 @@ const HomePage = () => {
         </div>
 
         {/* Total Tags Card */}
-        <div className='flex flex-col p-5 bg-content1 border border-divider rounded-md shadow-sm'>
+        <div className='flex flex-col p-5 bg-content1 border border-divider rounded-md'>
           <div className='flex items-center justify-between'>
             <span className='text-sm font-medium text-neutral-500'>Etiquetas</span>
             <div className='p-2 bg-amber-500/10 text-amber-500 rounded-sm'>

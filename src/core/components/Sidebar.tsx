@@ -159,7 +159,7 @@ const Sidebar = () => {
               isIconOnly
               size='sm'
               variant='ghost'
-              className='hover:text-foreground h-6 w-6'
+              className='hover:text-foreground h-6 w-6 rounded-sm'
               onPress={onCollectionOpen}
             >
               <Plus size={14} strokeWidth={2} />
