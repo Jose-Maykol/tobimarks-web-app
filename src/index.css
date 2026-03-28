@@ -89,3 +89,9 @@
   --warning: oklch(82.03% 0.1388 75.03);
   --warning-foreground: oklch(21.03% 0.0059 75.03);
 }
+
+@layer components {
+  .toast {
+    @apply rounded-md;
+  }
+}
