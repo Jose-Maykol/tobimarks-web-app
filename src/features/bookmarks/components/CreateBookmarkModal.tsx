@@ -36,7 +36,7 @@ const CreateBookmarkModal = ({ isOpen, onOpenChange }: CreateBookmarkModalProps)
     <Modal>
       <Modal.Backdrop isOpen={isOpen} onOpenChange={onOpenChange}>
         <Modal.Container>
-          <Modal.Dialog>
+          <Modal.Dialog className='rounded-md'>
             <Form onSubmit={handleSubmit} className='contents'>
               <Modal.CloseTrigger />
               <Modal.Header>
@@ -57,10 +57,14 @@ const CreateBookmarkModal = ({ isOpen, onOpenChange }: CreateBookmarkModalProps)
                 </TextField>
               </Modal.Body>
               <Modal.Footer className='flex w-full gap-2'>
-                <Button className='flex-1' variant='ghost' onPress={() => onOpenChange(false)}>
+                <Button
+                  className='flex-1 rounded-md'
+                  variant='outline'
+                  onPress={() => onOpenChange(false)}
+                >
                   Cancelar
                 </Button>
-                <Button className='flex-1' variant='primary' type='submit'>
+                <Button className='flex-1 rounded-md' variant='primary' type='submit'>
                   Crear
                 </Button>
               </Modal.Footer>

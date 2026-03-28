@@ -83,7 +83,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
   }
 
   return (
-    <div className='rounded-md shadow-sm border border-divider w-full transition-colors bg-content2/10 hover:bg-content2/30 px-4 py-4 dark:bg-neutral-900'>
+    <div className='rounded-md border border-divider w-full transition-colors bg-content2/10 hover:bg-content2/30 px-4 py-4 dark:bg-neutral-900'>
       <div className='flex items-center gap-4'>
         <div className='flex-shrink-0'>
           <img
@@ -125,7 +125,6 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps): JSX.Element => {
           </div>
         </div>
 
-        {/* ACTIONS */}
         <div className='flex items-center gap-3 flex-shrink-0'>
           <BookmarkFavoriteButton isFavorite={isFavorite} onToggleFavorite={handleToggleFavorite} />
           <BookmarkCopyButton onCopy={handleCopy} />

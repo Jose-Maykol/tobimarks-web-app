@@ -72,7 +72,7 @@ const BookmarkFilters = ({
         <div className='flex flex-wrap items-center gap-4'>
           <Button
             size='sm'
-            variant={isFavoriteFilter ? 'primary' : 'outline'}
+            variant={isFavoriteFilter ? 'primary' : 'ghost'}
             className={`h-9 px-3 text-xs font-semibold rounded-md flex items-center gap-1.5 transition-all ${
               isFavoriteFilter
                 ? 'bg-danger text-white shadow-sm hover:bg-danger/90 border-danger'
@@ -169,25 +169,22 @@ const BookmarkFilters = ({
           </div>
           {tags.map((tag) => {
             const isSelected = selectedTags.includes(tag.id)
-            const colorConfig = COLORS_MAP[tag.color as keyof typeof COLORS_MAP] || COLORS_MAP.blue
+            const colorKey = tag.color as keyof typeof COLORS_MAP
+            const colorConfig = COLORS_MAP[colorKey] || COLORS_MAP.blue
+
+            const colorBase = colorKey === 'stone' ? 'stone' : colorKey
+            const softBg = isSelected ? `${colorConfig.background}` : `bg-${colorBase}-500/10`
+            const borderClass = isSelected ? '' : `border-${colorBase}-500/20`
+            const textClass = isSelected ? 'text-white' : `text-${colorBase}-500`
 
             return (
               <Button
                 key={tag.id}
                 size='sm'
                 variant={isSelected ? 'primary' : 'outline'}
-                className={`font-medium flex-shrink-0 rounded-md transition-all ${
-                  isSelected
-                    ? `${colorConfig.background} text-white border-transparent shadow-sm`
-                    : `text-neutral-500 border-divider hover:text-foreground hover:bg-content2`
-                }`}
+                className={`font-semibold flex-shrink-0 rounded-md transition-all h-8 px-3 text-xs border border-transparent ${softBg} ${borderClass} ${textClass} hover:opacity-80`}
                 onPress={() => onTagSelectionChange(tag.id)}
               >
-                <div
-                  className={`size-1.5 rounded-full mr-1.5 ${
-                    isSelected ? 'bg-white' : colorConfig.background
-                  }`}
-                />
                 {tag.name}
               </Button>
             )
