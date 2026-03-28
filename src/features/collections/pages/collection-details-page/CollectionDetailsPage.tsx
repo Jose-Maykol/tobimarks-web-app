@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router'
 import { Button } from '@heroui/react'
 import { useDisclosure } from '@heroui/use-disclosure'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Settings } from 'lucide-react'
+import { Settings } from 'lucide-react'
 
 import BookmarkCard from '../../../bookmarks/components/BookmarkCard'
 import BookmarkFilters from '../../../bookmarks/components/BookmarkFilters'
@@ -111,15 +111,6 @@ const CollectionDetailsPage = () => {
   return (
     <div className='flex flex-col gap-6 w-full max-w-5xl mx-auto'>
       <div className='flex flex-col mb-4'>
-        <Button
-          variant='ghost'
-          className='self-start text-neutral-500 hover:text-foreground mb-4 -ml-4'
-          onPress={() => navigate('/collections')}
-        >
-          <ArrowLeft className='size-4' />
-          Volver a colecciones
-        </Button>
-
         <div className='flex items-start justify-between gap-4'>
           <div className='flex items-center gap-5'>
             <div
@@ -150,8 +141,8 @@ const CollectionDetailsPage = () => {
           </div>
 
           <Button
-            variant='ghost'
-            className='bg-content2 hover:bg-content3 border border-divider font-medium shadow-sm lg:mt-2'
+            variant='outline'
+            className='font-medium shadow-sm lg:mt-2 rounded-md'
             onPress={onUpdateOpen}
           >
             <Settings className='size-4 text-neutral-500' />
