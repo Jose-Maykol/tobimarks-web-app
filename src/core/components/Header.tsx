@@ -16,7 +16,7 @@ const Header = (): JSX.Element => {
   }
 
   return (
-    <nav className='sticky top-0 z-40 w-full border-b border-border bg-background/60 backdrop-blur-xl shadow-sm'>
+    <nav className='sticky top-0 z-40 w-full border-b border-border bg-background/60 backdrop-blur-xl'>
       <header className='flex h-16 items-center justify-between px-6'>
         {/* Left section */}
         <div className='flex items-center gap-4'>

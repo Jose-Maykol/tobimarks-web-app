@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Label, Radio, RadioGroup } from '@heroui/react'
+import { Check } from 'lucide-react'
 
 import { COLORS_MAP } from '../../features/tags/constants/tagColors'
 
@@ -41,8 +42,20 @@ const ColorPicker = ({ value, defaultValue, onChange, label = 'Color' }: ColorPi
             </Radio.Control>
             <Radio.Content>
               <div
-                className={`${value.background} size-6 p-1 rounded-sm ${selectedColor === color ? 'ring-2 ring-neutral-100' : ''}`}
-              ></div>
+                className={`flex items-center justify-center size-8 rounded-md p-[2px] transition-colors ${
+                  selectedColor === color
+                    ? `border-2 ${value.border}`
+                    : 'border-2 border-transparent'
+                }`}
+              >
+                <div
+                  className={`${value.background} w-full h-full rounded-[2px] flex items-center justify-center transition-transform ${selectedColor === color ? 'scale-90' : ''}`}
+                >
+                  {selectedColor === color && (
+                    <Check className='size-3.5 text-white' strokeWidth={3} />
+                  )}
+                </div>
+              </div>
             </Radio.Content>
           </Radio>
         ))}

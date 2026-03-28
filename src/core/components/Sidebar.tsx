@@ -181,17 +181,17 @@ const Sidebar = () => {
                   <Button
                     key={collection.id}
                     variant='ghost'
-                    className={`w-full justify-start gap-2 h-8 px-2 text-foreground rounded-sm hover:bg-neutral-100 dark:hover:bg-neutral-800/50 ${
-                      isCollectionActive && 'bg-neutral-100 dark:bg-neutral-800 font-semibold'
+                    className={`w-full justify-start gap-2 h-8 px-2 text-foreground rounded-sm hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 group ${
+                      isCollectionActive && 'bg-neutral-200 dark:bg-neutral-800 font-semibold'
                     }`}
                     onPress={() => handleCollectionNavigation(collection.id)}
                   >
                     <div
-                      className={`p-1 rounded-md ${colorScheme.lightBg} ${colorScheme.text} flex-shrink-0`}
+                      className={`px-2 py-1 rounded-md ${colorScheme.lightBg} ${colorScheme.text} flex-shrink-0`}
                     >
                       <Icon size={14} strokeWidth={2} />
                     </div>
-                    <span className='flex-1 text-left truncate text-xs text-foreground/80'>
+                    <span className='flex-1 text-left truncate text-xs text-foreground/80 group-hover:text-foreground transition-colors'>
                       {collection.name}
                     </span>
                     <span className='text-[10px] text-neutral-400 font-medium group-hover:text-foreground transition-colors'>
