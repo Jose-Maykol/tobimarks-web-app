@@ -33,34 +33,41 @@ const CreateBookmarkModal = ({ isOpen, onOpenChange }: CreateBookmarkModalProps)
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-      <Modal.Backdrop />
-      <Modal.Container>
-        <Modal.Dialog>
-          <Modal.CloseTrigger />
-          <Form onSubmit={handleSubmit} className='w-full'>
-            <Modal.Header>
-              <Modal.Heading className='text-primary'>Crear Nuevo Marcador</Modal.Heading>
-            </Modal.Header>
-            <Modal.Body className='w-full'>
-              <TextField name='url' isRequired type='url' aria-label='URL del Marcador'>
-                <Label className='text-xs font-semibold uppercase text-foreground/70'>
-                  URL del Marcador
-                </Label>
-                <Input variant='primary' placeholder='https://example.com' className='mt-1' />
-              </TextField>
-            </Modal.Body>
-            <Modal.Footer className='flex w-full gap-2'>
-              <Button className='flex-1' variant='ghost' onPress={() => onOpenChange(false)}>
-                Cancelar
-              </Button>
-              <Button className='flex-1' variant='primary' type='submit'>
-                Crear
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal.Dialog>
-      </Modal.Container>
+    <Modal>
+      <Modal.Backdrop isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal.Container>
+          <Modal.Dialog>
+            <Form onSubmit={handleSubmit} className='contents'>
+              <Modal.CloseTrigger />
+              <Modal.Header>
+                <Modal.Heading className='text-primary'>Crear Nuevo Marcador</Modal.Heading>
+              </Modal.Header>
+              <Modal.Body className='w-full overflow-visible'>
+                <TextField
+                  name='url'
+                  isRequired
+                  type='url'
+                  aria-label='URL del Marcador'
+                  className='p-1'
+                >
+                  <Label className='text-xs font-semibold uppercase text-foreground/70'>
+                    URL del Marcador
+                  </Label>
+                  <Input variant='primary' placeholder='https://example.com' className='mt-1' />
+                </TextField>
+              </Modal.Body>
+              <Modal.Footer className='flex w-full gap-2'>
+                <Button className='flex-1' variant='ghost' onPress={() => onOpenChange(false)}>
+                  Cancelar
+                </Button>
+                <Button className='flex-1' variant='primary' type='submit'>
+                  Crear
+                </Button>
+              </Modal.Footer>
+            </Form>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

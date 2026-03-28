@@ -53,50 +53,51 @@ const UpdateBookmarkModal = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-      <Modal.Backdrop />
-      <Modal.Container>
-        <Modal.Dialog>
-          <Modal.CloseTrigger />
-          <Form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-            <Modal.Header>
-              <Modal.Heading className='text-primary'>Actualizar Marcador</Modal.Heading>
-            </Modal.Header>
-            <Modal.Body className='w-full'>
-              <TextField
-                name='title'
-                defaultValue={initialTitle}
-                isRequired
-                className='flex flex-col gap-2'
-              >
-                <Label className='text-sm font-medium'>Título del marcador</Label>
-                <Input
-                  placeholder='Nuevo título'
-                  className='w-full px-3 py-2 bg-content2 border border-divider rounded-sm'
-                />
-              </TextField>
-
-              {tags.length > 0 && (
-                <div className='mt-4'>
-                  <TagSelector
-                    tags={tags}
-                    selectedTags={selectedTags}
-                    onSelectionChange={handleSelectedTags}
+    <Modal>
+      <Modal.Backdrop isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal.Container>
+          <Modal.Dialog>
+            <Form onSubmit={handleSubmit} className='contents'>
+              <Modal.CloseTrigger />
+              <Modal.Header>
+                <Modal.Heading className='text-primary'>Actualizar Marcador</Modal.Heading>
+              </Modal.Header>
+              <Modal.Body className='w-full overflow-visible'>
+                <TextField
+                  name='title'
+                  defaultValue={initialTitle}
+                  isRequired
+                  className='flex flex-col gap-2 p-1'
+                >
+                  <Label className='text-sm font-medium'>Título del marcador</Label>
+                  <Input
+                    placeholder='Nuevo título'
+                    className='w-full px-3 py-2 bg-content2 border border-divider rounded-sm'
                   />
-                </div>
-              )}
-            </Modal.Body>
-            <Modal.Footer className='flex w-full gap-2'>
-              <Button className='flex-1' variant='outline' onPress={() => onOpenChange(false)}>
-                Cancelar
-              </Button>
-              <Button variant='primary' className='flex-1' type='submit'>
-                Actualizar
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal.Dialog>
-      </Modal.Container>
+                </TextField>
+
+                {tags.length > 0 && (
+                  <div className='mt-4'>
+                    <TagSelector
+                      tags={tags}
+                      selectedTags={selectedTags}
+                      onSelectionChange={handleSelectedTags}
+                    />
+                  </div>
+                )}
+              </Modal.Body>
+              <Modal.Footer className='flex w-full gap-2'>
+                <Button className='flex-1' variant='outline' onPress={() => onOpenChange(false)}>
+                  Cancelar
+                </Button>
+                <Button variant='primary' className='flex-1' type='submit'>
+                  Actualizar
+                </Button>
+              </Modal.Footer>
+            </Form>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

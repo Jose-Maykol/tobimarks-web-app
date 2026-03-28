@@ -46,51 +46,54 @@ const CreateTagModal = ({ isOpen, onOpenChange, tagToEdit }: CreateTagModalProps
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-      <Modal.Backdrop />
-      <Modal.Container>
-        <Modal.Dialog>
-          <Modal.CloseTrigger />
-          <Form onSubmit={handleSubmit} className='w-full flex flex-col gap-4'>
-            <Modal.Header>
-              <Modal.Heading>{isEditing ? 'Editar Tag' : 'Crear Tag'}</Modal.Heading>
-            </Modal.Header>
-            <Modal.Body className='w-full flex flex-col gap-4'>
-              <TextField
-                name='name'
-                defaultValue={tagToEdit?.name}
-                isRequired
-                aria-label='Nombre del Tag'
-              >
-                <Label className='text-xs font-semibold uppercase text-foreground/70'>
-                  Nombre del Tag
-                </Label>
-                <Input variant='primary' placeholder='Ingrese el nombre del tag' className='mt-1' />
-              </TextField>
-              <ColorPicker label='Color' defaultValue={tagToEdit?.color} />
-            </Modal.Body>
-            <Modal.Footer className='flex w-full gap-2'>
-              <Button
-                className='flex-1'
-                type='button'
-                onPress={() => onOpenChange(false)}
-                variant='ghost'
-              >
-                Cancelar
-              </Button>
-              <Button
-                className='flex-1'
-                type='submit'
-                variant='primary'
-                isDisabled={mutation.isPending}
-              >
-                {mutation.isPending && <Spinner size='sm' color='current' className='mr-2' />}
-                {isEditing ? 'Guardar Cambios' : 'Crear'}
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal.Dialog>
-      </Modal.Container>
+    <Modal>
+      <Modal.Backdrop isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal.Container>
+          <Modal.Dialog className='rounded-md'>
+            <Form onSubmit={handleSubmit} className='contents'>
+              <Modal.CloseTrigger />
+              <Modal.Header>
+                <Modal.Heading>{isEditing ? 'Editar Tag' : 'Crear Tag'}</Modal.Heading>
+              </Modal.Header>
+              <Modal.Body className='w-full flex flex-col gap-4 overflow-visible'>
+                <TextField
+                  name='name'
+                  defaultValue={tagToEdit?.name}
+                  isRequired
+                  aria-label='Nombre del Tag'
+                >
+                  <Label className='text-xs font-semibold text-foreground/70'>Nombre del Tag</Label>
+                  <Input
+                    variant='primary'
+                    placeholder='Ingrese el nombre del tag'
+                    className='mt-1'
+                  />
+                </TextField>
+                <ColorPicker label='Color' defaultValue={tagToEdit?.color} />
+              </Modal.Body>
+              <Modal.Footer className='flex w-full gap-2'>
+                <Button
+                  className='flex-1 rounded-md'
+                  type='button'
+                  onPress={() => onOpenChange(false)}
+                  variant='outline'
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  className='flex-1 rounded-md'
+                  type='submit'
+                  variant='primary'
+                  isDisabled={mutation.isPending}
+                >
+                  {mutation.isPending && <Spinner size='sm' color='current' className='mr-2' />}
+                  {isEditing ? 'Guardar Cambios' : 'Crear'}
+                </Button>
+              </Modal.Footer>
+            </Form>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }
