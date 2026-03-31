@@ -80,9 +80,9 @@
   --danger-foreground: oklch(99.11% 0 0);
   --default: oklch(27.40% 0.0000 242.94);
   --default-foreground: oklch(99.11% 0 0);
-  --field-background: oklch(21.03% 0.0040 262.87);
-  --field-foreground: oklch(99.11% 0.0020 262.87);
-  --field-placeholder: oklch(70.50% 0.0040 262.87);
+  --field-background: oklch(21.03% 0.0000 242.94);
+  --field-foreground: oklch(99.11% 0.0000 242.94);
+  --field-placeholder: oklch(70.50% 0.0000 242.94);
   --focus: oklch(52.82% 0.2628 242.94);
   --foreground: oklch(99.11% 0.0000 242.94);
   --muted: oklch(70.50% 0.0000 242.94);
