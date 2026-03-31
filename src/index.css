@@ -1,12 +1,18 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 @plugin "tailwindcss-animate";
-/* @plugin "./hero.ts"; */
 
 @source "../node_modules/@heroui/react/dist/**/*.{js,ts,jsx,tsx}";
 @source "../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: oklch(52.82% 0.2628 242.94);
+  --color-primary-foreground: oklch(99.11% 0 0);
+  --color-secondary: oklch(94.00% 0.0000 242.94);
+  --color-secondary-foreground: oklch(21.03% 0.0059 242.94);
+}
 
 :root,
 .light,
@@ -14,6 +20,10 @@
 [data-theme="light"],
 [data-theme="default"] {
   /* Theme Colors (Light Mode) */
+  --primary: oklch(52.82% 0.2628 242.94);
+  --primary-foreground: oklch(99.11% 0 0);
+  --secondary: oklch(94.00% 0.0000 242.94);
+  --secondary-foreground: oklch(21.03% 0.0059 242.94);
   --accent: oklch(52.82% 0.2628 242.94);
   --accent-foreground: oklch(99.11% 0 0);
   --background: oklch(97.02% 0.0000 242.94);
@@ -58,6 +68,10 @@
 [data-theme="dark"] {
   color-scheme: dark;
   /* Theme Colors (Dark Mode) */
+  --primary: oklch(52.82% 0.2628 242.94);
+  --primary-foreground: oklch(99.11% 0 0);
+  --secondary: oklch(27.40% 0.0000 242.94);
+  --secondary-foreground: oklch(99.11% 0 0);
   --accent: oklch(52.82% 0.2628 242.94);
   --accent-foreground: oklch(99.11% 0 0);
   --background: oklch(12.00% 0.0000 242.94);
@@ -66,9 +80,9 @@
   --danger-foreground: oklch(99.11% 0 0);
   --default: oklch(27.40% 0.0000 242.94);
   --default-foreground: oklch(99.11% 0 0);
-  --field-background: oklch(21.03% 0.0000 242.94);
-  --field-foreground: oklch(99.11% 0.0000 242.94);
-  --field-placeholder: oklch(70.50% 0.0000 242.94);
+  --field-background: oklch(21.03% 0.0040 262.87);
+  --field-foreground: oklch(99.11% 0.0020 262.87);
+  --field-placeholder: oklch(70.50% 0.0040 262.87);
   --focus: oklch(52.82% 0.2628 242.94);
   --foreground: oklch(99.11% 0.0000 242.94);
   --muted: oklch(70.50% 0.0000 242.94);

@@ -191,7 +191,7 @@ const CollectionDetailsPage = () => {
         <div className='p-8 text-danger'>Error: {(error as Error).message}</div>
       ) : bookmarks.length === 0 && !isFetching ? (
         <div className='py-16 text-center text-neutral-500 bg-content1/10 rounded-md border border-dashed border-divider'>
-          <p className='text-md mb-2'>No hay marcadores en esta colección.</p>
+          <p className='text-sm mb-2 text-muted'>No hay marcadores en esta colección.</p>
           {hasActiveFilters && <p className='text-sm'>Intenta ajustar o limpiar los filtros.</p>}
         </div>
       ) : (
