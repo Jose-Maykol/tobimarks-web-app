@@ -16,7 +16,7 @@ const HomePage = () => {
   return (
     <div className='flex flex-col gap-6 w-full max-w-5xl mx-auto'>
       <div className='flex flex-col gap-1 mb-2'>
-        <h2 className='text-3xl font-bold tracking-tight text-foreground'>Dashboard</h2>
+        <h2 className='text-3xl font-bold tracking-tight text-primary'>Dashboard</h2>
         <p className='text-neutral-500 text-sm'>
           Un resumen general de tu contenido y actividad en Tobimarks.
         </p>
