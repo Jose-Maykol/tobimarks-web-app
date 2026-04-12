@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router'
 import { Button, Separator, Spinner } from '@heroui/react'
 import { useDisclosure } from '@heroui/use-disclosure'
 import { useQuery } from '@tanstack/react-query'
-import { Bookmark, Folder, LayoutDashboard, Plus, User, X } from 'lucide-react'
+import { Bookmark, Folder, LayoutDashboard, Plus, X } from 'lucide-react'
 
 import {
   COLLECTION_COLORS,
@@ -22,11 +22,6 @@ const menuItems = [
     label: 'Marcadores',
     icon: <Bookmark size={20} strokeWidth={1.5} />,
     href: '/bookmarks',
-  },
-  {
-    label: 'Perfil',
-    icon: <User size={20} strokeWidth={1.5} />,
-    href: '/profile',
   },
 ]
 
