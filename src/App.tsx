@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router'
 
 import MainLayout from './core/layouts/AuthLayout'
-import LoginPage from './features/auth/pages/login/components/LoginPage'
+import LoginPage from './features/auth/pages/login/LoginPage'
 import BookmarksPage from './features/bookmarks/pages/bookmarks-page/BookMarksPage'
 import CollectionDetailsPage from './features/collections/pages/collection-details-page/CollectionDetailsPage'
 import CollectionsPage from './features/collections/pages/collections-page/CollectionsPage'
