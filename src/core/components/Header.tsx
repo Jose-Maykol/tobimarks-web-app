@@ -1,4 +1,5 @@
 import type { JSX } from 'react'
+import { useNavigate } from 'react-router'
 import { Avatar, Button, Dropdown, Separator, Skeleton } from '@heroui/react'
 import { LogOut, Menu, Moon, Sun, User as UserIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
@@ -12,6 +13,7 @@ const Header = (): JSX.Element => {
   const { user } = useUserStore((state) => state)
   const { signOut } = useAuthStore()
   const toggleSidebar = useSidebarStore((state) => state.toggle)
+  const navigate = useNavigate()
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -77,6 +79,7 @@ const Header = (): JSX.Element => {
 
                   <Dropdown.Item
                     id='my-profile'
+                    onPress={() => navigate('/profile')}
                     className='rounded-lg hover:bg-content1/80 transition-all duration-200 py-2'
                   >
                     <div className='flex items-center gap-3'>
