@@ -1,32 +1,55 @@
-schema: spec-driven
+schema: frontend-aware
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Producto: Tobimarks, una aplicacion web para guardar y organizar marcadores.
+  Stack: React 19 con Vite, TypeScript, React Router, TanStack Query, Zustand,
+    Axios, HeroUI, Tailwind CSS y next-themes.
+  Arquitectura: src/features contiene modulos de dominio; src/core contiene
+    componentes, layouts, providers, stores e infraestructura compartida.
+  Integracion: el frontend consume la API configurada en VITE_API_URL y usa
+    autenticacion de Google mediante VITE_GOOGLE_CLIENT_ID.
+  Convenciones: los nombres de capacidades usan kebab-case y las specs se
+    escriben en espanol. Las specs describen comportamiento observable, no
+    detalles internos de componentes o librerias.
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Explicar el problema y el alcance en espanol y de forma concisa.
+    - Separar cambios de comportamiento de cambios puramente internos.
+  specs:
+    - Documentar primero el comportamiento confirmado en el codigo existente.
+    - Usar SHALL o MUST en requisitos normativos y escenarios WHEN/THEN verificables.
+    - No inventar reglas del backend que no puedan confirmarse desde el frontend.
+    - Mantener una capacidad por archivo bajo openspec/specs/.
+  design:
+    - |
+      Tratar el cambio como frontend si afecta rutas, paginas, layouts, providers,
+      componentes, hooks, stores, servicios, estilos, tokens, dependencias de UI o
+      archivos dentro de src/.
+    - |
+      Cuando el design.md corresponda a un cambio frontend, incluir una seccion
+      "## File Structure" con el arbol exacto de archivos afectados. Mostrar solo
+      los archivos que se creen, modifiquen, eliminen o muevan, usando las marcas
+      [NEW], [MODIFY], [DELETE] o [MOVE]. Incluir tambien tests, estilos,
+      configuracion y cambios de dependencias cuando correspondan.
+    - |
+      El arbol de "## File Structure" debe usar rutas reales del repositorio,
+      coincidir con las tareas de tasks.md y no incluir archivos hipoteticos. Si
+      no se requieren cambios de archivos, indicarlo explicitamente. Omitir esta
+      seccion cuando el cambio no tenga impacto frontend.
+    - |
+      Despues del arbol, documentar en "### Frontend Impact" el flujo o ruta
+      afectada, la composicion de UI, el estado remoto o local, el comportamiento
+      responsive, la accesibilidad, el tema visual y la estrategia de verificacion.
+  tasks:
+    - Organizar las tareas por capacidad y mantenerlas pequenas y verificables.
+    - Para cambios frontend, mantener las tareas sincronizadas con el arbol de
+      archivos definido en design.md e incluir validacion visual o de interaccion.
 
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+operations:
+  apply:
+    guidance:
+      - Verificar las specs afectadas y ejecutar lint o build cuando corresponda.
+  archive:
+    guidance:
+      - Confirmar que los requisitos modificados coinciden con el comportamiento implementado.
